@@ -295,12 +295,18 @@ Instead, follow this order:
 
 Always begin prompts with:
 
-> Read project.md before generating code.
+> Read PROJECT_SPEC.md before generating code.
 > Follow the specification exactly.
 > Do not invent features.
 > Do not change the architecture.
 
 Then request one task at a time.
+
+Examples:
+- Create Product model only.
+- Create Product controller only.
+- Create Product routes only.
+- Create Admin Dashboard page only.
 
 Never ask the LLM to build the entire ecommerce website in one prompt.
 
@@ -310,10 +316,27 @@ Never ask the LLM to build the entire ecommerce website in one prompt.
 
 **Estimated:** 4 weeks
 
-**Week 1:** Backend, Authentication, Database, Product CRUD
-**Week 2:** Frontend, Home, Shop, Admin
-**Week 3:** Orders, Services, Dashboard
-**Week 4:** Testing, Bug Fixes, Deployment
+**Week 1**
+- Backend
+- Authentication
+- Database
+- Product CRUD
+
+**Week 2**
+- Frontend
+- Home
+- Shop
+- Admin
+
+**Week 3**
+- Orders
+- Services
+- Dashboard
+
+**Week 4**
+- Testing
+- Bug Fixes
+- Deployment
 
 ---
 
@@ -329,14 +352,28 @@ Never ask the LLM to build the entire ecommerce website in one prompt.
 
 ## Assets
 
-**Client has provided:** Logo
+**Client has provided:**
+- Logo
 
-**Client requested:** Use Google images temporarily during development. Replace with licensed/client-provided images before production.
+**Client requested:**
+- Use Google images temporarily during development.
+
+These should be replaced with licensed or client-provided images before production to avoid copyright issues.
 
 ---
 
 ## Current Goal
 
-Create a professional production-ready MERN ecommerce application with clean architecture, modern UI, scalable backend, professional admin panel, reusable React components, secure authentication, MongoDB, Express APIs, and responsive design.
+Create a professional production-ready MERN ecommerce application with:
+
+- Clean architecture
+- Modern UI
+- Scalable backend
+- Professional admin panel
+- Reusable React components
+- Secure authentication
+- MongoDB
+- Express APIs
+- Responsive design
 
 The LLM should act as a senior software engineer and mentor, producing production-quality code while explaining design decisions and following best practices.

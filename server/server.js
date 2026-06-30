@@ -4,6 +4,9 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
+const brandRoutes = require('./routes/brandRoutes');
+const productRoutes = require('./routes/productRoutes');
 
 dns.setDefaultResultOrder('ipv4first');
 dns.setServers(['1.1.1.1', '8.8.8.8']);
@@ -18,6 +21,9 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/brands', brandRoutes);
+app.use('/api/products', productRoutes);
 
 const PORT = process.env.PORT || 5000;
 
