@@ -4,22 +4,38 @@
  * Run:
  *   node test-api.js
  *
- * To also run admin-protected category tests, supply a token for an admin
- * account via the ADMIN_TOKEN env var:
- *   $env:ADMIN_TOKEN="eyJ..."  ; node test-api.js   (PowerShell)
- *   ADMIN_TOKEN="eyJ..." node test-api.js            (bash)
+ * Admin auth is fully automated — no manual token setup needed. Add these
+ * two keys to .env once (already present by default):
+ *   TEST_ADMIN_EMAIL=...
+ *   TEST_ADMIN_PASSWORD=...
  *
- * How to get an admin token:
- *   1. Register a second user with this script (it prints the userId).
- *   2. Open MongoDB Compass, find that user in the Users collection,
- *      and change its `role` field from "customer" to "admin".
- *   3. Login again manually (POST /api/auth/login) to get a fresh token,
- *      then paste it into ADMIN_TOKEN above.
+ * On the first run the script registers that account if it doesn't exist,
+ * promotes it to admin via a direct DB write, then logs in. On every
+ * subsequent run it just logs in. All admin-gated test sections (6, 8, 9)
+ * run automatically without any manual Compass or Thunder Client steps.
+ *
+ * DB verification:
+ *   In addition to checking HTTP responses, this script opens its own
+ *   mongoose connection (using MONGO_URI from .env) and queries MongoDB
+ *   directly after each write to confirm the database state independently
+ *   of what the API reported. "DB verify:" lines in the output are those
+ *   independent checks — they bypass the Express server entirely.
  */
 
 'use strict';
 
+require('dotenv').config({ override: true });
+const dns = require('dns');
 const axios = require('axios');
+const mongoose = require('mongoose');
+const User = require('./models/User');
+const Category = require('./models/Category');
+const Brand = require('./models/Brand');
+const Product = require('./models/Product');
+
+// Same DNS config as server.js — required to resolve Atlas SRV records on this network
+dns.setDefaultResultOrder('ipv4first');
+dns.setServers(['1.1.1.1', '8.8.8.8']);
 
 const BASE = 'http://localhost:5000';
 
@@ -49,6 +65,45 @@ async function request(method, path, { body, token } = {}) {
   return response;
 }
 
+// ── admin bootstrap ───────────────────────────────────────────────────────────
+
+// Returns a valid admin JWT on success, null on failure.
+// Uses the mongoose connection already open in main().
+//
+// Three cases handled:
+//   1. Account exists and is already admin  → login, return token
+//   2. Account exists but role is customer  → promote via DB, re-login, return token
+//   3. Account does not exist              → register, promote via DB, login, return token
+async function setupAdmin(email, password) {
+  const loginRes = await request('post', '/api/auth/login', { body: { email, password } });
+
+  if (loginRes.status === 200 && loginRes.data.token) {
+    if (loginRes.data.role === 'admin') {
+      // Case 1: already an admin account, nothing to do
+      return loginRes.data.token;
+    }
+    // Case 2: account exists but was registered as customer
+    // updateOne bypasses the pre-save hook — intentional, we're only changing role
+    await User.updateOne({ email }, { $set: { role: 'admin' } });
+    const freshLogin = await request('post', '/api/auth/login', { body: { email, password } });
+    return freshLogin.status === 200 ? freshLogin.data.token : null;
+  }
+
+  if (loginRes.status === 401) {
+    // Case 3: account does not exist yet — create it
+    const regRes = await request('post', '/api/auth/register', {
+      body: { name: 'Test Admin', email, password },
+    });
+    if (regRes.status !== 201) return null;
+    // Newly registered accounts get role:'customer'; promote directly
+    await User.updateOne({ email }, { $set: { role: 'admin' } });
+    const freshLogin = await request('post', '/api/auth/login', { body: { email, password } });
+    return freshLogin.status === 200 ? freshLogin.data.token : null;
+  }
+
+  return null;
+}
+
 // ── test cases ────────────────────────────────────────────────────────────────
 
 async function run() {
@@ -65,6 +120,25 @@ async function run() {
 
   let userToken = null;
   let userId = null;
+  let adminToken = null;
+
+  // ── 0. Admin setup ────────────────────────────────────────────────────────────
+  section('0. Admin setup');
+  {
+    const adminEmail = process.env.TEST_ADMIN_EMAIL;
+    const adminPassword = process.env.TEST_ADMIN_PASSWORD;
+
+    if (!adminEmail || !adminPassword) {
+      console.log('  ⚠️  TEST_ADMIN_EMAIL / TEST_ADMIN_PASSWORD not set in .env — admin sections will be skipped.');
+    } else {
+      adminToken = await setupAdmin(adminEmail, adminPassword);
+      if (adminToken) {
+        pass('Admin account ready', `email: ${adminEmail}`);
+      } else {
+        fail('Admin setup', 'could not obtain admin token — admin sections will be skipped');
+      }
+    }
+  }
 
   // ── 1. Register ─────────────────────────────────────────────────────────────
   section('1. Register new user');
@@ -151,12 +225,10 @@ async function run() {
   }
 
   // ── 6. Admin-only category CRUD ───────────────────────────────────────────────
-  const adminToken = process.env.ADMIN_TOKEN;
-
   section('6. Admin category CRUD');
 
   if (!adminToken) {
-    console.log('  ⏭️  Skipped — ADMIN_TOKEN not set (see instructions above).');
+    console.log('  ⏭️  Skipped — admin setup failed (check TEST_ADMIN_EMAIL / TEST_ADMIN_PASSWORD in .env).');
   } else {
     let createdId = null;
     const catName = `Test Category ${stamp}`;
@@ -176,6 +248,16 @@ async function run() {
       }
     }
 
+    // DB verify: category exists with correct name and auto-generated slug
+    if (createdId) {
+      const dbCat = await Category.findById(createdId).lean();
+      if (dbCat && dbCat.name === catName && typeof dbCat.slug === 'string') {
+        pass('DB verify: category exists in MongoDB', `name: "${dbCat.name}", slug: "${dbCat.slug}"`);
+      } else {
+        fail('DB verify: category exists in MongoDB', dbCat ? JSON.stringify(dbCat) : 'document not found');
+      }
+    }
+
     if (!createdId) {
       console.log('  ⏭️  Skipping GET/PUT/DELETE — category creation failed.');
     } else {
@@ -190,18 +272,30 @@ async function run() {
         }
       }
 
+      // Hoisted so the DB verify block below can reference it
+      const updatedCatName = `${catName} (edited)`;
+
       // PUT /api/categories/:id
       {
-        const updatedName = `${catName} (edited)`;
         const res = await request('put', `/api/categories/${createdId}`, {
-          body: { name: updatedName },
+          body: { name: updatedCatName },
           token: adminToken,
         });
 
-        if (res.status === 200 && res.data.name === updatedName) {
+        if (res.status === 200 && res.data.name === updatedCatName) {
           pass(`PUT /api/categories/${createdId}`, `status ${res.status}, name updated to "${res.data.name}"`);
         } else {
           fail(`PUT /api/categories/${createdId}`, `status ${res.status} — ${JSON.stringify(res.data)}`);
+        }
+      }
+
+      // DB verify: updated name actually persisted
+      {
+        const dbCat = await Category.findById(createdId).lean();
+        if (dbCat && dbCat.name === updatedCatName) {
+          pass('DB verify: category name persisted', `name: "${dbCat.name}"`);
+        } else {
+          fail('DB verify: category name persisted', `got: "${dbCat && dbCat.name}"`);
         }
       }
 
@@ -213,6 +307,16 @@ async function run() {
           pass(`DELETE /api/categories/${createdId}`, `status ${res.status}`);
         } else {
           fail(`DELETE /api/categories/${createdId}`, `status ${res.status} — ${JSON.stringify(res.data)}`);
+        }
+      }
+
+      // DB verify: document is actually gone
+      {
+        const dbCat = await Category.findById(createdId).lean();
+        if (!dbCat) {
+          pass('DB verify: category removed from MongoDB');
+        } else {
+          fail('DB verify: category removed from MongoDB', 'document still exists');
         }
       }
     }
@@ -234,7 +338,7 @@ async function run() {
   section('8. Admin brand CRUD');
 
   if (!adminToken) {
-    console.log('  ⏭️  Skipped — ADMIN_TOKEN not set (see instructions above).');
+    console.log('  ⏭️  Skipped — admin setup failed (check TEST_ADMIN_EMAIL / TEST_ADMIN_PASSWORD in .env).');
   } else {
     let brandId = null;
     const brandName = `Test Brand ${stamp}`;
@@ -254,6 +358,16 @@ async function run() {
       }
     }
 
+    // DB verify: brand exists with correct name and auto-generated slug
+    if (brandId) {
+      const dbBrand = await Brand.findById(brandId).lean();
+      if (dbBrand && dbBrand.name === brandName && typeof dbBrand.slug === 'string') {
+        pass('DB verify: brand exists in MongoDB', `name: "${dbBrand.name}", slug: "${dbBrand.slug}"`);
+      } else {
+        fail('DB verify: brand exists in MongoDB', dbBrand ? JSON.stringify(dbBrand) : 'document not found');
+      }
+    }
+
     if (!brandId) {
       console.log('  ⏭️  Skipping GET/PUT/DELETE — brand creation failed.');
     } else {
@@ -268,18 +382,30 @@ async function run() {
         }
       }
 
+      // Hoisted so the DB verify block below can reference it
+      const updatedBrandName = `${brandName} (edited)`;
+
       // PUT /api/brands/:id
       {
-        const updatedName = `${brandName} (edited)`;
         const res = await request('put', `/api/brands/${brandId}`, {
-          body: { name: updatedName },
+          body: { name: updatedBrandName },
           token: adminToken,
         });
 
-        if (res.status === 200 && res.data.name === updatedName) {
+        if (res.status === 200 && res.data.name === updatedBrandName) {
           pass(`PUT /api/brands/${brandId}`, `status ${res.status}, name updated to "${res.data.name}"`);
         } else {
           fail(`PUT /api/brands/${brandId}`, `status ${res.status} — ${JSON.stringify(res.data)}`);
+        }
+      }
+
+      // DB verify: updated name actually persisted
+      {
+        const dbBrand = await Brand.findById(brandId).lean();
+        if (dbBrand && dbBrand.name === updatedBrandName) {
+          pass('DB verify: brand name persisted', `name: "${dbBrand.name}"`);
+        } else {
+          fail('DB verify: brand name persisted', `got: "${dbBrand && dbBrand.name}"`);
         }
       }
 
@@ -293,6 +419,16 @@ async function run() {
           fail(`DELETE /api/brands/${brandId}`, `status ${res.status} — ${JSON.stringify(res.data)}`);
         }
       }
+
+      // DB verify: document is actually gone
+      {
+        const dbBrand = await Brand.findById(brandId).lean();
+        if (!dbBrand) {
+          pass('DB verify: brand removed from MongoDB');
+        } else {
+          fail('DB verify: brand removed from MongoDB', 'document still exists');
+        }
+      }
     }
   }
 
@@ -300,7 +436,7 @@ async function run() {
   section('9. Admin product tests');
 
   if (!adminToken) {
-    console.log('  ⏭️  Skipped — ADMIN_TOKEN not set (see instructions above).');
+    console.log('  ⏭️  Skipped — admin setup failed (check TEST_ADMIN_EMAIL / TEST_ADMIN_PASSWORD in .env).');
   } else {
     let prodCategoryId = null;
     let prodBrandId = null;
@@ -331,6 +467,24 @@ async function run() {
       }
     }
 
+    // DB verify: fixture category and brand exist
+    if (prodCategoryId) {
+      const dbFixCat = await Category.findById(prodCategoryId).lean();
+      if (dbFixCat) {
+        pass('DB verify: fixture category exists in MongoDB', `name: "${dbFixCat.name}"`);
+      } else {
+        fail('DB verify: fixture category exists in MongoDB', 'document not found');
+      }
+    }
+    if (prodBrandId) {
+      const dbFixBrand = await Brand.findById(prodBrandId).lean();
+      if (dbFixBrand) {
+        pass('DB verify: fixture brand exists in MongoDB', `name: "${dbFixBrand.name}"`);
+      } else {
+        fail('DB verify: fixture brand exists in MongoDB', 'document not found');
+      }
+    }
+
     if (!prodCategoryId || !prodBrandId) {
       console.log('  ⏭️  Skipping product tests — fixture category or brand creation failed.');
     } else {
@@ -354,6 +508,16 @@ async function run() {
           pass('POST /api/products', `status ${res.status}, id: ${productId}, slug: "${res.data.slug}"`);
         } else {
           fail('POST /api/products', `status ${res.status} — ${JSON.stringify(res.data)}`);
+        }
+      }
+
+      // DB verify: product exists with correct price, slug, and condition
+      if (productId) {
+        const dbProd = await Product.findById(productId).lean();
+        if (dbProd && dbProd.price === 1500 && dbProd.slug === 'test-charger' && dbProd.condition === 'new') {
+          pass('DB verify: product exists in MongoDB', `price: ${dbProd.price}, slug: "${dbProd.slug}", condition: "${dbProd.condition}"`);
+        } else {
+          fail('DB verify: product exists in MongoDB', dbProd ? `price: ${dbProd.price}, slug: "${dbProd.slug}"` : 'document not found');
         }
       }
 
@@ -441,6 +605,16 @@ async function run() {
           }
         }
 
+        // DB verify: price change actually persisted
+        {
+          const dbProd = await Product.findById(productId).lean();
+          if (dbProd && dbProd.price === 1600) {
+            pass('DB verify: product price persisted', `price: ${dbProd.price}`);
+          } else {
+            fail('DB verify: product price persisted', `got: ${dbProd && dbProd.price}`);
+          }
+        }
+
         // Step 9: delete product
         {
           const res = await request('delete', `/api/products/${productId}`, { token: adminToken });
@@ -451,10 +625,20 @@ async function run() {
             fail(`DELETE /api/products/${productId}`, `status ${res.status} — ${JSON.stringify(res.data)}`);
           }
         }
+
+        // DB verify: product is actually gone
+        {
+          const dbProd = await Product.findById(productId).lean();
+          if (!dbProd) {
+            pass('DB verify: product removed from MongoDB');
+          } else {
+            fail('DB verify: product removed from MongoDB', 'document still exists');
+          }
+        }
       }
     }
 
-    // Step 10: cleanup — always runs if the fixture IDs were created, regardless of earlier failures
+    // Step 10: cleanup — always runs if fixture IDs were created, regardless of earlier failures
     {
       if (prodCategoryId) {
         const res = await request('delete', `/api/categories/${prodCategoryId}`, { token: adminToken });
@@ -462,6 +646,13 @@ async function run() {
           pass(`DELETE /api/categories/${prodCategoryId} (cleanup)`, `status ${res.status}`);
         } else {
           fail(`DELETE /api/categories/${prodCategoryId} (cleanup)`, `status ${res.status} — ${JSON.stringify(res.data)}`);
+        }
+
+        const dbFixCat = await Category.findById(prodCategoryId).lean();
+        if (!dbFixCat) {
+          pass('DB verify: fixture category removed from MongoDB');
+        } else {
+          fail('DB verify: fixture category removed from MongoDB', 'document still exists');
         }
       }
 
@@ -471,6 +662,13 @@ async function run() {
           pass(`DELETE /api/brands/${prodBrandId} (cleanup)`, `status ${res.status}`);
         } else {
           fail(`DELETE /api/brands/${prodBrandId} (cleanup)`, `status ${res.status} — ${JSON.stringify(res.data)}`);
+        }
+
+        const dbFixBrand = await Brand.findById(prodBrandId).lean();
+        if (!dbFixBrand) {
+          pass('DB verify: fixture brand removed from MongoDB');
+        } else {
+          fail('DB verify: fixture brand removed from MongoDB', 'document still exists');
         }
       }
     }
@@ -487,11 +685,32 @@ async function run() {
   }
   console.log('='.repeat(55) + '\n');
 
-  process.exit(failed > 0 ? 1 : 0);
+  return failed > 0 ? 1 : 0;
 }
 
-run().catch((err) => {
+// ── entry point ───────────────────────────────────────────────────────────────
+
+async function main() {
+  const uri = process.env.MONGO_URI;
+  if (!uri) {
+    console.error('❌  MONGO_URI not found in .env — DB verification cannot run. Aborting.');
+    process.exit(1);
+  }
+
+  await mongoose.connect(uri);
+  console.log('  DB connected for independent verification\n');
+
+  let exitCode = 1;
+  try {
+    exitCode = await run();
+  } finally {
+    await mongoose.disconnect();
+  }
+  process.exit(exitCode);
+}
+
+main().catch((err) => {
   console.error('\n❌  Unexpected error (is the server running on port 5000?)');
   console.error(err.message);
-  process.exit(1);
+  mongoose.disconnect().finally(() => process.exit(1));
 });

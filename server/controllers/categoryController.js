@@ -5,6 +5,7 @@ const getCategories = async (req, res) => {
     const categories = await Category.find().sort({ name: 1 });
     res.json(categories);
   } catch (err) {
+    console.error('getCategories:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -17,6 +18,7 @@ const getCategoryById = async (req, res) => {
     }
     res.json(category);
   } catch (err) {
+    console.error('getCategoryById:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -34,6 +36,7 @@ const createCategory = async (req, res) => {
     if (err.code === 11000) {
       return res.status(409).json({ message: 'Category already exists' });
     }
+    console.error('createCategory:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -54,6 +57,7 @@ const updateCategory = async (req, res) => {
     if (err.code === 11000) {
       return res.status(409).json({ message: 'Category already exists' });
     }
+    console.error('updateCategory:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -66,6 +70,7 @@ const deleteCategory = async (req, res) => {
     }
     res.json({ message: 'Category deleted' });
   } catch (err) {
+    console.error('deleteCategory:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };

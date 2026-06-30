@@ -5,6 +5,7 @@ const getBrands = async (req, res) => {
     const brands = await Brand.find().sort({ name: 1 });
     res.json(brands);
   } catch (err) {
+    console.error('getBrands:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -17,6 +18,7 @@ const getBrandById = async (req, res) => {
     }
     res.json(brand);
   } catch (err) {
+    console.error('getBrandById:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -34,6 +36,7 @@ const createBrand = async (req, res) => {
     if (err.code === 11000) {
       return res.status(409).json({ message: 'Brand already exists' });
     }
+    console.error('createBrand:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -54,6 +57,7 @@ const updateBrand = async (req, res) => {
     if (err.code === 11000) {
       return res.status(409).json({ message: 'Brand already exists' });
     }
+    console.error('updateBrand:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -66,6 +70,7 @@ const deleteBrand = async (req, res) => {
     }
     res.json({ message: 'Brand deleted' });
   } catch (err) {
+    console.error('deleteBrand:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };

@@ -36,6 +36,7 @@ const getProducts = async (req, res) => {
       total,
     });
   } catch (err) {
+    console.error('getProducts:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -52,6 +53,7 @@ const getProductById = async (req, res) => {
 
     res.json(product);
   } catch (err) {
+    console.error('getProductById:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -79,6 +81,7 @@ const createProduct = async (req, res) => {
 
     res.status(201).json(product);
   } catch (err) {
+    console.error('createProduct:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -119,6 +122,7 @@ const updateProduct = async (req, res) => {
     await product.save();
     res.json(product);
   } catch (err) {
+    console.error('updateProduct:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -131,6 +135,7 @@ const deleteProduct = async (req, res) => {
     }
     res.json({ message: 'Product deleted' });
   } catch (err) {
+    console.error('deleteProduct:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };

@@ -10,6 +10,7 @@ const categorySchema = new mongoose.Schema({
   slug: {
     type: String,
     unique: true,
+    sparse: true,
   },
   createdAt: {
     type: Date,
