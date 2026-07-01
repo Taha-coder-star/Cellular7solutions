@@ -22,4 +22,19 @@ const protect = (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+// Tries to attach req.user from a Bearer token but never rejects the request.
+// Used on public routes where auth is optional (e.g. buy/sell, unlock submissions).
+const optionalProtect = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.split(' ')[1];
+    try {
+      req.user = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (_) {
+      // Invalid token — treat as guest, do not reject
+    }
+  }
+  next();
+};
+
+module.exports = { protect, optionalProtect };
