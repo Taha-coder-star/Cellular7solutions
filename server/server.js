@@ -11,6 +11,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const buySellRoutes = require('./routes/buySellRoutes');
 const unlockRoutes = require('./routes/unlockRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
+const repairRoutes = require('./routes/repairRoutes');
 const Category = require('./models/Category');
 const Brand = require('./models/Brand');
 const Review = require('./models/Review');
@@ -35,6 +36,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/buysell', buySellRoutes);
 app.use('/api/unlock', unlockRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/repairs', repairRoutes);
 
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);

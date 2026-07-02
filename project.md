@@ -181,6 +181,22 @@ The client approved this design direction.
 - Condition
 - Price
 
+### Payment Methods
+
+**In-store:**
+- Cash
+- Credit card
+- Debit card
+- Cash apps: Venmo, Cash App, Zelle
+
+**Online (website checkout):**
+- Credit card via Stripe
+- Debit card via Stripe
+
+**Important:** Cash and cash apps are in-store only. They are not available for online orders. Online checkout uses Stripe exclusively.
+
+---
+
 ### Services
 
 **Buy/Sell Requests**
@@ -203,6 +219,35 @@ Fields:
 - IMEI (optional)
 - Carrier
 - Status
+
+**Repair Requests (Home Visit)**
+
+Customer fills in:
+- Name and phone
+- Address (technician visits this location)
+- Device type (e.g. iPhone, Android, Samsung, laptop)
+- Specific problem description
+- Specific available date and time
+
+Process:
+- Store reviews request and confirms availability before dispatching technician
+- If device cannot be repaired on-site, it is taken to the store and returned to the customer after repair
+- Customer must agree to this condition via a required checkbox before submitting the form — no submission without agreement
+
+Fields:
+- Name
+- Phone
+- Address
+- Device Type
+- Issue
+- Available Date
+- Available Time
+- Images (optional — damage photos)
+- Agreed To Terms (required boolean)
+- Status (pending → confirmed → in-progress → completed / cancelled)
+- Admin Notes (internal)
+- Assigned Technician (internal)
+- Estimated Cost (internal)
 
 ### Customers
 - Profile

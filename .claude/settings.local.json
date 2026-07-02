@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "PowerShell(Get-ChildItem \"F:\\\\cellular-solutions\\\\server\" | Where-Object { $_.Name -ne 'node_modules' } | Select-Object FullName, PSIsContainer)",
-      "PowerShell(ls \"F:\\\\cellular-solutions\\\\server\" | Where-Object { $_.Name -ne 'node_modules' })"
+      "PowerShell(ls \"F:\\\\cellular-solutions\\\\server\" | Where-Object { $_.Name -ne 'node_modules' })",
+      "Bash(Remove-Item *)"
     ]
   }
 }
