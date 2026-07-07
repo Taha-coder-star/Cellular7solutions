@@ -1,0 +1,23 @@
+<!-- @dsCard group="Brand" viewport="700x220" name="Logo Lockups" subtitle="Full lockup, icon, and dark-background use" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; padding:24px; font-family: var(--font-sans); background: var(--surface-page); }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+  .tile { border:1px solid var(--border-subtle); border-radius:var(--radius-card); padding:22px; display:flex; align-items:center; justify-content:center; min-height:78px; }
+  .tile.dark { background:var(--graphite-900); border-color:var(--graphite-700); }
+  .tile.subtle { background:var(--graphite-50); }
+  .cap { grid-column:1 / -1; font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--text-faint); }
+  img { display:block; }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="cap">Primary · on light</div>
+    <div class="tile"><img src="../assets/cs-logo-full.svg" alt="Cellular Solutions" style="height:44px"></div>
+    <div class="tile subtle"><img src="../assets/cs-icon.svg" alt="CS icon" style="height:52px"></div>
+    <div class="cap">On dark (graphite)</div>
+    <div class="tile dark"><img src="../assets/cs-logo-full-dark.svg" alt="Cellular Solutions" style="height:40px"></div>
+    <div class="tile dark"><img src="../assets/cs-icon-white.svg" alt="CS icon white" style="height:48px"></div>
+  </div>
+</body></html>
