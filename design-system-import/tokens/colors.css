@@ -1,0 +1,71 @@
+/* Cellular Solutions — Color tokens
+   Theme: Graphite (products / store) + Orange (repair / service).
+   Rule of thumb: Graphite is the dominant color. Orange is reserved
+   ONLY for repair & service actions (Book Repair, Get Quote, etc.). */
+
+:root {
+  /* ---- Graphite (primary / neutral scale) ---- */
+  --graphite-50:  #FAFAFA;
+  --graphite-100: #F4F4F5;
+  --graphite-200: #E4E4E7;
+  --graphite-300: #D4D4D8;
+  --graphite-400: #A1A1AA;
+  --graphite-500: #71717A;
+  --graphite-600: #52525B;
+  --graphite-700: #3F3F46;
+  --graphite-800: #27272A;
+  --graphite-900: #18181B;
+
+  /* ---- Brand Orange (service accent) ---- */
+  --orange-50:  #FFF7ED;
+  --orange-100: #FFEDD5;
+  --orange-300: #FDBA74;
+  --orange-500: #F97316;
+  --orange-600: #EA580C;
+  --orange-700: #C2410C;
+  --orange-900: #7C2D12;
+
+  /* ---- Base neutrals ---- */
+  --white: #FFFFFF;
+  --black: #000000;
+
+  /* ---- Semantic status colors ---- */
+  --success-500: #16A34A;
+  --success-50:  #F0FDF4;
+  --warning-500: #D97706;
+  --warning-50:  #FFFBEB;
+  --danger-500:  #DC2626;
+  --danger-50:   #FEF2F2;
+  --info-500:    #2563EB;
+  --info-50:     #EFF6FF;
+
+  /* ---- Semantic aliases ---- */
+  /* Brand */
+  --brand-primary:        var(--graphite-900);
+  --brand-primary-hover:  var(--graphite-800);
+  --brand-service:        var(--orange-600);
+  --brand-service-hover:  var(--orange-700);
+
+  /* Surfaces */
+  --surface-page:    var(--white);
+  --surface-subtle:  var(--graphite-50);
+  --surface-card:    var(--white);
+  --surface-dark:    var(--graphite-900);
+  --surface-dark-2:  var(--graphite-800);
+
+  /* Text */
+  --text-strong:   var(--graphite-900);
+  --text-body:     var(--graphite-700);
+  --text-muted:    var(--graphite-500);
+  --text-faint:    var(--graphite-400);
+  --text-on-dark:  var(--white);
+  --text-on-brand: var(--white);
+
+  /* Borders */
+  --border-subtle:  var(--graphite-200);
+  --border-strong:  var(--graphite-300);
+  --border-dark:    var(--graphite-700);
+
+  /* Focus */
+  --focus-ring: var(--orange-600);
+}
