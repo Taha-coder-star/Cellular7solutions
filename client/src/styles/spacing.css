@@ -1,0 +1,47 @@
+/* Cellular Solutions — Spacing, radius, shadow, motion tokens */
+
+:root {
+  /* ---- Spacing scale ---- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;   /* card padding / grid gap */
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;   /* section padding */
+
+  /* Semantic spacing */
+  --pad-card:    var(--space-6);
+  --gap-grid:    var(--space-6);
+  --pad-section: var(--space-20);
+
+  /* ---- Border radius ---- */
+  --radius-sm:    8px;
+  --radius-btn:   12px;
+  --radius-input: 12px;
+  --radius-card:  16px;
+  --radius-modal: 20px;
+  --radius-pill:  999px;
+
+  /* ---- Control sizing ---- */
+  --control-h-sm: 40px;
+  --control-h:    48px;
+  --control-h-lg: 52px;
+
+  /* ---- Shadows (subtle) ---- */
+  --shadow-sm:        0 1px 2px rgba(24, 24, 27, 0.06), 0 1px 3px rgba(24, 24, 27, 0.08);
+  --shadow-md:        0 2px 4px rgba(24, 24, 27, 0.06), 0 4px 12px rgba(24, 24, 27, 0.08);
+  --shadow-lg:        0 8px 24px rgba(24, 24, 27, 0.10);
+  --shadow-card:      var(--shadow-sm);
+  --shadow-card-hover: var(--shadow-md);
+
+  /* ---- Motion ---- */
+  --ease-out:        cubic-bezier(0.19, 1, 0.22, 1);
+  --dur-fast:        0.15s;
+  --dur:             0.25s;
+  --transition-base: all var(--dur) var(--ease-out);
+}
