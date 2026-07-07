@@ -1,0 +1,30 @@
+<!-- @dsCard group="Brand" viewport="700x200" name="CTA Color Rule" subtitle="Graphite = shopping · Orange = repair/service only" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; padding:24px; font-family: var(--font-sans); background: var(--surface-page); }
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .col h4 { margin:0 0 4px; font-size:13px; font-weight:700; color:var(--text-strong); }
+  .col p { margin:0 0 14px; font-size:12px; color:var(--text-muted); }
+  .btns { display:flex; flex-wrap:wrap; gap:10px; }
+  .btn { height:44px; padding:0 18px; display:inline-flex; align-items:center; border-radius:var(--radius-btn); font-size:14px; font-weight:600; color:#fff; }
+  .g { background:var(--graphite-900); }
+  .o { background:var(--orange-600); }
+  .rule { grid-column:1 / -1; font-size:12px; color:var(--text-body); background:var(--orange-50); border:1px solid var(--orange-100); border-radius:10px; padding:10px 14px; }
+</style></head>
+<body>
+  <div class="cols">
+    <div class="col">
+      <h4>Product actions → Graphite</h4>
+      <p>Shopping. Background graphite&nbsp;900, hover graphite&nbsp;800.</p>
+      <div class="btns"><span class="btn g">Add to Cart</span><span class="btn g">Buy Now</span><span class="btn g">Checkout</span></div>
+    </div>
+    <div class="col">
+      <h4>Service actions → Orange</h4>
+      <p>Repair only. Background orange&nbsp;600, hover orange&nbsp;700.</p>
+      <div class="btns"><span class="btn o">Book Repair</span><span class="btn o">Get Free Quote</span><span class="btn o">Request Unlock</span></div>
+    </div>
+    <div class="rule"><strong>Rule:</strong> orange is reserved for repair &amp; service actions. Never use orange for normal shopping actions.</div>
+  </div>
+</body></html>
