@@ -1,0 +1,21 @@
+<!-- @dsCard group="Spacing" viewport="700x150" name="Border Radius" subtitle="Buttons 12 · Cards 16 · Modals 20" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; padding:24px; font-family: var(--font-sans); background: var(--surface-page); }
+  .row { display:flex; gap:20px; }
+  .item { display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .box { width:90px; height:72px; background:var(--graphite-100); border:1px solid var(--border-subtle); }
+  .lbl { font-size:12px; color:var(--text-body); font-weight:500; }
+  .sub { font-size:11px; color:var(--text-muted); }
+</style></head>
+<body>
+  <div class="row">
+    <div class="item"><div class="box" style="border-radius:var(--radius-sm)"></div><span class="lbl">sm · 8</span></div>
+    <div class="item"><div class="box" style="border-radius:var(--radius-btn)"></div><span class="lbl">Button · 12</span></div>
+    <div class="item"><div class="box" style="border-radius:var(--radius-card)"></div><span class="lbl">Card · 16</span></div>
+    <div class="item"><div class="box" style="border-radius:var(--radius-modal)"></div><span class="lbl">Modal · 20</span></div>
+    <div class="item"><div class="box" style="border-radius:var(--radius-pill)"></div><span class="lbl">Pill · full</span></div>
+  </div>
+</body></html>
