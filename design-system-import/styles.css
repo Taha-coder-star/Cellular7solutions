@@ -1,0 +1,8 @@
+/* Cellular Solutions — Design System
+   Global entry point. Consumers link THIS file.
+   Keep as @import lines only — no rules here. */
+
+@import url('tokens/fonts.css');
+@import url('tokens/colors.css');
+@import url('tokens/typography.css');
+@import url('tokens/spacing.css');
