@@ -1,0 +1,44 @@
+/* Cellular Solutions — Typography tokens
+   Typeface: Inter. Heading 700, Subheading 600, Body 400, Labels 500. */
+
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Weights */
+  --fw-regular:  400; /* @kind other */
+  --fw-medium:   500; /* @kind other */
+  --fw-semibold: 600; /* @kind other */
+  --fw-bold:     700; /* @kind other */
+  --fw-extrabold: 800; /* @kind other */
+
+  /* Type scale (rem @ 16px base) */
+  --fs-display:  3.5rem;   /* 56px — hero */
+  --fs-h1:       2.5rem;   /* 40px */
+  --fs-h2:       2rem;     /* 32px */
+  --fs-h3:       1.5rem;   /* 24px */
+  --fs-h4:       1.25rem;  /* 20px */
+  --fs-lg:       1.125rem; /* 18px */
+  --fs-body:     1rem;     /* 16px */
+  --fs-sm:       0.875rem; /* 14px */
+  --fs-xs:       0.75rem;  /* 12px */
+
+  /* Line heights */
+  --lh-tight:   1.1; /* @kind other */
+  --lh-snug:    1.25; /* @kind other */
+  --lh-normal:  1.5; /* @kind other */
+  --lh-relaxed: 1.65; /* @kind other */
+
+  /* Letter spacing */
+  --ls-tight:  -0.02em; /* @kind other */
+  --ls-normal: 0; /* @kind other */
+  --ls-wide:   0.04em; /* @kind other */
+  --ls-wider:  0.12em; /* @kind other */
+
+  /* Semantic type aliases */
+  --text-display-size:   var(--fs-display);
+  --text-display-weight: var(--fw-extrabold);
+  --text-heading-weight: var(--fw-bold);
+  --text-subhead-weight: var(--fw-semibold);
+  --text-body-weight:    var(--fw-regular);
+  --text-label-weight:   var(--fw-medium);
+}
