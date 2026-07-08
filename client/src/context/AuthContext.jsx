@@ -19,16 +19,19 @@ export function AuthProvider({ children }) {
       .finally(() => setLoading(false));
   }, []);
 
+  // Backend returns a flat payload: { _id, name, email, role, token }
   async function login(email, password) {
     const { data } = await api.post('/auth/login', { email, password });
     localStorage.setItem('token', data.token);
-    setUser(data.user);
+    const { token, ...userData } = data;
+    setUser(userData);
   }
 
   async function register(name, email, password) {
     const { data } = await api.post('/auth/register', { name, email, password });
     localStorage.setItem('token', data.token);
-    setUser(data.user);
+    const { token, ...userData } = data;
+    setUser(userData);
   }
 
   function logout() {

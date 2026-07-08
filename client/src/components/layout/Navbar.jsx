@@ -3,11 +3,12 @@ import { NavLink, Link } from 'react-router-dom';
 import { Logo, Icon } from '@/components/ui';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
+import ShopMegaMenu, { ShopMenuAccordion } from '@/components/ShopMegaMenu';
 
 const NAV_LINKS = [
-  { to: '/shop',    label: 'Shop' },
   { to: '/buysell', label: 'Buy & Sell' },
   { to: '/unlock',  label: 'Unlock' },
+  { to: '/repair',  label: 'Repairs' },
   { to: '/about',   label: 'About' },
   { to: '/contact', label: 'Contact' },
 ];
@@ -55,8 +56,9 @@ export default function Navbar() {
 
         {/* Desktop nav links */}
         <nav className="hidden md:flex" style={{ gap: 'var(--space-8)', alignItems: 'center' }}>
+          <ShopMegaMenu />
           {NAV_LINKS.map(({ to, label }) => (
-            <NavLink key={to} to={to} style={navLinkStyle}>
+            <NavLink key={label} to={to} style={navLinkStyle}>
               {label}
             </NavLink>
           ))}
@@ -176,9 +178,10 @@ export default function Navbar() {
             gap: 'var(--space-1)',
           }}
         >
+          <ShopMenuAccordion onNavigate={() => setMobileOpen(false)} />
           {NAV_LINKS.map(({ to, label }) => (
             <NavLink
-              key={to}
+              key={label}
               to={to}
               onClick={() => setMobileOpen(false)}
               style={({ isActive }) => ({

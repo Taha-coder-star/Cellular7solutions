@@ -12,7 +12,7 @@ const SHOP_LINKS = [
 const SERVICE_LINKS = [
   { to: '/buysell', label: 'Buy & Sell Devices' },
   { to: '/unlock',  label: 'Unlock Device' },
-  { to: '/contact', label: 'Book Repair' },
+  { to: '/repair', label: 'Book Repair' },
 ];
 
 const COMPANY_LINKS = [
@@ -22,10 +22,11 @@ const COMPANY_LINKS = [
   { to: '/terms',   label: 'Terms of Service' },
 ];
 
+// Lucide has no brand icons; using generic stand-ins until real social SVGs are swapped in
 const SOCIAL = [
-  { name: 'facebook',  href: '#', label: 'Facebook' },
-  { name: 'instagram', href: '#', label: 'Instagram' },
-  { name: 'twitter',   href: '#', label: 'Twitter / X' },
+  { name: 'globe',           href: '#', label: 'Facebook' },
+  { name: 'message-square',  href: '#', label: 'Instagram' },
+  { name: 'share-2',         href: '#', label: 'Twitter / X' },
 ];
 
 function FooterColumn({ heading, links }) {

@@ -5,13 +5,14 @@ const cloudinary = require('../config/cloudinary');
 
 const getProducts = async (req, res) => {
   try {
-    const { category, brand, condition, minPrice, maxPrice, search, page, limit } = req.query;
+    const { category, brand, condition, minPrice, maxPrice, search, page, limit, isFeatured } = req.query;
 
     const filter = {};
 
     if (category) filter.category = category;
     if (brand) filter.brand = brand;
     if (condition) filter.condition = condition;
+    if (isFeatured !== undefined) filter.isFeatured = isFeatured === 'true';
 
     if (minPrice !== undefined || maxPrice !== undefined) {
       filter.price = {};
@@ -26,7 +27,12 @@ const getProducts = async (req, res) => {
     const skip = (pageNum - 1) * limitNum;
 
     const [products, total] = await Promise.all([
-      Product.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limitNum),
+      Product.find(filter)
+        .populate('brand', 'name slug')
+        .populate('category', 'name slug')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limitNum),
       Product.countDocuments(filter),
     ]);
 

@@ -69,11 +69,10 @@ const repairRequestSchema = new mongoose.Schema({
   },
 });
 
-repairRequestSchema.pre('save', function (next) {
+repairRequestSchema.pre('save', function () {
   if (!this.agreedToTerms) {
-    return next(new Error('Customer must agree to terms before submitting a repair request.'));
+    throw new Error('Customer must agree to terms before submitting a repair request.');
   }
-  next();
 });
 
 module.exports = mongoose.model('RepairRequest', repairRequestSchema);

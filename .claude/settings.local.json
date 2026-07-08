@@ -3,7 +3,13 @@
     "allow": [
       "PowerShell(Get-ChildItem \"F:\\\\cellular-solutions\\\\server\" | Where-Object { $_.Name -ne 'node_modules' } | Select-Object FullName, PSIsContainer)",
       "PowerShell(ls \"F:\\\\cellular-solutions\\\\server\" | Where-Object { $_.Name -ne 'node_modules' })",
-      "Bash(Remove-Item *)"
+      "Bash(Remove-Item *)",
+      "mcp__plugin_playwright_playwright__browser_run_code_unsafe",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "Bash(sed -i \"s|to: '/contact' }|to: '/repair' }|g\" components/home/QuickServices.jsx)",
+      "Bash(sed -i 's|to=\"/contact\"|to=\"/repair\"|g' components/home/PopularRepairs.jsx components/home/QuickServices.jsx)",
+      "Bash(sed -i 's|<Link to=\"/contact\" style={{ textDecoration: .none., color: .inherit. }}>Book Repair</Link>|<Link to=\"/repair\" style={{ textDecoration: '\"'\"'none'\"'\"', color: '\"'\"'inherit'\"'\"' }}>Book Repair</Link>|' pages/Home.jsx)",
+      "Bash(sed -i \"s|{ to: '/contact', label: 'Book Repair' }|{ to: '/repair', label: 'Book Repair' }|\" components/layout/Footer.jsx)"
     ]
   }
 }

@@ -18,7 +18,7 @@ const brandSchema = new mongoose.Schema({
   },
 });
 
-brandSchema.pre('save', function (next) {
+brandSchema.pre('save', function () {
   if (this.isModified('name')) {
     this.slug = this.name
       .toLowerCase()
@@ -26,7 +26,6 @@ brandSchema.pre('save', function (next) {
       .replace(/[^a-z0-9\s-]/g, '')
       .replace(/\s+/g, '-');
   }
-  next();
 });
 
 module.exports = mongoose.model('Brand', brandSchema);
