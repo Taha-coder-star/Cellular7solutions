@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Button, Card, Input, Logo } from '@/components/ui';
+import { AuthShell, AuthHead, AuthDivider, GoogleIcon, Button, Checkbox, Icon, Input } from '@/components/ui';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Register() {
@@ -9,10 +9,12 @@ export default function Register() {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
 
-  const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [agree, setAgree] = useState(false);
+  const [showPw, setShowPw] = useState(false);
 
   function validate() {
     const next = {};
@@ -20,8 +22,8 @@ export default function Register() {
     if (!form.email.trim()) next.email = 'Email is required';
     else if (!/^\S+@\S+\.\S+$/.test(form.email)) next.email = 'Enter a valid email address';
     if (!form.password) next.password = 'Password is required';
-    else if (form.password.length < 6) next.password = 'Password must be at least 6 characters';
-    if (form.confirm !== form.password) next.confirm = 'Passwords do not match';
+    else if (form.password.length < 8) next.password = 'Password must be at least 8 characters';
+    if (!agree) next.agree = 'You must agree to the Terms & Privacy Policy';
     setErrors(next);
     return Object.keys(next).length === 0;
   }
@@ -42,74 +44,94 @@ export default function Register() {
   }
 
   return (
-    <div style={{ padding: 'var(--pad-section) var(--space-6)', display: 'flex', justifyContent: 'center', fontFamily: 'var(--font-sans)', background: 'var(--surface-subtle)', minHeight: '60vh' }}>
-      <div style={{ width: '100%', maxWidth: '420px', display: 'flex', flexDirection: 'column', gap: 'var(--space-6)', alignItems: 'center' }}>
-        <Link to="/">
-          <Logo variant="full" tone="light" height={40} />
-        </Link>
+    <AuthShell>
+      <AuthHead title="Create account" subtitle="Join Cellular Solutions in seconds." />
 
-        <Card style={{ width: '100%' }}>
-          <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
-            <div>
-              <h1 style={{ margin: '0 0 var(--space-2)', fontSize: 'var(--fs-h3)', fontWeight: 'var(--fw-bold)', letterSpacing: 'var(--ls-tight)', color: 'var(--text-strong)' }}>
-                Create Account
-              </h1>
-              <p style={{ margin: 0, fontSize: 'var(--fs-sm)', color: 'var(--text-muted)' }}>
-                Join Cellular Solutions to track orders and requests.
-              </p>
-            </div>
+      {serverError && (
+        <div style={{ padding: 'var(--space-3) var(--space-4)', background: 'var(--danger-50)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--fs-sm)', color: 'var(--danger-500)' }}>
+          {serverError}
+        </div>
+      )}
 
-            {serverError && (
-              <div style={{ padding: 'var(--space-3) var(--space-4)', background: 'var(--danger-50)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--fs-sm)', color: 'var(--danger-500)' }}>
-                {serverError}
-              </div>
-            )}
+      <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+        <Input
+          label="Full name"
+          placeholder="Alex Morgan"
+          autoComplete="name"
+          icon={<Icon name="user" size={18} />}
+          value={form.name}
+          error={errors.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+        />
+        <Input
+          label="Email"
+          type="email"
+          placeholder="you@example.com"
+          autoComplete="email"
+          icon={<Icon name="mail" size={18} />}
+          value={form.email}
+          error={errors.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+        />
+        <Input
+          label="Password"
+          type={showPw ? 'text' : 'password'}
+          placeholder="Create a password"
+          autoComplete="new-password"
+          icon={<Icon name="lock" size={18} />}
+          rightElement={
+            <button
+              type="button"
+              onClick={() => setShowPw((v) => !v)}
+              aria-label={showPw ? 'Hide password' : 'Show password'}
+              style={{ background: 'none', border: 'none', padding: '4px', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-muted)', display: 'inline-flex' }}
+            >
+              <Icon name={showPw ? 'eye-off' : 'eye'} size={18} />
+            </button>
+          }
+          value={form.password}
+          error={errors.password}
+          hint={errors.password ? undefined : 'At least 8 characters.'}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+        />
 
-            <Input
-              label="Full Name"
-              autoComplete="name"
-              value={form.name}
-              error={errors.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-            />
-            <Input
-              label="Email"
-              type="email"
-              autoComplete="email"
-              value={form.email}
-              error={errors.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-            />
-            <Input
-              label="Password"
-              type="password"
-              autoComplete="new-password"
-              value={form.password}
-              error={errors.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-            />
-            <Input
-              label="Confirm Password"
-              type="password"
-              autoComplete="new-password"
-              value={form.confirm}
-              error={errors.confirm}
-              onChange={(e) => setForm({ ...form, confirm: e.target.value })}
-            />
+        <Checkbox
+          checked={agree}
+          onChange={(e) => setAgree(e.target.checked)}
+          style={{ alignItems: 'flex-start' }}
+          label={
+            <span>
+              I agree to the{' '}
+              <a href="#" onClick={(e) => e.preventDefault()} style={{ color: 'var(--graphite-900)', fontWeight: 600 }}>
+                Terms
+              </a>{' '}
+              &amp;{' '}
+              <a href="#" onClick={(e) => e.preventDefault()} style={{ color: 'var(--graphite-900)', fontWeight: 600 }}>
+                Privacy Policy
+              </a>
+              .
+            </span>
+          }
+        />
+        {errors.agree && <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--danger-500)', marginTop: '-10px' }}>{errors.agree}</span>}
 
-            <Button type="submit" variant="product" fullWidth disabled={submitting}>
-              {submitting ? 'Creating Account…' : 'Create Account'}
-            </Button>
+        <Button type="submit" variant="product" fullWidth disabled={submitting}>
+          {submitting ? 'Creating Account…' : 'Create Account'}
+        </Button>
 
-            <p style={{ margin: 0, fontSize: 'var(--fs-sm)', color: 'var(--text-muted)', textAlign: 'center' }}>
-              Already have an account?{' '}
-              <Link to="/login" state={location.state} style={{ color: 'var(--text-strong)', fontWeight: 'var(--fw-semibold)' }}>
-                Sign in
-              </Link>
-            </p>
-          </form>
-        </Card>
-      </div>
-    </div>
+        <AuthDivider />
+
+        <Button type="button" variant="secondary" fullWidth iconLeft={<GoogleIcon />}>
+          Sign up with Google
+        </Button>
+
+        <p style={{ margin: '2px 0 0', textAlign: 'center', fontSize: '13px', color: 'var(--text-muted)' }}>
+          Already registered?{' '}
+          <Link to="/login" state={location.state} style={{ color: 'var(--graphite-900)', fontWeight: 600 }}>
+            Sign in
+          </Link>
+        </p>
+      </form>
+    </AuthShell>
   );
 }

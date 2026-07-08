@@ -83,8 +83,8 @@ function EmptyState() {
           Check back shortly — we're stocking up.
         </p>
       </div>
-      <Button variant="secondary" size="md">
-        <Link to="/shop" style={{ textDecoration: 'none', color: 'inherit' }}>Browse All Products</Link>
+      <Button as={Link} to="/shop" variant="secondary" size="md" style={{ textDecoration: 'none' }}>
+        Browse All Products
       </Button>
     </div>
   );
@@ -192,8 +192,8 @@ export default function TopProducts() {
         {/* Bottom CTA */}
         {!loading && !error && products.length > 0 && (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button variant="secondary" size="md" iconRight={<Icon name="arrow-right" size={16} />}>
-              <Link to="/shop" style={{ textDecoration: 'none', color: 'inherit' }}>View All Products</Link>
+            <Button as={Link} to="/shop" variant="secondary" size="md" iconRight={<Icon name="arrow-right" size={16} />} style={{ textDecoration: 'none' }}>
+              View All Products
             </Button>
           </div>
         )}

@@ -1,5 +1,9 @@
-export function Select({ label, hint, id, options = [], style = {}, children, ...rest }) {
+import { useState } from 'react';
+
+export function Select({ label, hint, error, id, options = [], style = {}, children, ...rest }) {
+  const [focus, setFocus] = useState(false);
   const selectId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+  const hintId = (hint || error) && selectId ? `${selectId}-hint` : undefined;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: 'var(--font-sans)' }}>
@@ -11,6 +15,10 @@ export function Select({ label, hint, id, options = [], style = {}, children, ..
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
         <select
           id={selectId}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={hintId}
           style={{
             width: '100%',
             height: 'var(--control-h)',
@@ -19,9 +27,11 @@ export function Select({ label, hint, id, options = [], style = {}, children, ..
             fontSize: 'var(--fs-body)',
             color: 'var(--text-strong)',
             background: 'var(--white)',
-            border: '1px solid var(--border-strong)',
+            border: `1px solid ${error ? 'var(--danger-500)' : focus ? 'var(--orange-600)' : 'var(--border-strong)'}`,
             borderRadius: 'var(--radius-input)',
             outline: 'none',
+            boxShadow: focus ? '0 0 0 3px rgba(234, 88, 12, 0.15)' : 'none',
+            transition: 'var(--transition-base)',
             appearance: 'none',
             cursor: 'pointer',
             boxSizing: 'border-box',
@@ -37,7 +47,11 @@ export function Select({ label, hint, id, options = [], style = {}, children, ..
         </select>
         <span style={{ position: 'absolute', right: '14px', pointerEvents: 'none', color: 'var(--text-muted)', fontSize: '12px' }}>▾</span>
       </div>
-      {hint && <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>{hint}</span>}
+      {(hint || error) && (
+        <span id={hintId} style={{ fontSize: 'var(--fs-xs)', color: error ? 'var(--danger-500)' : 'var(--text-muted)' }}>
+          {error || hint}
+        </span>
+      )}
     </div>
   );
 }

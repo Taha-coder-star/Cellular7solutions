@@ -33,13 +33,6 @@ const SERVICES = [
     cta: 'Book Repair',
   },
   {
-    icon: 'shield-check',
-    title: 'Mobile Unlock',
-    text: 'Carrier unlocking for phones from all major networks, handled safely and quickly.',
-    to: '/unlock',
-    cta: 'Request Unlock',
-  },
-  {
     icon: 'truck',
     title: 'Buy & Sell Used Phones',
     text: 'Trade in your old device for cash, or pick up a certified used phone at a fair price.',
@@ -121,7 +114,7 @@ export default function About() {
             <h2 style={sectionHeading}>Our Services</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {SERVICES.map(({ icon, title, text, to, cta }) => (
               <Card key={title}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', height: '100%' }}>
@@ -130,8 +123,8 @@ export default function About() {
                   </span>
                   <span style={{ fontSize: 'var(--fs-h4)', fontWeight: 'var(--fw-bold)', color: 'var(--text-strong)' }}>{title}</span>
                   <span style={{ fontSize: 'var(--fs-sm)', color: 'var(--text-muted)', lineHeight: 'var(--lh-relaxed)', flex: 1 }}>{text}</span>
-                  <Button variant="service" fullWidth>
-                    <Link to={to} style={{ textDecoration: 'none', color: 'inherit' }}>{cta}</Link>
+                  <Button as={Link} to={to} variant="service" fullWidth style={{ textDecoration: 'none' }}>
+                    {cta}
                   </Button>
                 </div>
               </Card>
@@ -145,11 +138,11 @@ export default function About() {
         <div className="max-w-3xl mx-auto" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 'var(--space-6)' }}>
           <h2 style={sectionHeading}>Come see us — or start shopping now.</h2>
           <div style={{ display: 'flex', gap: 'var(--space-4)', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <Button variant="product" size="lg" iconRight={<Icon name="arrow-right" size={18} />}>
-              <Link to="/shop" style={{ textDecoration: 'none', color: 'inherit' }}>Shop Now</Link>
+            <Button as={Link} to="/shop" variant="product" size="lg" iconRight={<Icon name="arrow-right" size={18} />} style={{ textDecoration: 'none' }}>
+              Shop Now
             </Button>
-            <Button variant="secondary" size="lg">
-              <Link to="/contact" style={{ textDecoration: 'none', color: 'inherit' }}>Contact Us</Link>
+            <Button as={Link} to="/contact" variant="secondary" size="lg" style={{ textDecoration: 'none' }}>
+              Contact Us
             </Button>
           </div>
         </div>

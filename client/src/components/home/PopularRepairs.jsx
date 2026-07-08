@@ -82,13 +82,14 @@ export default function PopularRepairs() {
         {/* Bottom CTA */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
+            as={Link}
+            to="/repair"
             variant="service"
             size="md"
             iconLeft={<Icon name="calendar-check" size={16} />}
+            style={{ textDecoration: 'none' }}
           >
-            <Link to="/repair" style={{ textDecoration: 'none', color: 'inherit' }}>
-              Book a Repair
-            </Link>
+            Book a Repair
           </Button>
         </div>
       </div>

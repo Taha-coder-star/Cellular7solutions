@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
 export function Button({
+  as,
+  href,
   variant = 'product',
   size = 'md',
   fullWidth = false,
@@ -13,6 +15,8 @@ export function Button({
   style = {},
   ...rest
 }) {
+  const Element = as || (href ? 'a' : 'button');
+  const isLink = Element !== 'button';
   const heights = { sm: 'var(--control-h-sm)', md: 'var(--control-h)', lg: 'var(--control-h-lg)' };
   const pads   = { sm: '0 16px', md: '0 22px', lg: '0 28px' };
   const fonts  = { sm: 'var(--fs-sm)', md: 'var(--fs-body)', lg: 'var(--fs-lg)' };
@@ -35,10 +39,12 @@ export function Button({
   const base = variants[variant] || variants.product;
 
   return (
-    <button
-      type={type}
-      disabled={disabled}
-      onClick={onClick}
+    <Element
+      href={href}
+      type={isLink ? undefined : type}
+      disabled={isLink ? undefined : disabled}
+      aria-disabled={isLink ? disabled : undefined}
+      onClick={isLink && disabled ? (e) => e.preventDefault() : onClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
@@ -72,6 +78,6 @@ export function Button({
       {iconLeft}
       {children}
       {iconRight}
-    </button>
+    </Element>
   );
 }

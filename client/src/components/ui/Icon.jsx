@@ -28,6 +28,11 @@ import {
   Globe,
   MessageSquare,
   Share2,
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  ChevronLeft,
 } from 'lucide-react';
 
 const ICONS = {
@@ -60,6 +65,11 @@ const ICONS = {
   globe:             Globe,
   'message-square':  MessageSquare,
   'share-2':         Share2,
+  mail:              Mail,
+  lock:              Lock,
+  eye:               Eye,
+  'eye-off':         EyeOff,
+  'chevron-left':    ChevronLeft,
 };
 
 export function Icon({ name, size = 20, color = 'currentColor', strokeWidth = 2, style = {}, ...rest }) {

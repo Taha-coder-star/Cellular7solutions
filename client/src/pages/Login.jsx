@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Button, Card, Input, Logo } from '@/components/ui';
+import { AuthShell, AuthHead, AuthDivider, GoogleIcon, Button, Checkbox, Icon, Input } from '@/components/ui';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Login() {
@@ -13,6 +13,8 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [remember, setRemember] = useState(true);
+  const [showPw, setShowPw] = useState(false);
 
   function validate() {
     const next = {};
@@ -39,59 +41,71 @@ export default function Login() {
   }
 
   return (
-    <div style={{ padding: 'var(--pad-section) var(--space-6)', display: 'flex', justifyContent: 'center', fontFamily: 'var(--font-sans)', background: 'var(--surface-subtle)', minHeight: '60vh' }}>
-      <div style={{ width: '100%', maxWidth: '420px', display: 'flex', flexDirection: 'column', gap: 'var(--space-6)', alignItems: 'center' }}>
-        <Link to="/">
-          <Logo variant="full" tone="light" height={40} />
-        </Link>
+    <AuthShell>
+      <AuthHead title="Sign in" subtitle="Welcome back to Cellular Solutions." />
 
-        <Card style={{ width: '100%' }}>
-          <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
-            <div>
-              <h1 style={{ margin: '0 0 var(--space-2)', fontSize: 'var(--fs-h3)', fontWeight: 'var(--fw-bold)', letterSpacing: 'var(--ls-tight)', color: 'var(--text-strong)' }}>
-                Sign In
-              </h1>
-              <p style={{ margin: 0, fontSize: 'var(--fs-sm)', color: 'var(--text-muted)' }}>
-                Welcome back — sign in to your account.
-              </p>
-            </div>
+      {serverError && (
+        <div style={{ padding: 'var(--space-3) var(--space-4)', background: 'var(--danger-50)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--fs-sm)', color: 'var(--danger-500)' }}>
+          {serverError}
+        </div>
+      )}
 
-            {serverError && (
-              <div style={{ padding: 'var(--space-3) var(--space-4)', background: 'var(--danger-50)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--fs-sm)', color: 'var(--danger-500)' }}>
-                {serverError}
-              </div>
-            )}
+      <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+        <Input
+          label="Email"
+          type="email"
+          placeholder="you@example.com"
+          autoComplete="email"
+          icon={<Icon name="mail" size={18} />}
+          value={form.email}
+          error={errors.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+        />
+        <Input
+          label="Password"
+          type={showPw ? 'text' : 'password'}
+          placeholder="Enter your password"
+          autoComplete="current-password"
+          icon={<Icon name="lock" size={18} />}
+          rightElement={
+            <button
+              type="button"
+              onClick={() => setShowPw((v) => !v)}
+              aria-label={showPw ? 'Hide password' : 'Show password'}
+              style={{ background: 'none', border: 'none', padding: '4px', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-muted)', display: 'inline-flex' }}
+            >
+              <Icon name={showPw ? 'eye-off' : 'eye'} size={18} />
+            </button>
+          }
+          value={form.password}
+          error={errors.password}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+        />
 
-            <Input
-              label="Email"
-              type="email"
-              autoComplete="email"
-              value={form.email}
-              error={errors.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-            />
-            <Input
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              value={form.password}
-              error={errors.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-            />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Checkbox label="Remember me" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
+          <Link to="/forgot-password" style={{ fontSize: '13px', fontWeight: 600, color: 'var(--graphite-900)' }}>
+            Forgot password?
+          </Link>
+        </div>
 
-            <Button type="submit" variant="product" fullWidth disabled={submitting}>
-              {submitting ? 'Signing In…' : 'Sign In'}
-            </Button>
+        <Button type="submit" variant="product" fullWidth disabled={submitting}>
+          {submitting ? 'Signing In…' : 'Sign In'}
+        </Button>
 
-            <p style={{ margin: 0, fontSize: 'var(--fs-sm)', color: 'var(--text-muted)', textAlign: 'center' }}>
-              Don't have an account?{' '}
-              <Link to="/register" state={location.state} style={{ color: 'var(--text-strong)', fontWeight: 'var(--fw-semibold)' }}>
-                Create one
-              </Link>
-            </p>
-          </form>
-        </Card>
-      </div>
-    </div>
+        <AuthDivider />
+
+        <Button type="button" variant="secondary" fullWidth iconLeft={<GoogleIcon />}>
+          Continue with Google
+        </Button>
+
+        <p style={{ margin: '2px 0 0', textAlign: 'center', fontSize: '13px', color: 'var(--text-muted)' }}>
+          New here?{' '}
+          <Link to="/register" state={location.state} style={{ color: 'var(--graphite-900)', fontWeight: 600 }}>
+            Create an account
+          </Link>
+        </p>
+      </form>
+    </AuthShell>
   );
 }

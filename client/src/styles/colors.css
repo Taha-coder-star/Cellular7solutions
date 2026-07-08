@@ -23,6 +23,7 @@
   --orange-500: #F97316;
   --orange-600: #EA580C;
   --orange-700: #C2410C;
+  --orange-800: #9A3412;
   --orange-900: #7C2D12;
 
   /* ---- Base neutrals ---- */
@@ -31,8 +32,10 @@
 
   /* ---- Semantic status colors ---- */
   --success-500: #16A34A;
+  --success-700: #15803D;
   --success-50:  #F0FDF4;
   --warning-500: #D97706;
+  --warning-700: #B45309;
   --warning-50:  #FFFBEB;
   --danger-500:  #DC2626;
   --danger-50:   #FEF2F2;
@@ -43,8 +46,8 @@
   /* Brand */
   --brand-primary:        var(--graphite-900);
   --brand-primary-hover:  var(--graphite-800);
-  --brand-service:        var(--orange-600);
-  --brand-service-hover:  var(--orange-700);
+  --brand-service:        var(--orange-700);
+  --brand-service-hover:  var(--orange-800);
 
   /* Surfaces */
   --surface-page:    var(--white);

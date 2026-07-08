@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Button, Card, Input, Textarea, Icon } from '@/components/ui';
 
-// ⚑ PLACEHOLDER CONTACT INFO — confirm real address, phone, and hours with client before launch
+// ⚑ Hours are still a placeholder — confirm real hours with client before launch
 const INFO = [
-  { icon: 'truck',  label: 'Address', lines: ['123 Main Street', 'Your City, ST 00000'] },
-  { icon: 'smartphone', label: 'Phone', lines: ['(000) 000-0000'] },
+  { icon: 'truck',  label: 'Address', lines: ['520 West Main St.', 'Glencoe, AL 35905'] },
+  { icon: 'smartphone', label: 'Phone', lines: ['(256) 515-9620'] },
+  { icon: 'mail',   label: 'Email',   lines: ['Rambocityalabama@gmail.com'] },
   { icon: 'clock',  label: 'Hours',   lines: ['Mon–Sat: 10:00 AM – 8:00 PM', 'Sun: 12:00 PM – 6:00 PM'] },
 ];
 

@@ -11,3 +11,4 @@ export { ProductCard } from './ProductCard';
 export { RepairCard }  from './RepairCard';
 export { Icon }        from './Icon';
 export { Logo }        from './Logo';
+export { AuthShell, AuthHead, AuthDivider, GoogleIcon } from './AuthShell';

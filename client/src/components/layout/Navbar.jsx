@@ -7,7 +7,6 @@ import ShopMegaMenu, { ShopMenuAccordion } from '@/components/ShopMegaMenu';
 
 const NAV_LINKS = [
   { to: '/buysell', label: 'Buy & Sell' },
-  { to: '/unlock',  label: 'Unlock' },
   { to: '/repair',  label: 'Repairs' },
   { to: '/about',   label: 'About' },
   { to: '/contact', label: 'Contact' },

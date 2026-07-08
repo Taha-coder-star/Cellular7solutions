@@ -42,8 +42,8 @@ function EmptyCart() {
           Browse the shop and add something you like.
         </p>
       </div>
-      <Button variant="product" iconRight={<Icon name="arrow-right" size={16} />}>
-        <Link to="/shop" style={{ textDecoration: 'none', color: 'inherit' }}>Start Shopping</Link>
+      <Button as={Link} to="/shop" variant="product" iconRight={<Icon name="arrow-right" size={16} />} style={{ textDecoration: 'none' }}>
+        Start Shopping
       </Button>
     </div>
   );

@@ -175,8 +175,8 @@ export default function ProductDetail() {
         <p style={{ margin: '0 0 var(--space-6)', fontSize: 'var(--fs-lg)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
           Product not found
         </p>
-        <Button variant="secondary">
-          <Link to="/shop" style={{ textDecoration: 'none', color: 'inherit' }}>Back to Shop</Link>
+        <Button as={Link} to="/shop" variant="secondary" style={{ textDecoration: 'none' }}>
+          Back to Shop
         </Button>
       </div>
     );
@@ -263,7 +263,7 @@ export default function ProductDetail() {
           </span>
 
           {/* Stock status */}
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)', fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-medium)', color: outOfStock ? 'var(--danger-500)' : lowStock ? 'var(--warning-500)' : 'var(--success-500)' }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)', fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-medium)', color: outOfStock ? 'var(--danger-500)' : lowStock ? 'var(--warning-700)' : 'var(--success-700)' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'currentColor' }} />
             {outOfStock ? 'Out of stock' : lowStock ? `Only ${product.stock} left in stock` : 'In stock'}
           </span>

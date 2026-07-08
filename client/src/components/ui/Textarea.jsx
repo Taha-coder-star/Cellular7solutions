@@ -4,6 +4,7 @@ import { useState } from 'react';
 export function Textarea({ label, hint, error, id, rows = 4, style = {}, ...rest }) {
   const [focus, setFocus] = useState(false);
   const areaId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+  const hintId = (hint || error) && areaId ? `${areaId}-hint` : undefined;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: 'var(--font-sans)' }}>
@@ -17,6 +18,8 @@ export function Textarea({ label, hint, error, id, rows = 4, style = {}, ...rest
         rows={rows}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={hintId}
         style={{
           width: '100%',
           padding: '12px 14px',
@@ -37,7 +40,7 @@ export function Textarea({ label, hint, error, id, rows = 4, style = {}, ...rest
         {...rest}
       />
       {(hint || error) && (
-        <span style={{ fontSize: 'var(--fs-xs)', color: error ? 'var(--danger-500)' : 'var(--text-muted)' }}>
+        <span id={hintId} style={{ fontSize: 'var(--fs-xs)', color: error ? 'var(--danger-500)' : 'var(--text-muted)' }}>
           {error || hint}
         </span>
       )}

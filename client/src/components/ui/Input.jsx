@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-export function Input({ label, hint, error, id, type = 'text', icon = null, style = {}, ...rest }) {
+export function Input({ label, hint, error, id, type = 'text', icon = null, rightElement = null, style = {}, ...rest }) {
   const [focus, setFocus] = useState(false);
   const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+  const hintId = (hint || error) && inputId ? `${inputId}-hint` : undefined;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: 'var(--font-sans)' }}>
@@ -22,10 +23,13 @@ export function Input({ label, hint, error, id, type = 'text', icon = null, styl
           type={type}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={hintId}
           style={{
             width: '100%',
             height: 'var(--control-h)',
-            padding: icon ? '0 14px 0 42px' : '0 14px',
+            paddingLeft: icon ? '42px' : '14px',
+            paddingRight: rightElement ? '44px' : '14px',
             fontFamily: 'var(--font-sans)',
             fontSize: 'var(--fs-body)',
             color: 'var(--text-strong)',
@@ -40,9 +44,14 @@ export function Input({ label, hint, error, id, type = 'text', icon = null, styl
           }}
           {...rest}
         />
+        {rightElement && (
+          <span style={{ position: 'absolute', right: '12px', display: 'inline-flex' }}>
+            {rightElement}
+          </span>
+        )}
       </div>
       {(hint || error) && (
-        <span style={{ fontSize: 'var(--fs-xs)', color: error ? 'var(--danger-500)' : 'var(--text-muted)' }}>
+        <span id={hintId} style={{ fontSize: 'var(--fs-xs)', color: error ? 'var(--danger-500)' : 'var(--text-muted)' }}>
           {error || hint}
         </span>
       )}

@@ -100,8 +100,8 @@ export default function StoreShowcase() {
 
           <div>
             {/* "Shop Now" is a product/shopping action → secondary variant (white bg on dark) */}
-            <Button variant="secondary" size="lg" iconRight={<Icon name="arrow-right" size={18} />}>
-              <Link to="/shop" style={{ textDecoration: 'none', color: 'inherit' }}>Shop Now</Link>
+            <Button as={Link} to="/shop" variant="secondary" size="lg" iconRight={<Icon name="arrow-right" size={18} />} style={{ textDecoration: 'none' }}>
+              Shop Now
             </Button>
           </div>
         </div>

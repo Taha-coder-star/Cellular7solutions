@@ -11,7 +11,6 @@ const SHOP_LINKS = [
 
 const SERVICE_LINKS = [
   { to: '/buysell', label: 'Buy & Sell Devices' },
-  { to: '/unlock',  label: 'Unlock Device' },
   { to: '/repair', label: 'Book Repair' },
 ];
 
@@ -152,7 +151,7 @@ export default function Footer() {
             style={{
               fontFamily: 'var(--font-sans)',
               fontSize: 'var(--fs-xs)',
-              color: 'var(--graphite-500)',
+              color: 'var(--graphite-400)',
             }}
           >
             © {year} Cellular Solutions. All rights reserved.
@@ -163,7 +162,7 @@ export default function Footer() {
               fontSize: 'var(--fs-xs)',
               letterSpacing: 'var(--ls-wider)',
               textTransform: 'uppercase',
-              color: 'var(--graphite-600)',
+              color: 'var(--graphite-400)',
             }}
           >
             YOU BREAK IT · WE FIX IT
