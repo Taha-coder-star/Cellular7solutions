@@ -23,7 +23,7 @@ const protect = (req, res, next) => {
 };
 
 // Tries to attach req.user from a Bearer token but never rejects the request.
-// Used on public routes where auth is optional (e.g. buy/sell, unlock submissions).
+// Used on public routes where auth is optional (e.g. buy/sell submissions).
 const optionalProtect = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (authHeader && authHeader.startsWith('Bearer ')) {

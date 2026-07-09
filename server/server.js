@@ -9,7 +9,6 @@ const brandRoutes = require('./routes/brandRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const buySellRoutes = require('./routes/buySellRoutes');
-const unlockRoutes = require('./routes/unlockRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const repairRoutes = require('./routes/repairRoutes');
 const Category = require('./models/Category');
@@ -34,7 +33,6 @@ app.use('/api/brands', brandRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/buysell', buySellRoutes);
-app.use('/api/unlock', unlockRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/repairs', repairRoutes);
 
