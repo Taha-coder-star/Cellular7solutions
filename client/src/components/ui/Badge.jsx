@@ -2,7 +2,7 @@ export function Badge({ tone = 'neutral', children, style = {}, ...rest }) {
   const tones = {
     neutral: { bg: 'var(--graphite-100)', fg: 'var(--graphite-700)' },
     dark:    { bg: 'var(--graphite-900)', fg: 'var(--white)' },
-    orange:  { bg: 'var(--orange-50)',    fg: 'var(--orange-700)' },
+    cobalt:  { bg: 'var(--cobalt-50)',    fg: 'var(--cobalt-700)' },
     new:     { bg: 'var(--graphite-900)', fg: 'var(--white)' },
     used:    { bg: 'var(--graphite-100)', fg: 'var(--graphite-600)' },
     outline: { bg: 'transparent',         fg: 'var(--graphite-700)', border: 'var(--border-strong)' },

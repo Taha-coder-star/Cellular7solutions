@@ -66,7 +66,7 @@ export default function About() {
       {/* Intro */}
       <section style={{ background: 'var(--surface-dark)', padding: 'var(--pad-section) var(--space-6)' }}>
         <div className="max-w-3xl mx-auto" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)', textAlign: 'center', alignItems: 'center' }}>
-          <span style={{ ...eyebrow, color: 'var(--orange-500)' }}>YOU BREAK IT · WE FIX IT</span>
+          <span style={{ ...eyebrow, color: 'var(--cobalt-500)' }}>YOU BREAK IT · WE FIX IT</span>
           <h1 style={{ margin: 0, fontSize: 'clamp(2rem, 4vw, var(--fs-h1))', fontWeight: 'var(--fw-extrabold)', letterSpacing: 'var(--ls-tight)', lineHeight: 'var(--lh-tight)', color: 'var(--white)' }}>
             About Cellular Solutions
           </h1>
@@ -118,8 +118,8 @@ export default function About() {
             {SERVICES.map(({ icon, title, text, to, cta }) => (
               <Card key={title}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', height: '100%' }}>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: 'var(--radius-btn)', background: 'var(--orange-50)', color: 'var(--orange-600)' }}>
-                    <Icon name={icon} size={24} color="var(--orange-600)" />
+                  <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: 'var(--radius-btn)', background: 'var(--cobalt-50)', color: 'var(--cobalt-600)' }}>
+                    <Icon name={icon} size={24} color="var(--cobalt-600)" />
                   </span>
                   <span style={{ fontSize: 'var(--fs-h4)', fontWeight: 'var(--fw-bold)', color: 'var(--text-strong)' }}>{title}</span>
                   <span style={{ fontSize: 'var(--fs-sm)', color: 'var(--text-muted)', lineHeight: 'var(--lh-relaxed)', flex: 1 }}>{text}</span>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-/** Labelled multiline input matching Input's 12px radius and orange focus ring. */
+/** Labelled multiline input matching Input's 12px radius and cobalt focus ring. */
 export function Textarea({ label, hint, error, id, rows = 4, style = {}, ...rest }) {
   const [focus, setFocus] = useState(false);
   const areaId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
@@ -27,10 +27,10 @@ export function Textarea({ label, hint, error, id, rows = 4, style = {}, ...rest
           fontSize: 'var(--fs-body)',
           color: 'var(--text-strong)',
           background: 'var(--white)',
-          border: `1px solid ${error ? 'var(--danger-500)' : focus ? 'var(--orange-600)' : 'var(--border-strong)'}`,
+          border: `1px solid ${error ? 'var(--danger-500)' : focus ? 'var(--cobalt-600)' : 'var(--border-strong)'}`,
           borderRadius: 'var(--radius-input)',
           outline: 'none',
-          boxShadow: focus ? '0 0 0 3px rgba(234, 88, 12, 0.15)' : 'none',
+          boxShadow: focus ? '0 0 0 3px rgba(29, 78, 216, 0.15)' : 'none',
           transition: 'var(--transition-base)',
           boxSizing: 'border-box',
           resize: 'vertical',

@@ -35,8 +35,8 @@ export function RepairCard({ repair = {}, onBook, style = {} }) {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: 'var(--radius-btn)', background: 'var(--orange-50)', color: 'var(--orange-600)' }}>
-          <Icon name={icon} size={24} color="var(--orange-600)" />
+        <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: 'var(--radius-btn)', background: 'var(--cobalt-50)', color: 'var(--cobalt-600)' }}>
+          <Icon name={icon} size={24} color="var(--cobalt-600)" />
         </span>
         <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 'var(--fw-semibold)', letterSpacing: 'var(--ls-wide)', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
           {deviceType}

@@ -72,7 +72,7 @@ export default function Repair() {
     <div className="max-w-7xl mx-auto" style={{ padding: 'var(--space-10) var(--space-6) var(--pad-section)', fontFamily: 'var(--font-sans)' }}>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', marginBottom: 'var(--space-10)' }}>
-        <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 'var(--fw-semibold)', letterSpacing: 'var(--ls-wider)', textTransform: 'uppercase', color: 'var(--orange-700)' }}>
+        <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 'var(--fw-semibold)', letterSpacing: 'var(--ls-wider)', textTransform: 'uppercase', color: 'var(--cobalt-700)' }}>
           You Break It · We Fix It
         </span>
         <h1 style={{ margin: 0, fontSize: 'var(--fs-h1)', fontWeight: 'var(--fw-bold)', letterSpacing: 'var(--ls-tight)', color: 'var(--text-strong)' }}>
@@ -197,8 +197,8 @@ export default function Repair() {
           {POINTS.map(({ icon, title, text }) => (
             <Card key={title} padding="var(--space-5)">
               <div style={{ display: 'flex', gap: 'var(--space-4)', alignItems: 'flex-start' }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', flexShrink: 0, borderRadius: 'var(--radius-sm)', background: 'var(--orange-50)', color: 'var(--orange-600)' }}>
-                  <Icon name={icon} size={20} color="var(--orange-600)" />
+                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', flexShrink: 0, borderRadius: 'var(--radius-sm)', background: 'var(--cobalt-50)', color: 'var(--cobalt-600)' }}>
+                  <Icon name={icon} size={20} color="var(--cobalt-600)" />
                 </span>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                   <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', color: 'var(--text-strong)' }}>{title}</span>

@@ -3,7 +3,7 @@ export function StatusBadge({ status, style = {} }) {
     pending:       { fg: 'var(--warning-500)', bg: 'var(--warning-50)', label: 'Pending' },
     processing:    { fg: 'var(--info-500)',    bg: 'var(--info-50)',    label: 'Processing' },
     confirmed:     { fg: 'var(--info-500)',    bg: 'var(--info-50)',    label: 'Confirmed' },
-    'in-progress': { fg: 'var(--orange-700)',  bg: 'var(--orange-50)',  label: 'In Progress' },
+    'in-progress': { fg: 'var(--cobalt-700)',  bg: 'var(--cobalt-50)',  label: 'In Progress' },
     shipped:       { fg: 'var(--info-500)',    bg: 'var(--info-50)',    label: 'Shipped' },
     delivered:     { fg: 'var(--success-500)', bg: 'var(--success-50)', label: 'Delivered' },
     completed:     { fg: 'var(--success-500)', bg: 'var(--success-50)', label: 'Completed' },

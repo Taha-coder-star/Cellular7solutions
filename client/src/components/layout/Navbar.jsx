@@ -20,8 +20,19 @@ const navLinkStyle = ({ isActive }) => ({
   textDecoration: 'none',
   transition: 'color 0.15s ease',
   paddingBottom: '2px',
-  borderBottom: isActive ? '2px solid var(--text-strong)' : '2px solid transparent',
+  borderBottom: isActive ? '2px solid var(--cobalt-500)' : '2px solid transparent',
 });
+
+const dealsLinkStyle = {
+  fontFamily: 'var(--font-sans)',
+  fontSize: 'var(--fs-sm)',
+  fontWeight: 'var(--fw-bold)',
+  color: 'var(--warning-700)',
+  textDecoration: 'none',
+  transition: 'color 0.15s ease',
+  paddingBottom: '2px',
+  borderBottom: '2px solid transparent',
+};
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -38,6 +49,27 @@ export default function Navbar() {
         borderBottom: '1px solid var(--border-subtle)',
       }}
     >
+      {/* Tagline bar */}
+      <div
+        style={{
+          background: 'var(--graphite-900)',
+          padding: '11px 24px',
+          textAlign: 'center',
+        }}
+      >
+        <span
+          style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '13.5px',
+            fontWeight: 'var(--fw-bold)',
+            letterSpacing: '0.05em',
+            color: 'var(--white)',
+          }}
+        >
+          You Break It. We Make It Again.
+        </span>
+      </div>
+
       <div
         className="max-w-7xl mx-auto"
         style={{
@@ -61,6 +93,7 @@ export default function Navbar() {
               {label}
             </NavLink>
           ))}
+          <Link to="/shop" style={dealsLinkStyle}>Deals</Link>
         </nav>
 
         {/* Desktop actions */}
@@ -196,6 +229,21 @@ export default function Navbar() {
               {label}
             </NavLink>
           ))}
+          <Link
+            to="/shop"
+            onClick={() => setMobileOpen(false)}
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: 'var(--fs-body)',
+              fontWeight: 'var(--fw-bold)',
+              color: 'var(--warning-700)',
+              textDecoration: 'none',
+              padding: 'var(--space-3) 0',
+              borderBottom: '1px solid var(--border-subtle)',
+            }}
+          >
+            Deals
+          </Link>
           <Link
             to={user ? '/account' : '/login'}
             onClick={() => setMobileOpen(false)}

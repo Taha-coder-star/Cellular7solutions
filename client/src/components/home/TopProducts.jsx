@@ -1,111 +1,27 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ProductCard, Button, Icon } from '@/components/ui';
-import { useCart } from '@/context/CartContext';
+import { Icon } from '@/components/ui';
 import api from '@/services/api';
 
-// Shape the API product into what ProductCard expects.
+const usd = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
 // brand is a populated object { _id, name, slug } after the backend fix,
-// images[0] maps to `image`, rating/reviews are not on the model yet.
+// images[0] maps to `image`, wasPrice/compareAtPrice not on the model yet.
 function normalizeProduct(p) {
   return {
     _id: p._id,
     name: p.name,
-    brand: p.brand?.name ?? '',
     price: p.price,
+    wasPrice: p.compareAtPrice ?? null,
     image: Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : null,
-    condition: p.condition ?? 'new',
-    stock: p.stock ?? 0,
-    rating: p.rating,
-    reviews: p.reviews,
-    icon: 'smartphone',
   };
 }
 
-function SkeletonCard() {
+function GalleryCardSkeleton() {
   return (
-    <div
-      style={{
-        borderRadius: 'var(--radius-card)',
-        border: '1px solid var(--border-subtle)',
-        overflow: 'hidden',
-        background: 'var(--surface-card)',
-      }}
-    >
-      <div
-        className="animate-pulse"
-        style={{ aspectRatio: '1 / 1', background: 'var(--graphite-100)' }}
-      />
-      <div
-        className="animate-pulse"
-        style={{ padding: 'var(--pad-card)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}
-      >
-        <div style={{ height: '12px', background: 'var(--graphite-100)', borderRadius: '4px', width: '40%' }} />
-        <div style={{ height: '18px', background: 'var(--graphite-100)', borderRadius: '4px', width: '75%' }} />
-        <div style={{ height: '12px', background: 'var(--graphite-100)', borderRadius: '4px', width: '50%' }} />
-        <div style={{ height: '48px', background: 'var(--graphite-100)', borderRadius: 'var(--radius-btn)', marginTop: 'var(--space-2)' }} />
-      </div>
-    </div>
-  );
-}
-
-function EmptyState() {
-  return (
-    <div
-      className="col-span-full"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 'var(--space-4)',
-        padding: 'var(--pad-section) var(--space-6)',
-        textAlign: 'center',
-      }}
-    >
-      <span
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '64px',
-          height: '64px',
-          borderRadius: 'var(--radius-card)',
-          background: 'var(--graphite-100)',
-        }}
-      >
-        <Icon name="smartphone" size={28} color="var(--graphite-400)" />
-      </span>
-      <div>
-        <p style={{ margin: '0 0 var(--space-2)', fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-lg)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
-          New arrivals coming soon
-        </p>
-        <p style={{ margin: 0, fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)' }}>
-          Check back shortly — we're stocking up.
-        </p>
-      </div>
-      <Button as={Link} to="/shop" variant="secondary" size="md" style={{ textDecoration: 'none' }}>
-        Browse All Products
-      </Button>
-    </div>
-  );
-}
-
-function ErrorState() {
-  return (
-    <div
-      className="col-span-full"
-      style={{
-        padding: 'var(--space-10)',
-        textAlign: 'center',
-        fontFamily: 'var(--font-sans)',
-        fontSize: 'var(--fs-sm)',
-        color: 'var(--text-muted)',
-      }}
-    >
-      Could not load featured products.{' '}
-      <Link to="/shop" style={{ color: 'var(--text-strong)', fontWeight: 'var(--fw-medium)' }}>
-        Browse all products →
-      </Link>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+      <div className="animate-pulse" style={{ aspectRatio: '1 / 1', background: 'var(--graphite-100)' }} />
+      <div className="animate-pulse" style={{ height: '14px', width: '60%', margin: '0 auto', background: 'var(--graphite-100)', borderRadius: '4px' }} />
     </div>
   );
 }
@@ -114,11 +30,10 @@ export default function TopProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const { addToCart } = useCart();
 
   useEffect(() => {
     api
-      .get('/products', { params: { isFeatured: true, limit: 4 } })
+      .get('/products', { params: { isFeatured: true, limit: 5 } })
       .then(({ data }) => {
         setProducts((data.products ?? []).map(normalizeProduct));
       })
@@ -127,74 +42,101 @@ export default function TopProducts() {
   }, []);
 
   return (
-    <section style={{ padding: 'var(--pad-section) var(--space-6)', background: 'var(--surface-page)' }}>
-      <div className="max-w-7xl mx-auto" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-10)' }}>
-
-        {/* Section header */}
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--space-4)' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-            <span
+    <section
+      style={{
+        background: 'var(--white)',
+        backgroundImage: 'radial-gradient(circle, var(--graphite-200) 1px, transparent 1px)',
+        backgroundSize: '52px 52px',
+      }}
+    >
+      <div style={{ padding: '80px var(--space-6) 88px', maxWidth: '1360px', margin: '0 auto', boxSizing: 'border-box' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '48px', gap: '20px', flexWrap: 'wrap' }}>
+          <div>
+            <div
               style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: 'var(--fs-xs)',
-                fontWeight: 'var(--fw-semibold)',
-                letterSpacing: 'var(--ls-wider)',
+                fontWeight: 'var(--fw-bold)',
+                letterSpacing: '.18em',
                 textTransform: 'uppercase',
-                color: 'var(--text-muted)',
+                color: 'var(--cobalt-600)',
+                marginBottom: '12px',
               }}
             >
-              Shop the Latest
-            </span>
+              Just Landed
+            </div>
             <h2
               style={{
                 margin: 0,
-                fontFamily: 'var(--font-sans)',
-                fontSize: 'var(--fs-h2)',
-                fontWeight: 'var(--fw-bold)',
-                letterSpacing: 'var(--ls-tight)',
+                fontFamily: 'Georgia, "Times New Roman", serif',
+                fontSize: '44px',
+                fontWeight: 400,
+                letterSpacing: '-.01em',
                 color: 'var(--text-strong)',
               }}
             >
-              Top Products
+              Featured this Week
             </h2>
           </div>
           <Link
             to="/shop"
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 'var(--space-2)',
               fontFamily: 'var(--font-sans)',
               fontSize: 'var(--fs-sm)',
               fontWeight: 'var(--fw-semibold)',
               color: 'var(--text-strong)',
               textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
             }}
           >
             View all <Icon name="arrow-right" size={16} />
           </Link>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {loading && [1, 2, 3, 4].map((n) => <SkeletonCard key={n} />)}
-          {!loading && error && <ErrorState />}
-          {!loading && !error && products.length === 0 && <EmptyState />}
-          {!loading && !error && products.map((product) => (
-            <ProductCard
-              key={product._id}
-              product={product}
-              onAdd={() => addToCart(product, 1)}
-            />
-          ))}
-        </div>
+        {error && (
+          <p style={{ margin: 0, fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)', textAlign: 'center' }}>
+            Could not load featured products.{' '}
+            <Link to="/shop" style={{ color: 'var(--text-strong)', fontWeight: 'var(--fw-medium)' }}>
+              Browse all products →
+            </Link>
+          </p>
+        )}
 
-        {/* Bottom CTA */}
-        {!loading && !error && products.length > 0 && (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button as={Link} to="/shop" variant="secondary" size="md" iconRight={<Icon name="arrow-right" size={16} />} style={{ textDecoration: 'none' }}>
-              View All Products
-            </Button>
+        {!error && !loading && products.length === 0 && (
+          <p style={{ margin: 0, fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)', textAlign: 'center' }}>
+            New arrivals coming soon — check back shortly.
+          </p>
+        )}
+
+        {!error && (loading || products.length > 0) && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5" style={{ gap: '28px' }}>
+            {loading && [1, 2, 3, 4, 5].map((n) => <GalleryCardSkeleton key={n} />)}
+            {!loading && products.map((p) => (
+              <Link key={p._id} to={`/product/${p._id}`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '18px' }}>
+                <div style={{ aspectRatio: '1 / 1', background: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {p.image
+                    ? <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                    : <Icon name="smartphone" size={72} strokeWidth={1} color="var(--graphite-300)" />}
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontSize: '16px', color: 'var(--text-strong)', marginBottom: '8px' }}>
+                    {p.name}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px' }}>
+                    <span style={{ fontFamily: 'var(--font-sans)', fontSize: '14.5px', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
+                      {usd(p.price)}
+                    </span>
+                    {p.wasPrice && (
+                      <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-xs)', color: 'var(--graphite-400)', textDecoration: 'line-through' }}>
+                        {usd(p.wasPrice)}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         )}
       </div>

@@ -1,155 +1,118 @@
 import { Link } from 'react-router-dom';
-import { Button, Icon } from '@/components/ui';
-import QuickServices  from '@/components/home/QuickServices';
-import TopProducts    from '@/components/home/TopProducts';
-import PopularRepairs from '@/components/home/PopularRepairs';
-import TrustBadges    from '@/components/home/TrustBadges';
-import StoreShowcase  from '@/components/home/StoreShowcase';
+import { Icon } from '@/components/ui';
+import TrustStrip    from '@/components/home/TrustStrip';
+import Categories    from '@/components/home/Categories';
+import RepairCTA      from '@/components/home/RepairCTA';
+import TopProducts   from '@/components/home/TopProducts';
+import Testimonials  from '@/components/home/Testimonials';
+
+const SOCIALS = [
+  { icon: 'globe',          label: 'Facebook' },
+  { icon: 'share-2',        label: 'X' },
+  { icon: 'message-square', label: 'Instagram' },
+];
 
 export default function Home() {
   return (
     <div style={{ fontFamily: 'var(--font-sans)' }}>
 
-      {/* ── Hero ── */}
-      <section style={{ background: 'var(--surface-dark)', padding: 'var(--pad-section) var(--space-6)' }}>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      {/* ── Hero — editorial full-bleed ── */}
+      <section style={{ position: 'relative', height: '600px', background: 'var(--graphite-900)', overflow: 'hidden' }}>
 
-          {/* Copy */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
-            <span
-              style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 'var(--fs-xs)',
-                fontWeight: 'var(--fw-semibold)',
-                letterSpacing: 'var(--ls-wider)',
-                textTransform: 'uppercase',
-                color: 'var(--orange-500)',
-              }}
-            >
-              YOU BREAK IT · WE FIX IT
-            </span>
+        {/* Vertical social rail */}
+        <div style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', display: 'flex', flexDirection: 'column', gap: '18px', zIndex: 5 }}>
+          {SOCIALS.map(({ icon, label }) => (
+            <a key={label} href="#" aria-label={label} style={{ color: 'rgba(255,255,255,0.75)' }}>
+              <Icon name={icon} size={17} />
+            </a>
+          ))}
+        </div>
 
-            <h1
-              style={{
-                margin: 0,
-                fontSize: 'clamp(2rem, 5vw, var(--fs-display))',
-                fontWeight: 'var(--fw-extrabold)',
-                letterSpacing: 'var(--ls-tight)',
-                lineHeight: 'var(--lh-tight)',
-                color: 'var(--white)',
-              }}
-            >
-              Premium Devices.<br />Expert Repairs.
-            </h1>
+        {/* Lifestyle photo — swap this placeholder for a real hero photo when available */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'radial-gradient(circle at 30% 40%, var(--graphite-700) 0%, var(--graphite-900) 70%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Icon name="smartphone" size={140} color="var(--graphite-700)" strokeWidth={0.75} />
+        </div>
 
-            <p
-              style={{
-                margin: 0,
-                fontSize: 'var(--fs-lg)',
-                lineHeight: 'var(--lh-relaxed)',
-                color: 'var(--graphite-400)',
-                maxWidth: '480px',
-              }}
-            >
-              Shop the latest phones, laptops, and accessories — or let our certified technicians fix what you've got. Same-day service, genuine parts, free diagnostics.
-            </p>
+        {/* Legibility gradient */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(90deg, rgba(24,24,27,0) 40%, rgba(24,24,27,.72) 100%)',
+            pointerEvents: 'none',
+          }}
+        />
 
-            {/* Primary CTA: Shop Now. Repair is demoted to a secondary text link so the two
-                actions don't compete for equal attention (ecommerce is the primary funnel). */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
-              <div style={{ display: 'flex', gap: 'var(--space-5)', flexWrap: 'wrap', alignItems: 'center' }}>
-                <Button as={Link} to="/shop" variant="secondary" size="lg" iconRight={<Icon name="arrow-right" size={18} />} style={{ textDecoration: 'none' }}>
-                  Shop Now
-                </Button>
-                <Link
-                  to="/repair"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 'var(--space-2)',
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: 'var(--fs-sm)',
-                    fontWeight: 'var(--fw-semibold)',
-                    color: 'var(--brand-service)',
-                    textDecoration: 'none',
-                  }}
-                >
-                  <Icon name="wrench" size={16} />
-                  Need a repair instead?
-                  <Icon name="arrow-right" size={14} />
-                </Link>
-              </div>
-
-              {/* Trust strip — claims already used elsewhere on the site (Repair page, TrustBadges) */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-5)' }}>
-                {['Free Diagnostics', 'Same-Day Service', '90-Day Warranty'].map((item) => (
-                  <span
-                    key={item}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: 'var(--fs-sm)',
-                      color: 'var(--graphite-300)',
-                    }}
-                  >
-                    <Icon name="check" size={16} color="var(--orange-500)" strokeWidth={3} />
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
+        {/* Copy */}
+        <div style={{ position: 'absolute', right: '64px', top: '50%', transform: 'translateY(-50%)', maxWidth: '440px', textAlign: 'right' }}>
+          <div style={{ fontSize: '12px', fontWeight: 'var(--fw-semibold)', letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--cobalt-300)', marginBottom: '14px' }}>
+            Just Landed
           </div>
-
-          {/* Hero visual — ambient glow + image-ready placeholder.
-              Swap the placeholder <div> below for a real product/lifestyle photo, e.g.:
-              <img src="/assets/hero-product.jpg" alt="Cellular Solutions phones and accessories"
-                   style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '320px', position: 'relative' }}>
-            <div
-              aria-hidden="true"
-              style={{
-                position: 'absolute',
-                width: '360px',
-                height: '360px',
-                borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(234,88,12,0.35) 0%, rgba(234,88,12,0) 70%)',
-                filter: 'blur(20px)',
-                pointerEvents: 'none',
-              }}
-            />
-            <div
-              style={{
-                position: 'relative',
-                width: '100%',
-                maxWidth: '340px',
-                aspectRatio: '1 / 1',
-                borderRadius: 'var(--radius-card)',
-                overflow: 'hidden',
-                background: 'var(--graphite-800)',
-                border: '1px solid var(--border-dark)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-3)' }}>
-                <Icon name="smartphone" size={88} color="var(--graphite-600)" strokeWidth={1} />
-                <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-xs)', color: 'var(--graphite-600)', letterSpacing: 'var(--ls-wide)' }}>
-                  HERO PRODUCT PHOTO
-                </span>
-              </div>
-            </div>
-          </div>
+          <h1
+            style={{
+              margin: '0 0 14px',
+              fontSize: 'clamp(2.25rem, 5vw, 64px)',
+              lineHeight: 1.02,
+              fontWeight: 'var(--fw-extrabold)',
+              letterSpacing: '-.03em',
+              color: 'var(--white)',
+              textShadow: '0 2px 18px rgba(0,0,0,.35)',
+            }}
+          >
+            Everything Tech.
+          </h1>
+          <p
+            style={{
+              margin: '0 0 28px',
+              fontSize: 'var(--fs-lg)',
+              fontWeight: 'var(--fw-semibold)',
+              letterSpacing: '.02em',
+              color: 'rgba(255,255,255,0.9)',
+              textShadow: '0 1px 10px rgba(0,0,0,.4)',
+            }}
+          >
+            Buy &nbsp;•&nbsp; Repair &nbsp;•&nbsp; Trade-In
+          </p>
+          <Link
+            to="/shop"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '10px',
+              height: '54px',
+              padding: '0 32px',
+              borderRadius: 'var(--radius-pill)',
+              fontWeight: 'var(--fw-semibold)',
+              fontSize: '15px',
+              textDecoration: 'none',
+              background: 'var(--white)',
+              color: 'var(--graphite-900)',
+              transition: 'var(--transition-base)',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--graphite-100)')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--white)')}
+          >
+            Shop New Arrivals
+            <Icon name="arrow-right" size={18} />
+          </Link>
         </div>
       </section>
 
-      <QuickServices />
+      <TrustStrip />
+      <Categories />
+      <RepairCTA />
       <TopProducts />
-      <PopularRepairs />
-      <TrustBadges />
-      <StoreShowcase />
+      <Testimonials />
 
     </div>
   );

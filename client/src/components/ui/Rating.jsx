@@ -6,7 +6,7 @@ function Star({ fill, size }) {
       </svg>
       <span style={{ position: 'absolute', inset: 0, width: `${fill * 100}%`, overflow: 'hidden' }}>
         <svg width={size} height={size} viewBox="0 0 24 24">
-          <path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17.6 5.9 20.4l1.5-6.8L2.2 9l6.9-.7z" fill="var(--orange-500)" />
+          <path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17.6 5.9 20.4l1.5-6.8L2.2 9l6.9-.7z" fill="var(--cobalt-500)" />
         </svg>
       </span>
     </span>

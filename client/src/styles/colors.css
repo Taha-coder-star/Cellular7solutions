@@ -1,6 +1,6 @@
 /* Cellular Solutions — Color tokens
-   Theme: Graphite (products / store) + Orange (repair / service).
-   Rule of thumb: Graphite is the dominant color. Orange is reserved
+   Theme: Graphite (products / store) + Cobalt Blue (repair / service).
+   Rule of thumb: Graphite is the dominant color. Cobalt Blue is reserved
    ONLY for repair & service actions (Book Repair, Get Quote, etc.). */
 
 :root {
@@ -16,15 +16,15 @@
   --graphite-800: #27272A;
   --graphite-900: #18181B;
 
-  /* ---- Brand Orange (service accent) ---- */
-  --orange-50:  #FFF7ED;
-  --orange-100: #FFEDD5;
-  --orange-300: #FDBA74;
-  --orange-500: #F97316;
-  --orange-600: #EA580C;
-  --orange-700: #C2410C;
-  --orange-800: #9A3412;
-  --orange-900: #7C2D12;
+  /* ---- Brand Cobalt Blue (service accent) ---- */
+  --cobalt-50:  #EFF6FF;
+  --cobalt-100: #DBEAFE;
+  --cobalt-300: #93C5FD;
+  --cobalt-500: #2563EB;
+  --cobalt-600: #1D4ED8;
+  --cobalt-700: #1E40AF;
+  --cobalt-800: #1B3480;
+  --cobalt-900: #1E3A8A;
 
   /* ---- Base neutrals ---- */
   --white: #FFFFFF;
@@ -46,8 +46,8 @@
   /* Brand */
   --brand-primary:        var(--graphite-900);
   --brand-primary-hover:  var(--graphite-800);
-  --brand-service:        var(--orange-700);
-  --brand-service-hover:  var(--orange-800);
+  --brand-service:        var(--cobalt-600);
+  --brand-service-hover:  var(--cobalt-800);
 
   /* Surfaces */
   --surface-page:    var(--white);
@@ -70,5 +70,5 @@
   --border-dark:    var(--graphite-700);
 
   /* Focus */
-  --focus-ring: var(--orange-600);
+  --focus-ring: var(--cobalt-600);
 }

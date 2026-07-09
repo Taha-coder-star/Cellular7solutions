@@ -2,23 +2,23 @@ import { Link } from 'react-router-dom';
 import { Logo, Icon } from '@/components/ui';
 
 const SHOP_LINKS = [
-  { to: '/shop',    label: 'All Products' },
   { to: '/shop?category=phones',      label: 'Phones' },
+  { to: '/shop?category=consoles',    label: 'Consoles' },
   { to: '/shop?category=laptops',     label: 'Laptops' },
   { to: '/shop?category=accessories', label: 'Accessories' },
-  { to: '/shop?category=consoles',    label: 'Consoles' },
 ];
 
 const SERVICE_LINKS = [
-  { to: '/buysell', label: 'Buy & Sell Devices' },
-  { to: '/repair', label: 'Book Repair' },
+  { to: '/repair',  label: 'Book a Repair' },
+  { to: '/repair',  label: 'Track Repair' },
+  { to: '/buysell', label: 'Sell Your Device' },
 ];
 
-const COMPANY_LINKS = [
-  { to: '/about',   label: 'About Us' },
-  { to: '/contact', label: 'Contact' },
-  { to: '/privacy', label: 'Privacy Policy' },
-  { to: '/terms',   label: 'Terms of Service' },
+const SUPPORT_LINKS = [
+  { to: '/contact', label: 'Store Locations' },
+  { to: '/contact', label: 'Order Tracking' },
+  { to: '/contact', label: 'Warranty' },
+  { to: '/contact', label: 'Contact Us' },
 ];
 
 // Lucide has no brand icons; using generic stand-ins until real social SVGs are swapped in
@@ -92,7 +92,7 @@ export default function Footer() {
                 maxWidth: '240px',
               }}
             >
-              Premium devices, expert repairs, and trusted service — your local electronics partner.
+              Your local shop for phones, consoles, laptops and accessories — plus fast, honest repairs.
             </p>
             {/* Social icons */}
             <div style={{ display: 'flex', gap: 'var(--space-4)', marginTop: 'var(--space-2)' }}>
@@ -129,8 +129,8 @@ export default function Footer() {
 
           {/* Link columns */}
           <FooterColumn heading="Shop" links={SHOP_LINKS} />
-          <FooterColumn heading="Services" links={SERVICE_LINKS} />
-          <FooterColumn heading="Company" links={COMPANY_LINKS} />
+          <FooterColumn heading="Service" links={SERVICE_LINKS} />
+          <FooterColumn heading="Support" links={SUPPORT_LINKS} />
         </div>
       </div>
 
