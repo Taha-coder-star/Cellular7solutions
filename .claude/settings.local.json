@@ -18,7 +18,12 @@
       "WebFetch(domain:unsplash.com)",
       "WebFetch(domain:images.unsplash.com)",
       "mcp__plugin_playwright_playwright__browser_take_screenshot",
-      "Bash(IMPECCABLE_CRITIQUE_META='{\"target\":\"home\",\"total_score\":26,\"p0_count\":0,\"p1_count\":3}' node .claude/skills/impeccable/scripts/critique-storage.mjs write client-src-pages-home-jsx \"C:\\\\Users\\\\tahaj\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\F--cellular-solutions\\\\2a76f6ed-69c2-409e-a282-8fdf2aeb5a89\\\\scratchpad\\\\home-critique-v2-body.md\")"
+      "Bash(IMPECCABLE_CRITIQUE_META='{\"target\":\"home\",\"total_score\":26,\"p0_count\":0,\"p1_count\":3}' node .claude/skills/impeccable/scripts/critique-storage.mjs write client-src-pages-home-jsx \"C:\\\\Users\\\\tahaj\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\F--cellular-solutions\\\\2a76f6ed-69c2-409e-a282-8fdf2aeb5a89\\\\scratchpad\\\\home-critique-v2-body.md\")",
+      "Bash(cp \"C:/Users/tahaj/AppData/Local/Temp/claude/F--cellular-solutions/1cba0cc9-9b55-4c59-8331-178c4a400ae0/scratchpad/seed-images.js\" F:/cellular-solutions/server/scratch-seed-images.js)",
+      "Bash(sed -i \"s|require\\('dotenv'\\).config\\({ path: 'F:/cellular-solutions/server/.env' }\\);|require\\('dotenv'\\).config\\(\\);|; s|require\\('F:/cellular-solutions/server/models/Product'\\)|require\\('./models/Product'\\)|\" scratch-seed-images.js)",
+      "Bash(node scratch-seed-images.js)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   },
   "hooks": {
