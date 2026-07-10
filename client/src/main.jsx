@@ -19,8 +19,8 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import BuySell from './pages/BuySell';
 import Repair from './pages/Repair';
+import Shop from './pages/Shop';
 
-function Shop()     { return <div style={{ padding: 'var(--pad-section)' }}>Shop — coming soon</div>; }
 function Checkout() { return <div style={{ padding: 'var(--pad-section)' }}>Checkout — coming soon</div>; }
 
 createRoot(document.getElementById('root')).render(
