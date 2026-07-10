@@ -10,5 +10,6 @@ export { Rating }      from './Rating';
 export { ProductCard } from './ProductCard';
 export { RepairCard }  from './RepairCard';
 export { Icon }        from './Icon';
+export { HeroPill }    from './HeroPill';
 export { Logo }        from './Logo';
 export { AuthShell, AuthHead, AuthDivider, GoogleIcon } from './AuthShell';
