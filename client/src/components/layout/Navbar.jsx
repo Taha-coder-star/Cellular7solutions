@@ -12,27 +12,176 @@ const NAV_LINKS = [
   { to: '/contact', label: 'Contact' },
 ];
 
-const navLinkStyle = ({ isActive }) => ({
-  fontFamily: 'var(--font-sans)',
-  fontSize: 'var(--fs-sm)',
-  fontWeight: isActive ? 'var(--fw-semibold)' : 'var(--fw-medium)',
-  color: isActive ? 'var(--text-strong)' : 'var(--text-muted)',
-  textDecoration: 'none',
-  transition: 'color 0.15s ease',
-  paddingBottom: '2px',
-  borderBottom: isActive ? '2px solid var(--cobalt-500)' : '2px solid transparent',
-});
+const FOCUS_RING = { outline: '2px solid var(--brand-primary)', outlineOffset: '2px' };
+const NO_RING = { outline: 'none' };
 
-const dealsLinkStyle = {
-  fontFamily: 'var(--font-sans)',
-  fontSize: 'var(--fs-sm)',
-  fontWeight: 'var(--fw-bold)',
-  color: 'var(--warning-700)',
-  textDecoration: 'none',
-  transition: 'color 0.15s ease',
-  paddingBottom: '2px',
-  borderBottom: '2px solid transparent',
-};
+function NavTextLink({ to, label }) {
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+
+  return (
+    <NavLink
+      to={to}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      style={({ isActive }) => ({
+        fontFamily: 'var(--font-sans)',
+        fontSize: 'var(--fs-sm)',
+        fontWeight: isActive ? 'var(--fw-semibold)' : 'var(--fw-medium)',
+        color: isActive || hovered || focused ? 'var(--text-strong)' : 'var(--text-muted)',
+        textDecoration: 'none',
+        transition: 'color 0.15s ease',
+        paddingBottom: '2px',
+        borderBottom: isActive ? '2px solid var(--brand-primary)' : '2px solid transparent',
+        ...(focused ? { ...FOCUS_RING, outlineOffset: '4px' } : NO_RING),
+      })}
+    >
+      {label}
+    </NavLink>
+  );
+}
+
+/** "Deals" leads to the general shop, not a service action — graphite per the Reserved Accent Rule, not a discount-sticker amber. */
+function DealsLink({ mobile = false, onClick }) {
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const active = hovered || focused;
+
+  return (
+    <Link
+      to="/shop"
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      style={
+        mobile
+          ? {
+              fontFamily: 'var(--font-sans)',
+              fontSize: 'var(--fs-body)',
+              fontWeight: 'var(--fw-bold)',
+              color: active ? 'var(--graphite-700)' : 'var(--brand-primary)',
+              textDecoration: 'none',
+              padding: 'var(--space-3) 0',
+              borderBottom: '1px solid var(--border-subtle)',
+              transition: 'color 0.15s ease',
+              ...(focused ? FOCUS_RING : NO_RING),
+            }
+          : {
+              fontFamily: 'var(--font-sans)',
+              fontSize: 'var(--fs-sm)',
+              fontWeight: 'var(--fw-bold)',
+              color: active ? 'var(--graphite-700)' : 'var(--brand-primary)',
+              textDecoration: 'none',
+              transition: 'color 0.15s ease',
+              paddingBottom: '2px',
+              borderBottom: '2px solid transparent',
+              ...(focused ? { ...FOCUS_RING, outlineOffset: '4px' } : NO_RING),
+            }
+      }
+    >
+      Deals
+    </Link>
+  );
+}
+
+function CartBadge({ count }) {
+  if (!count) return null;
+  return (
+    // Intentionally off the fs- scale: a numeral counter-badge is conventionally 9-11px, distinct from body type sizes.
+    <span
+      style={{
+        position: 'absolute',
+        top: '-6px',
+        right: '-8px',
+        minWidth: '18px',
+        height: '18px',
+        padding: '0 4px',
+        borderRadius: 'var(--radius-pill)',
+        background: 'var(--brand-primary)',
+        color: 'var(--text-on-brand)',
+        fontSize: '10px',
+        fontWeight: 'var(--fw-bold)',
+        fontFamily: 'var(--font-sans)',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        lineHeight: 1,
+      }}
+    >
+      {count}
+    </span>
+  );
+}
+
+function NavIconLink({ to, ariaLabel, children }) {
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const active = hovered || focused;
+
+  return (
+    <Link
+      to={to}
+      aria-label={ariaLabel}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      style={{
+        position: 'relative',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '44px',
+        height: '44px',
+        borderRadius: 'var(--radius-sm)',
+        color: active ? 'var(--text-strong)' : 'var(--text-muted)',
+        background: hovered ? 'var(--graphite-100)' : 'transparent',
+        transition: 'var(--transition-base)',
+        ...(focused ? FOCUS_RING : NO_RING),
+      }}
+    >
+      {children}
+    </Link>
+  );
+}
+
+function MenuToggle({ open, onClick }) {
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      aria-label={open ? 'Close menu' : 'Open menu'}
+      aria-expanded={open}
+      style={{
+        background: hovered ? 'var(--graphite-100)' : 'none',
+        border: 'none',
+        cursor: 'pointer',
+        color: 'var(--text-strong)',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '44px',
+        height: '44px',
+        borderRadius: 'var(--radius-sm)',
+        transition: 'var(--transition-base)',
+        ...(focused ? FOCUS_RING : NO_RING),
+      }}
+    >
+      <Icon name={open ? 'x' : 'menu'} size={24} />
+    </button>
+  );
+}
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -60,7 +209,7 @@ export default function Navbar() {
         <span
           style={{
             fontFamily: 'var(--font-sans)',
-            fontSize: '13.5px',
+            fontSize: 'var(--fs-sm)',
             fontWeight: 'var(--fw-bold)',
             letterSpacing: '0.05em',
             color: 'var(--white)',
@@ -89,112 +238,34 @@ export default function Navbar() {
         <nav className="hidden md:flex" style={{ gap: 'var(--space-8)', alignItems: 'center' }}>
           <ShopMegaMenu />
           {NAV_LINKS.map(({ to, label }) => (
-            <NavLink key={label} to={to} style={navLinkStyle}>
-              {label}
-            </NavLink>
+            <NavTextLink key={label} to={to} label={label} />
           ))}
-          <Link to="/shop" style={dealsLinkStyle}>Deals</Link>
+          <DealsLink />
         </nav>
 
         {/* Desktop actions */}
-        <div className="hidden md:flex" style={{ alignItems: 'center', gap: 'var(--space-5)' }}>
-          <Link
-            to="/shop"
-            style={{ color: 'var(--text-muted)', display: 'inline-flex', transition: 'color 0.15s ease' }}
-            aria-label="Search"
-          >
+        <div className="hidden md:flex" style={{ alignItems: 'center', gap: 'var(--space-2)' }}>
+          <NavIconLink to="/shop" ariaLabel="Search">
             <Icon name="search" size={20} />
-          </Link>
+          </NavIconLink>
 
-          <Link
-            to="/cart"
-            style={{ position: 'relative', color: 'var(--text-muted)', display: 'inline-flex', transition: 'color 0.15s ease' }}
-            aria-label={`Cart (${cartCount} items)`}
-          >
+          <NavIconLink to="/cart" ariaLabel={`Cart (${cartCount} items)`}>
             <Icon name="shopping-cart" size={20} />
-            {cartCount > 0 && (
-              <span
-                style={{
-                  position: 'absolute',
-                  top: '-6px',
-                  right: '-8px',
-                  minWidth: '18px',
-                  height: '18px',
-                  padding: '0 4px',
-                  borderRadius: 'var(--radius-pill)',
-                  background: 'var(--brand-primary)',
-                  color: 'var(--text-on-brand)',
-                  fontSize: '10px',
-                  fontWeight: 'var(--fw-bold)',
-                  fontFamily: 'var(--font-sans)',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  lineHeight: 1,
-                }}
-              >
-                {cartCount}
-              </span>
-            )}
-          </Link>
+            <CartBadge count={cartCount} />
+          </NavIconLink>
 
-          <Link
-            to={user ? '/account' : '/login'}
-            style={{ color: 'var(--text-muted)', display: 'inline-flex', transition: 'color 0.15s ease' }}
-            aria-label={user ? 'My Account' : 'Sign In'}
-          >
+          <NavIconLink to={user ? '/account' : '/login'} ariaLabel={user ? 'My Account' : 'Sign In'}>
             <Icon name="user" size={20} />
-          </Link>
+          </NavIconLink>
         </div>
 
         {/* Mobile: cart + hamburger */}
-        <div className="flex md:hidden" style={{ alignItems: 'center', gap: 'var(--space-4)' }}>
-          <Link
-            to="/cart"
-            style={{ position: 'relative', color: 'var(--text-muted)', display: 'inline-flex' }}
-            aria-label="Cart"
-          >
+        <div className="flex md:hidden" style={{ alignItems: 'center', gap: 'var(--space-2)' }}>
+          <NavIconLink to="/cart" ariaLabel="Cart">
             <Icon name="shopping-cart" size={20} />
-            {cartCount > 0 && (
-              <span
-                style={{
-                  position: 'absolute',
-                  top: '-6px',
-                  right: '-8px',
-                  minWidth: '18px',
-                  height: '18px',
-                  padding: '0 4px',
-                  borderRadius: 'var(--radius-pill)',
-                  background: 'var(--brand-primary)',
-                  color: 'var(--text-on-brand)',
-                  fontSize: '10px',
-                  fontWeight: 'var(--fw-bold)',
-                  fontFamily: 'var(--font-sans)',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  lineHeight: 1,
-                }}
-              >
-                {cartCount}
-              </span>
-            )}
-          </Link>
-          <button
-            onClick={() => setMobileOpen((o) => !o)}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: 'var(--text-strong)',
-              display: 'inline-flex',
-              padding: 'var(--space-1)',
-            }}
-            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileOpen}
-          >
-            <Icon name={mobileOpen ? 'x' : 'menu'} size={24} />
-          </button>
+            <CartBadge count={cartCount} />
+          </NavIconLink>
+          <MenuToggle open={mobileOpen} onClick={() => setMobileOpen((o) => !o)} />
         </div>
       </div>
 
@@ -229,21 +300,7 @@ export default function Navbar() {
               {label}
             </NavLink>
           ))}
-          <Link
-            to="/shop"
-            onClick={() => setMobileOpen(false)}
-            style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: 'var(--fs-body)',
-              fontWeight: 'var(--fw-bold)',
-              color: 'var(--warning-700)',
-              textDecoration: 'none',
-              padding: 'var(--space-3) 0',
-              borderBottom: '1px solid var(--border-subtle)',
-            }}
-          >
-            Deals
-          </Link>
+          <DealsLink mobile onClick={() => setMobileOpen(false)} />
           <Link
             to={user ? '/account' : '/login'}
             onClick={() => setMobileOpen(false)}

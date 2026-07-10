@@ -1,6 +1,6 @@
 import { Icon } from '@/components/ui';
 
-const ITEMS = ['10,000+ Repairs', 'Same Day Service', 'Genuine Parts'];
+const ITEMS = ['Trusted Local Repairs', 'Same Day Service', 'Genuine Parts'];
 
 export default function TrustStrip() {
   return (
@@ -11,7 +11,7 @@ export default function TrustStrip() {
       >
         {ITEMS.map((label) => (
           <div key={label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
-            <Icon name="check-circle" size={22} color="var(--cobalt-600)" />
+            <Icon name="check-circle" size={22} color="var(--graphite-900)" />
             <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body)', fontWeight: 'var(--fw-bold)', color: 'var(--text-strong)' }}>
               {label}
             </span>

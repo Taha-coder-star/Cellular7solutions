@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-10T05:33:22Z",
+  "title": "Design System: Cellular Solutions",
+  "extensions": {
+    "colorMeta": {
+      "graphite-900": { "role": "primary", "displayName": "Graphite 900", "canonical": "oklch(21% 0.004 285)", "tonalRamp": ["#0F0F11", "#18181B", "#27272A", "#3F3F46", "#52525B", "#71717A", "#A1A1AA", "#D4D4D8"] },
+      "graphite-50": { "role": "neutral", "displayName": "Graphite 50", "canonical": "oklch(98.5% 0 0)", "tonalRamp": ["#FAFAFA", "#F4F4F5", "#E4E4E7", "#D4D4D8", "#A1A1AA", "#71717A", "#52525B", "#3F3F46"] },
+      "cobalt-600": { "role": "secondary", "displayName": "Cobalt Blue 600", "canonical": "oklch(45% 0.19 262)", "tonalRamp": ["#0F1E5C", "#1E3A8A", "#1B3480", "#1E40AF", "#1D4ED8", "#2563EB", "#93C5FD", "#DBEAFE"] },
+      "success": { "role": "status", "displayName": "Success Green", "canonical": "#16A34A", "tonalRamp": ["#052E12", "#14532D", "#166534", "#15803D", "#16A34A", "#4ADE80", "#86EFAC", "#F0FDF4"] },
+      "warning": { "role": "status", "displayName": "Warning Amber", "canonical": "#D97706", "tonalRamp": ["#451A03", "#78350F", "#92400E", "#B45309", "#D97706", "#FBBF24", "#FDE68A", "#FFFBEB"] },
+      "danger": { "role": "status", "displayName": "Danger Red", "canonical": "#DC2626", "tonalRamp": ["#450A0A", "#7F1D1D", "#991B1B", "#B91C1C", "#DC2626", "#F87171", "#FCA5A5", "#FEF2F2"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headlines only, one per page." },
+      "h1": { "displayName": "Headline", "purpose": "Page-level titles." },
+      "h2": { "displayName": "Title", "purpose": "Section and card headings." },
+      "body": { "displayName": "Body", "purpose": "Default paragraph and UI text, capped at 65-75ch." },
+      "label": { "displayName": "Label", "purpose": "Form labels, small UI text, badges." }
+    },
+    "shadows": [
+      { "name": "shadow-sm", "value": "0 1px 2px rgba(24,24,27,0.06), 0 1px 3px rgba(24,24,27,0.08)", "purpose": "Resting card and input state." },
+      { "name": "shadow-md", "value": "0 2px 4px rgba(24,24,27,0.06), 0 4px 12px rgba(24,24,27,0.08)", "purpose": "Hover state for interactive cards." },
+      { "name": "shadow-lg", "value": "0 8px 24px rgba(24,24,27,0.10)", "purpose": "Modals and elevated overlays only." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.19, 1, 0.22, 1)", "purpose": "Default easing for all state transitions; no bounce or elastic." },
+      { "name": "dur-fast", "value": "0.15s", "purpose": "Quick micro-interactions (focus, small hovers)." },
+      { "name": "dur", "value": "0.25s", "purpose": "Default transition duration for buttons, cards, inputs." }
+    ],
+    "breakpoints": []
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Default buy/shop CTA. Graphite fill, used everywhere except repair/service flows.",
+      "html": "<button class=\"ds-btn-primary\">Add to Cart</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 22px; font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600; line-height: 1; border-radius: 12px; background: #18181B; color: #FFFFFF; border: 1px solid #18181B; cursor: pointer; transition: all 0.25s cubic-bezier(0.19,1,0.22,1); white-space: nowrap; } .ds-btn-primary:hover { background: #27272A; border-color: #27272A; } .ds-btn-primary:focus-visible { outline: 3px solid rgba(29,78,216,0.4); outline-offset: 2px; }"
+    },
+    {
+      "name": "Service Button",
+      "kind": "button",
+      "refersTo": "button-service",
+      "description": "Repair/unlock/buy-sell CTA. Only place cobalt is used as a fill color.",
+      "html": "<button class=\"ds-btn-service\">Book Repair</button>",
+      "css": ".ds-btn-service { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 22px; font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600; line-height: 1; border-radius: 12px; background: #1D4ED8; color: #FFFFFF; border: 1px solid #1D4ED8; cursor: pointer; transition: all 0.25s cubic-bezier(0.19,1,0.22,1); white-space: nowrap; } .ds-btn-service:hover { background: #1B3480; border-color: #1B3480; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Low-emphasis fallback action.",
+      "html": "<button class=\"ds-btn-secondary\">Learn More</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 22px; font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600; line-height: 1; border-radius: 12px; background: #FFFFFF; color: #18181B; border: 1px solid #D4D4D8; cursor: pointer; transition: all 0.25s cubic-bezier(0.19,1,0.22,1); } .ds-btn-secondary:hover { background: #FAFAFA; border-color: #D4D4D8; }"
+    },
+    {
+      "name": "Product Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Default surface for product listings, category tiles, and content blocks. Flat at rest, soft ambient lift on hover.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-title\">iPhone 14 Pro</div><div class=\"ds-card-body\">Unlocked · Excellent condition</div></div>",
+      "css": ".ds-card { background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 16px; box-shadow: 0 1px 2px rgba(24,24,27,0.06), 0 1px 3px rgba(24,24,27,0.08); padding: 24px; transition: all 0.25s cubic-bezier(0.19,1,0.22,1); box-sizing: border-box; } .ds-card:hover { box-shadow: 0 2px 4px rgba(24,24,27,0.06), 0 4px 12px rgba(24,24,27,0.08); transform: translateY(-2px); } .ds-card-title { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.25rem; color: #18181B; margin-bottom: 4px; } .ds-card-body { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 0.875rem; color: #71717A; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Default form field. Focus state swaps to cobalt as the one input-level use of the service accent.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-label\" for=\"ds-demo-input\">Email</label><input class=\"ds-input\" id=\"ds-demo-input\" type=\"email\" placeholder=\"you@example.com\" /></div>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; font-family: 'Inter', sans-serif; } .ds-label { font-size: 0.875rem; font-weight: 500; color: #18181B; } .ds-input { width: 100%; height: 48px; padding: 0 14px; font-family: 'Inter', sans-serif; font-size: 1rem; color: #18181B; background: #FFFFFF; border: 1px solid #D4D4D8; border-radius: 12px; outline: none; transition: all 0.25s cubic-bezier(0.19,1,0.22,1); box-sizing: border-box; } .ds-input:focus { border-color: #1D4ED8; box-shadow: 0 0 0 3px rgba(29,78,216,0.15); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Clean Slate",
+    "overview": "Cellular Solutions is built to convince a stranger, sight-unseen, that this is a real, professional shop worth buying from. The system leans on Apple-store-adjacent minimalism: a dominant graphite neutral scale carries almost every surface, and color is spent deliberately rather than decoratively. Cobalt blue is not a general brand accent — it is reserved strictly for repair and service actions (Book Repair, Get Quote), so the one splash of color in the interface always means 'a person is about to help you,' never 'this is just a button.'\n\nThis system explicitly rejects the crowded, banner-heavy, discount-sticker look of generic phone/accessory retailer sites. No mismatched promo graphics, no visual noise competing for attention, no more than one accent color doing work on any given screen. Warmth comes from generous whitespace, smooth motion, and approachable rounded geometry — not from busyness.",
+    "keyCharacteristics": [
+      "Graphite-dominant neutral scale; cobalt blue is a service signal, not a brand accent",
+      "Generous whitespace over density; one clear focal action per screen",
+      "Rounded, soft-edged geometry (12-20px radii) that reads warm rather than corporate-sharp",
+      "Flat surfaces at rest, with soft ambient shadows that respond to hover/interaction",
+      "Inter typeface throughout — no secondary display face"
+    ],
+    "rules": [
+      { "name": "The Reserved Accent Rule", "body": "Cobalt blue only ever means 'repair or service.' If a button, badge, or link isn't part of the repair/unlock/buy-sell flow, it does not get cobalt — it gets graphite.", "section": "colors" },
+      { "name": "The One Weight Family Rule", "body": "Every text role is Inter at a different weight/size — never introduce a second typeface for 'personality.'", "section": "typography" },
+      { "name": "The Ambient-Only Rule", "body": "Shadows never exceed 10% opacity black. If a shadow looks like a drop shadow rather than a soft lift, it's too strong for this system.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep graphite-900 as the default button and heading color — it is the brand color, not a placeholder waiting for blue.",
+      "Do reserve cobalt blue strictly for repair/service/unlock actions and input focus states.",
+      "Do use soft, ambient shadows (≤10% opacity) that respond to hover, not resting bold drop shadows.",
+      "Do keep every text role in Inter; vary weight (400-800) and size (12px-56px) for hierarchy instead.",
+      "Do use generous whitespace and rounded 12-20px geometry to keep the premium feel warm rather than cold."
+    ],
+    "donts": [
+      "Don't use cobalt blue (or any accent) as a general-purpose brand color on shop/product CTAs — that dilutes the one clear service signal.",
+      "Don't ship the crowded, banner-heavy, discount-sticker look of generic phone/accessory retailer sites: no promo badges competing with product photography, no visual clutter.",
+      "Don't use border-left/border-right as a colored accent stripe on cards or list items.",
+      "Don't introduce a second typeface 'for personality' — Inter carries the whole system.",
+      "Don't use bounce, elastic, or overshoot easing anywhere; motion stays ease-out and restrained.",
+      "Don't use heavy or dark drop shadows; if a shadow looks structural rather than ambient, it's too strong."
+    ]
+  }
+}

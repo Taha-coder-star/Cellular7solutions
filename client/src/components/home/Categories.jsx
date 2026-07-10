@@ -71,7 +71,7 @@ export default function Categories() {
               fontWeight: 'var(--fw-semibold)',
               letterSpacing: 'var(--ls-wider)',
               textTransform: 'uppercase',
-              color: 'var(--cobalt-600)',
+              color: 'var(--graphite-500)',
               marginBottom: '10px',
             }}
           >

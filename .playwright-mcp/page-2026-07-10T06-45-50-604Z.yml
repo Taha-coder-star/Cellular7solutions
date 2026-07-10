@@ -1,0 +1,205 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - link "Skip to content" [ref=e4]:
+      - /url: "#main-content"
+    - banner [ref=e5]:
+      - generic [ref=e6]: You Break It. We Make It Again.
+      - generic [ref=e7]:
+        - link [ref=e8]:
+          - /url: /
+          - img "Cellular Solutions" [ref=e9]
+        - navigation [ref=e10]:
+          - button "Shop" [ref=e12]
+          - link "Buy & Sell" [ref=e15]:
+            - /url: /buysell
+          - link "Repairs" [ref=e16]:
+            - /url: /repair
+          - link "About" [ref=e17]:
+            - /url: /about
+          - link "Contact" [ref=e18]:
+            - /url: /contact
+          - link "Deals" [ref=e19]:
+            - /url: /shop
+        - generic [ref=e20]:
+          - link "Search" [ref=e21]:
+            - /url: /shop
+          - link "Cart (0 items)" [ref=e25]:
+            - /url: /cart
+          - link "Sign In" [ref=e30]:
+            - /url: /login
+    - main [ref=e34]:
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - img "Close-up of a dark-toned smartphone's camera module, representing the phones, laptops, and devices Cellular Solutions sells, repairs, and trades in" [ref=e37]
+          - generic [ref=e38]:
+            - generic [ref=e39]: Just Landed
+            - heading "Everything Tech." [level=1] [ref=e40]
+            - paragraph [ref=e41]: Buy • Repair • Trade-In
+            - link "Shop New Arrivals" [ref=e43]:
+              - /url: /shop
+        - generic [ref=e47]:
+          - generic [ref=e48]: Trusted Local Repairs
+          - generic [ref=e53]: Same Day Service
+          - generic [ref=e58]: Genuine Parts
+        - generic [ref=e63]:
+          - generic [ref=e64]:
+            - generic [ref=e65]:
+              - generic [ref=e66]: Browse the store
+              - heading "Shop by category" [level=2] [ref=e67]
+            - link "View all products" [ref=e68]:
+              - /url: /shop
+          - generic [ref=e71]:
+            - link "Phones 120+ models" [ref=e72]:
+              - /url: /shop?category=phones
+              - generic [ref=e76]:
+                - generic [ref=e77]: Phones
+                - generic [ref=e78]: 120+ models
+            - link "Consoles 40+ models" [ref=e79]:
+              - /url: /shop?category=consoles
+              - generic [ref=e83]:
+                - generic [ref=e84]: Consoles
+                - generic [ref=e85]: 40+ models
+            - link "Laptops 80+ models" [ref=e86]:
+              - /url: /shop?category=laptops
+              - generic [ref=e90]:
+                - generic [ref=e91]: Laptops
+                - generic [ref=e92]: 80+ models
+            - link "Accessories 300+ items" [ref=e93]:
+              - /url: /shop?category=accessories
+              - generic [ref=e97]:
+                - generic [ref=e98]: Accessories
+                - generic [ref=e99]: 300+ items
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e103]: Repair & Service
+            - heading "Need a Repair?" [level=2] [ref=e106]
+            - paragraph [ref=e107]: Cracked screens, dead batteries, water damage, unlocks. Walk in or book online — most repairs are done same-day, with a free diagnostic quote before any work begins.
+            - generic [ref=e108]:
+              - generic [ref=e109]:
+                - generic [ref=e110]: 45 min
+                - generic [ref=e111]: Avg. screen repair
+              - generic [ref=e112]:
+                - generic [ref=e113]: from $89
+                - generic [ref=e114]: Screen replacement
+              - generic [ref=e115]:
+                - generic [ref=e116]: Free
+                - generic [ref=e117]: Device diagnostics
+            - link "Book a Repair" [ref=e119]:
+              - /url: /repair
+          - img "A technician in blue gloves using tweezers to repair the internal components of a disassembled phone" [ref=e121]
+        - generic [ref=e123]:
+          - generic [ref=e124]:
+            - generic [ref=e125]:
+              - generic [ref=e126]: Just Landed
+              - heading "Featured this Week" [level=2] [ref=e127]
+            - link "View all" [ref=e128]:
+              - /url: /shop
+          - generic [ref=e131]:
+            - link "Galaxy Tab S9 $799.99" [ref=e132]:
+              - /url: /product/6a4d2efac9a73e7f29aec35b
+              - generic [ref=e136]:
+                - generic [ref=e137]: Galaxy Tab S9
+                - generic [ref=e138]: $799.99
+            - link "iPad Pro 11\" M4 $999.00" [ref=e140]:
+              - /url: /product/6a4d2efac9a73e7f29aec359
+              - generic [ref=e144]:
+                - generic [ref=e145]: iPad Pro 11" M4
+                - generic [ref=e146]: $999.00
+            - link "PlayStation 5 Console $499.99" [ref=e148]:
+              - /url: /product/6a4d2ef9c9a73e7f29aec356
+              - generic [ref=e152]:
+                - generic [ref=e153]: PlayStation 5 Console
+                - generic [ref=e154]: $499.99
+            - link "MacBook Air 13\" M3 $1,099.00" [ref=e156]:
+              - /url: /product/6a4d2ef9c9a73e7f29aec353
+              - generic [ref=e160]:
+                - generic [ref=e161]: MacBook Air 13" M3
+                - generic [ref=e162]: $1,099.00
+            - link "AirPods Pro (2nd Gen) $249.99" [ref=e164]:
+              - /url: /product/6a4d2ef8c9a73e7f29aec34c
+              - generic [ref=e168]:
+                - generic [ref=e169]: AirPods Pro (2nd Gen)
+                - generic [ref=e170]: $249.99
+    - contentinfo [ref=e172]:
+      - generic [ref=e174]:
+        - generic [ref=e175]:
+          - img "Cellular Solutions" [ref=e176]
+          - paragraph [ref=e177]: Your local shop for phones, consoles, laptops and accessories — plus fast, honest repairs.
+          - generic [ref=e178]:
+            - link "Facebook" [ref=e179]:
+              - /url: "#"
+            - link "Instagram" [ref=e183]:
+              - /url: "#"
+            - link "Twitter / X" [ref=e186]:
+              - /url: "#"
+        - generic [ref=e193]:
+          - generic [ref=e194]: Shop
+          - list [ref=e195]:
+            - listitem [ref=e196]:
+              - link "Phones" [ref=e197]:
+                - /url: /shop?category=phones
+            - listitem [ref=e198]:
+              - link "Consoles" [ref=e199]:
+                - /url: /shop?category=consoles
+            - listitem [ref=e200]:
+              - link "Laptops" [ref=e201]:
+                - /url: /shop?category=laptops
+            - listitem [ref=e202]:
+              - link "Accessories" [ref=e203]:
+                - /url: /shop?category=accessories
+        - generic [ref=e204]:
+          - generic [ref=e205]: Service
+          - list [ref=e206]:
+            - listitem [ref=e207]:
+              - link "Book a Repair" [ref=e208]:
+                - /url: /repair
+            - listitem [ref=e209]:
+              - link "Track Repair" [ref=e210]:
+                - /url: /repair
+            - listitem [ref=e211]:
+              - link "Sell Your Device" [ref=e212]:
+                - /url: /buysell
+        - generic [ref=e213]:
+          - generic [ref=e214]: Support
+          - list [ref=e215]:
+            - listitem [ref=e216]:
+              - link "Store Locations" [ref=e217]:
+                - /url: /contact
+            - listitem [ref=e218]:
+              - link "Order Tracking" [ref=e219]:
+                - /url: /contact
+            - listitem [ref=e220]:
+              - link "Warranty" [ref=e221]:
+                - /url: /contact
+            - listitem [ref=e222]:
+              - link "Contact Us" [ref=e223]:
+                - /url: /contact
+      - generic [ref=e225]:
+        - generic [ref=e226]: © 2026 Cellular Solutions. All rights reserved.
+        - generic [ref=e227]: YOU BREAK IT · WE FIX IT
+  - generic [ref=e228]:
+    - img "Impeccable live mode - agent not polling" [ref=e229]
+    - generic [ref=e234]:
+      - button "Pick element" [ref=e235]:
+        - generic [ref=e238]: Pick
+      - button "Insert new element" [ref=e239]:
+        - generic: Insert
+      - button "Detect anti-patterns" [ref=e241]:
+        - generic: Detect
+      - button "Toggle DESIGN.md panel" [ref=e245]:
+        - generic: DESIGN.md
+      - generic "Steer the page" [ref=e251]:
+        - textbox "Steer the page" [active] [ref=e252]:
+          - /placeholder: Steer…
+        - button "Voice input" [ref=e253]
+      - button "Exit live mode" [ref=e258]
+  - generic:
+    - generic:
+      - complementary:
+        - generic:
+          - generic: DESIGN.md
+          - generic:
+            - button "Visual"
+            - button "Raw"
+          - button "Close panel": ✕
+        - generic: No design system data available.

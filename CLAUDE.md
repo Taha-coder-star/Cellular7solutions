@@ -61,3 +61,7 @@ server/
 - CommonJS throughout (`require`/`module.exports`). Do not use `import`/`export`.
 - Roles are an enum: `'customer'` | `'admin'`. Default is `'customer'`.
 - New route groups follow the same pattern: add a `routes/xRoutes.js`, a `controllers/xController.js`, and mount under `/api/x` in `server.js`.
+
+## Design Context
+
+Frontend design decisions are governed by `PRODUCT.md` (register, users, positioning, brand personality) and `DESIGN.md` (color, typography, elevation, component tokens) at the project root. Brand register: storefront-led ecommerce, Apple-inspired minimalism, graphite-dominant palette with cobalt blue reserved strictly for repair/service actions. Read both before making UI/UX changes.

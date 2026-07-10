@@ -59,7 +59,7 @@ export default function TopProducts() {
                 fontWeight: 'var(--fw-bold)',
                 letterSpacing: '.18em',
                 textTransform: 'uppercase',
-                color: 'var(--cobalt-600)',
+                color: 'var(--graphite-500)',
                 marginBottom: '12px',
               }}
             >
@@ -68,10 +68,10 @@ export default function TopProducts() {
             <h2
               style={{
                 margin: 0,
-                fontFamily: 'Georgia, "Times New Roman", serif',
-                fontSize: '44px',
-                fontWeight: 400,
-                letterSpacing: '-.01em',
+                fontFamily: 'var(--font-sans)',
+                fontSize: 'var(--fs-h2)',
+                fontWeight: 'var(--fw-extrabold)',
+                letterSpacing: 'var(--ls-tight)',
                 color: 'var(--text-strong)',
               }}
             >
@@ -121,11 +121,11 @@ export default function TopProducts() {
                     : <Icon name="smartphone" size={72} strokeWidth={1} color="var(--graphite-300)" />}
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontSize: '16px', color: 'var(--text-strong)', marginBottom: '8px' }}>
+                  <div style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)', marginBottom: '8px' }}>
                     {p.name}
                   </div>
                   <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px' }}>
-                    <span style={{ fontFamily: 'var(--font-sans)', fontSize: '14.5px', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
+                    <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
                       {usd(p.price)}
                     </span>
                     {p.wasPrice && (
