@@ -176,6 +176,18 @@
       "bases:Create new base": false
     }
   },
-  "active": "6d8141ab498ef0b5",
-  "lastOpenFiles": []
+  "active": "e6453c28518c4d55",
+  "lastOpenFiles": [
+    "server/scratch-fix-images.js",
+    "server/sedAdu8QG",
+    "server/scratch-seed-images.js",
+    "client/src/components/ui/ProductCard.jsx.tmp.23780.63b2ad3ebea6",
+    "client/src/pages/Shop.jsx.tmp.23780.4b03701b1e9c",
+    "client/src/pages/Shop.jsx.tmp.23780.c337dfe33848",
+    "client/src/pages/Shop.jsx.tmp.23780.85ff148e25db",
+    "client/src/pages/Shop.jsx.tmp.23780.53bcefc5538f",
+    "client/src/components/ui/Button.jsx.tmp.23780.7e793d54a950",
+    "client/src/index.css.tmp.23780.c53a5f77f140",
+    "client/src/pages/Shop.jsx.tmp.23780.329b72bfda9f"
+  ]
 }
