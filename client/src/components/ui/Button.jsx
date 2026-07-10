@@ -36,7 +36,9 @@ export function Button({
   };
 
   const [hover, setHover] = useState(false);
+  const [pressed, setPressed] = useState(false);
   const base = variants[variant] || variants.product;
+  const release = () => setPressed(false);
 
   return (
     <Element
@@ -46,7 +48,11 @@ export function Button({
       aria-disabled={isLink ? disabled : undefined}
       onClick={isLink && disabled ? (e) => e.preventDefault() : onClick}
       onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onMouseLeave={() => { setHover(false); release(); }}
+      onMouseDown={() => setPressed(true)}
+      onMouseUp={release}
+      onTouchStart={() => setPressed(true)}
+      onTouchEnd={release}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
@@ -63,6 +69,7 @@ export function Button({
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.5 : 1,
         transition: 'var(--transition-base)',
+        transform: pressed && !disabled ? 'scale(0.97)' : 'scale(1)',
         whiteSpace: 'nowrap',
         ...base,
         ...(hover && !disabled
