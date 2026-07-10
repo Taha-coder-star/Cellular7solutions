@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom';
-import { Button, Icon } from '@/components/ui';
+import { HeroPill, Icon } from '@/components/ui';
 
 const STATS = [
   { value: '45 min',  label: 'Avg. screen repair' },
@@ -107,16 +106,8 @@ export default function RepairCTA() {
             </div>
           ))}
         </div>
-        <div className="hero-fade-up" style={{ animationDelay: '340ms' }}>
-          <Button
-            as={Link}
-            to="/repair"
-            variant="secondary"
-            size="lg"
-            style={{ textDecoration: 'none', color: 'var(--cobalt-700)', border: 'none' }}
-          >
-            Book a Repair
-          </Button>
+        <div className="hero-fade-up" style={{ display: 'inline-block', animationDelay: '340ms' }}>
+          <HeroPill to="/repair" textColor="var(--cobalt-700)">Book a Repair</HeroPill>
         </div>
       </div>
     </section>
