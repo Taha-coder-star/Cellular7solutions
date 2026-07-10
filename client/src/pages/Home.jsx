@@ -1,58 +1,8 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Icon } from '@/components/ui';
+import { HeroPill } from '@/components/ui';
 import TrustStrip    from '@/components/home/TrustStrip';
 import Categories    from '@/components/home/Categories';
 import RepairCTA      from '@/components/home/RepairCTA';
 import TopProducts   from '@/components/home/TopProducts';
-
-function HeroCTA() {
-  const [focused, setFocused] = useState(false);
-  const [hovered, setHovered] = useState(false);
-  const [pressed, setPressed] = useState(false);
-  const active = focused || hovered;
-
-  const release = () => setPressed(false);
-
-  return (
-    <Link
-      to="/shop"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => { setHovered(false); release(); }}
-      onFocus={() => setFocused(true)}
-      onBlur={() => { setFocused(false); release(); }}
-      onMouseDown={() => setPressed(true)}
-      onMouseUp={release}
-      onTouchStart={() => setPressed(true)}
-      onTouchEnd={release}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '10px',
-        height: '54px',
-        padding: '0 32px',
-        borderRadius: 'var(--radius-pill)',
-        fontWeight: 'var(--fw-semibold)',
-        fontSize: 'var(--fs-body)',
-        textDecoration: 'none',
-        background: active ? 'var(--graphite-100)' : 'var(--white)',
-        color: 'var(--graphite-900)',
-        transition: 'var(--transition-base)',
-        transform: pressed ? 'scale(0.97)' : 'scale(1)',
-        outline: focused ? '2px solid var(--graphite-900)' : 'none',
-        outlineOffset: focused ? '3px' : '0',
-        boxShadow: focused ? '0 0 0 5px rgba(255,255,255,0.5)' : 'none',
-      }}
-    >
-      Shop New Arrivals
-      <Icon
-        name="arrow-right"
-        size={18}
-        style={{ transition: 'var(--transition-base)', transform: active ? 'translateX(3px)' : 'translateX(0)' }}
-      />
-    </Link>
-  );
-}
 
 export default function Home() {
   return (
@@ -99,7 +49,7 @@ export default function Home() {
         >
           <div
             className="hero-fade-up"
-            style={{ fontSize: 'var(--fs-xs)', fontWeight: 'var(--fw-semibold)', letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--graphite-300)', marginBottom: '14px', animationDelay: '80ms' }}
+            style={{ fontSize: 'var(--fs-xs)', fontWeight: 'var(--fw-semibold)', letterSpacing: 'var(--ls-wider)', textTransform: 'uppercase', color: 'var(--graphite-300)', marginBottom: '14px', animationDelay: '80ms' }}
           >
             Just Landed
           </div>
@@ -134,7 +84,7 @@ export default function Home() {
             Buy &nbsp;•&nbsp; Repair &nbsp;•&nbsp; Trade-In
           </p>
           <div className="hero-fade-up" style={{ display: 'inline-block', animationDelay: '320ms' }}>
-            <HeroCTA />
+            <HeroPill to="/shop">Shop New Arrivals</HeroPill>
           </div>
         </div>
       </section>
