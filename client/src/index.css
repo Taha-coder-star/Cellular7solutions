@@ -31,3 +31,23 @@ body {
 .hero-fade-up {
   animation: hero-fade-up 0.6s cubic-bezier(0.19, 1, 0.22, 1) both;
 }
+
+/* Grid item entrance — applied to a wrapper, never to an element that also
+   animates `transform` on hover, or the fill-mode would pin that property. */
+@keyframes grid-fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.grid-fade-up {
+  animation: grid-fade-up 0.45s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+@keyframes chip-pop {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.chip-pop {
+  animation: chip-pop 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
