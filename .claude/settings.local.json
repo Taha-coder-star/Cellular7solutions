@@ -23,7 +23,11 @@
       "Bash(sed -i \"s|require\\('dotenv'\\).config\\({ path: 'F:/cellular-solutions/server/.env' }\\);|require\\('dotenv'\\).config\\(\\);|; s|require\\('F:/cellular-solutions/server/models/Product'\\)|require\\('./models/Product'\\)|\" scratch-seed-images.js)",
       "Bash(node scratch-seed-images.js)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(pkill -f vite)",
+      "Bash(pkill -f nodemon)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://images.unsplash.com/photo-1628911771730-881503b8e9c9?auto=format&fit=crop&w=1600&q=80\")",
+      "Bash(git commit *)"
     ]
   },
   "hooks": {
