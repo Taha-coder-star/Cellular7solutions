@@ -176,7 +176,30 @@ function SheetCloseButton({ onClick }) {
   );
 }
 
-function FilterPanel({ categories, brands, filters, onFilterChange }) {
+/** Native <details>/<summary> accordion — collapse/expand, keyboard toggle,
+ *  and focus handling all come from the platform for free. `defaultOpen` is
+ *  read once at mount (native <details> semantics); after that the user's
+ *  own toggle wins, which is the behavior a disclosure widget should have. */
+function FilterSection({ title, defaultOpen, children }) {
+  return (
+    <details className="filter-section" open={defaultOpen}>
+      <summary
+        style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '4px 0', ...groupLabelStyle, marginBottom: 0,
+        }}
+      >
+        {title}
+        <Icon name="chevron-down" size={14} className="filter-chevron" style={{ transition: 'var(--transition-base)', color: 'var(--text-faint)' }} />
+      </summary>
+      <div style={{ paddingTop: '10px' }}>{children}</div>
+    </details>
+  );
+}
+
+const sectionDividerStyle = { borderBottom: '1px solid var(--border-subtle)', paddingBottom: '20px' };
+
+function FilterPanel({ categories, brands, filters, counts, onFilterChange }) {
   const [minPrice, setMinPrice] = useState(filters.minPrice ?? '');
   const [maxPrice, setMaxPrice] = useState(filters.maxPrice ?? '');
 
@@ -191,7 +214,7 @@ function FilterPanel({ categories, brands, filters, onFilterChange }) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <Input
         label="Search"
         placeholder="Search products…"
@@ -201,38 +224,42 @@ function FilterPanel({ categories, brands, filters, onFilterChange }) {
         onBlur={(e) => onFilterChange({ search: e.currentTarget.value || undefined })}
       />
 
-      <div>
-        <div style={groupLabelStyle}>Category</div>
-        <RadioRow name="category" label="All Categories" selected={!filters.category} onSelect={() => onFilterChange({ category: undefined })} />
-        {categories.map((c) => (
-          <RadioRow key={c._id} name="category" label={c.name} selected={filters.category === c._id} onSelect={() => onFilterChange({ category: c._id })} />
-        ))}
-      </div>
-
-      <div>
-        <div style={groupLabelStyle}>Brand</div>
-        <RadioRow name="brand" label="All Brands" selected={!filters.brand} onSelect={() => onFilterChange({ brand: undefined })} />
-        {brands.map((b) => (
-          <RadioRow key={b._id} name="brand" label={b.name} selected={filters.brand === b._id} onSelect={() => onFilterChange({ brand: b._id })} />
-        ))}
-      </div>
-
-      <div>
-        <div style={groupLabelStyle}>Condition</div>
-        <RadioRow name="condition" label="All" selected={!filters.condition} onSelect={() => onFilterChange({ condition: undefined })} />
-        <RadioRow name="condition" label="New" selected={filters.condition === 'new'} onSelect={() => onFilterChange({ condition: 'new' })} />
-        <RadioRow name="condition" label="Used" selected={filters.condition === 'used'} onSelect={() => onFilterChange({ condition: 'used' })} />
-      </div>
-
-      <form onSubmit={submitPrice} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <div style={groupLabelStyle}>Price</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Input type="number" inputMode="numeric" min="0" placeholder="Min" aria-label="Minimum price" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} style={{ height: 'var(--control-h-sm)' }} />
-          <span style={{ color: 'var(--text-faint)' }}>–</span>
-          <Input type="number" inputMode="numeric" min="0" placeholder="Max" aria-label="Maximum price" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} style={{ height: 'var(--control-h-sm)' }} />
+      <FilterSection title="Category" defaultOpen>
+        <div style={sectionDividerStyle}>
+          <RadioRow name="category" label="All Categories" count={counts.total} selected={!filters.category} onSelect={() => onFilterChange({ category: undefined })} />
+          {categories.map((c) => (
+            <RadioRow key={c._id} name="category" label={c.name} count={counts.categories[c._id] ?? 0} selected={filters.category === c._id} onSelect={() => onFilterChange({ category: c._id })} />
+          ))}
         </div>
-        <Button type="submit" variant="secondary" size="sm">Apply</Button>
-      </form>
+      </FilterSection>
+
+      <FilterSection title="Brand" defaultOpen={Boolean(filters.brand)}>
+        <div style={sectionDividerStyle}>
+          <RadioRow name="brand" label="All Brands" count={counts.total} selected={!filters.brand} onSelect={() => onFilterChange({ brand: undefined })} />
+          {brands.map((b) => (
+            <RadioRow key={b._id} name="brand" label={b.name} count={counts.brands[b._id] ?? 0} selected={filters.brand === b._id} onSelect={() => onFilterChange({ brand: b._id })} />
+          ))}
+        </div>
+      </FilterSection>
+
+      <FilterSection title="Condition" defaultOpen>
+        <div style={sectionDividerStyle}>
+          <RadioRow name="condition" label="All" count={counts.total} selected={!filters.condition} onSelect={() => onFilterChange({ condition: undefined })} />
+          <RadioRow name="condition" label="New" count={counts.new} selected={filters.condition === 'new'} onSelect={() => onFilterChange({ condition: 'new' })} />
+          <RadioRow name="condition" label="Used" count={counts.used} selected={filters.condition === 'used'} onSelect={() => onFilterChange({ condition: 'used' })} />
+        </div>
+      </FilterSection>
+
+      <FilterSection title="Price" defaultOpen>
+        <form onSubmit={submitPrice} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Input type="number" inputMode="numeric" min="0" placeholder="Min" aria-label="Minimum price" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} style={{ height: 'var(--control-h-sm)' }} />
+            <span style={{ color: 'var(--text-faint)' }}>–</span>
+            <Input type="number" inputMode="numeric" min="0" placeholder="Max" aria-label="Maximum price" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} style={{ height: 'var(--control-h-sm)' }} />
+          </div>
+          <Button type="submit" variant="secondary" size="sm">Apply</Button>
+        </form>
+      </FilterSection>
     </div>
   );
 }
@@ -277,6 +304,7 @@ export default function Shop() {
   const [sort, setSort] = useState('newest');
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
+  const [counts, setCounts] = useState({ total: 0, categories: {}, brands: {}, new: 0, used: 0 });
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
@@ -285,11 +313,27 @@ export default function Shop() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(false);
 
-  // Filter option lists — fetched once. A failure here just leaves the
-  // sidebar at "All Categories / All Brands"; it doesn't block the grid.
+  // Filter option lists and their counts — fetched once. A failure here
+  // just leaves the sidebar showing "All Categories / All Brands" with no
+  // counts; it doesn't block the grid. Counts come from a single unfiltered
+  // fetch (the whole catalog fits under the API's 100-item cap) rather than
+  // one request per category/brand.
   useEffect(() => {
     api.get('/categories').then(({ data }) => setCategories(data ?? [])).catch(() => {});
     api.get('/brands').then(({ data }) => setBrands(data ?? [])).catch(() => {});
+    api.get('/products', { params: { limit: 100 } }).then(({ data }) => {
+      const all = data.products ?? [];
+      const next = { total: all.length, categories: {}, brands: {}, new: 0, used: 0 };
+      for (const p of all) {
+        const catId = p.category?._id ?? p.category;
+        const brandId = p.brand?._id ?? p.brand;
+        if (catId) next.categories[catId] = (next.categories[catId] ?? 0) + 1;
+        if (brandId) next.brands[brandId] = (next.brands[brandId] ?? 0) + 1;
+        if (p.condition === 'new') next.new += 1;
+        else if (p.condition === 'used') next.used += 1;
+      }
+      setCounts(next);
+    }).catch(() => {});
   }, []);
 
   // Products — refetch from page 1 whenever a filter changes.
@@ -348,7 +392,7 @@ export default function Shop() {
     ? `Results for "${filters.search}"`
     : activeCategory?.name ?? 'All Products';
 
-  const filterPanelProps = { categories, brands, filters, onFilterChange: updateFilters };
+  const filterPanelProps = { categories, brands, filters, counts, onFilterChange: updateFilters };
 
   const clearAllLink = activeCount > 0 && (
     <button
