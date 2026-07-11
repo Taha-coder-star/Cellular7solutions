@@ -3,6 +3,9 @@ import TrustStrip    from '@/components/home/TrustStrip';
 import Categories    from '@/components/home/Categories';
 import RepairCTA      from '@/components/home/RepairCTA';
 import TopProducts   from '@/components/home/TopProducts';
+import { unsplashSrcSet } from '@/utils/image';
+
+const HERO_PHOTO = 'https://images.unsplash.com/photo-1628911771730-881503b8e9c9';
 
 export default function Home() {
   return (
@@ -15,8 +18,10 @@ export default function Home() {
       >
         {/* Hero photo */}
         <img
-          src="https://images.unsplash.com/photo-1592832122594-c0c6bad718b1?auto=format&fit=crop&w=1600&q=80"
-          alt="Close-up of a dark-toned smartphone's camera module, representing the phones, laptops, and devices Cellular Solutions sells, repairs, and trades in"
+          src={`${HERO_PHOTO}?auto=format&fit=crop&w=1600&q=80`}
+          srcSet={unsplashSrcSet(HERO_PHOTO)}
+          sizes="100vw"
+          alt="A dark flat-lay spread of a laptop, smartphone, wireless headphones, camera, and watch, representing the full range of devices Cellular Solutions sells, repairs, and trades in"
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
         />
 
