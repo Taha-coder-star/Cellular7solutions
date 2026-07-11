@@ -45,6 +45,7 @@ export function HeroPill({ to, children, textColor = 'var(--graphite-900)' }) {
       <Icon
         name="arrow-right"
         size={18}
+        aria-hidden="true"
         style={{ transition: 'var(--transition-base)', transform: active ? 'translateX(3px)' : 'translateX(0)' }}
       />
     </Link>
