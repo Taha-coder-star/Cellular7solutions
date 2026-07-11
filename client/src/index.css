@@ -51,3 +51,18 @@ body {
 .chip-pop {
   animation: chip-pop 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+
+/* Filter sidebar accordion — native <details>, just stripped of its
+   default disclosure triangle so the chevron icon can take over. */
+.filter-section > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.filter-section > summary::-webkit-details-marker,
+.filter-section > summary::marker {
+  display: none;
+  content: '';
+}
+.filter-section[open] > summary .filter-chevron {
+  transform: rotate(180deg);
+}
