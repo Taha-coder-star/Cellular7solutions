@@ -1,4 +1,7 @@
 import { HeroPill, Icon } from '@/components/ui';
+import { unsplashSrcSet } from '@/utils/image';
+
+const REPAIR_PHOTO = 'https://images.unsplash.com/photo-1639776739297-f7e1f21526f4';
 
 const STATS = [
   { value: '45 min',  label: 'Avg. screen repair' },
@@ -13,7 +16,10 @@ export default function RepairCTA() {
       style={{ position: 'relative', minHeight: '560px', background: 'var(--cobalt-900)', overflow: 'hidden' }}
     >
       <img
-        src="https://images.unsplash.com/photo-1639776739297-f7e1f21526f4?auto=format&fit=crop&w=1600&q=80"
+        src={`${REPAIR_PHOTO}?auto=format&fit=crop&w=1600&q=80`}
+        srcSet={unsplashSrcSet(REPAIR_PHOTO)}
+        sizes="100vw"
+        loading="lazy"
         alt="A technician in blue gloves using tweezers to repair the internal components of a disassembled phone"
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
       />
@@ -59,7 +65,7 @@ export default function RepairCTA() {
             animationDelay: '80ms',
           }}
         >
-          <Icon name="wrench" size={16} />
+          <Icon name="wrench" size={16} aria-hidden="true" />
           Repair &amp; Service
         </div>
         <h2
