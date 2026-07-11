@@ -52,19 +52,6 @@ export default function TopProducts() {
       <div style={{ padding: '80px var(--space-6) 88px', maxWidth: '1360px', margin: '0 auto', boxSizing: 'border-box' }}>
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '48px', gap: '20px', flexWrap: 'wrap' }}>
           <div>
-            <div
-              style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 'var(--fs-xs)',
-                fontWeight: 'var(--fw-bold)',
-                letterSpacing: '.18em',
-                textTransform: 'uppercase',
-                color: 'var(--graphite-500)',
-                marginBottom: '12px',
-              }}
-            >
-              Just Landed
-            </div>
             <h2
               style={{
                 margin: 0,
@@ -91,7 +78,7 @@ export default function TopProducts() {
               gap: '6px',
             }}
           >
-            View all <Icon name="arrow-right" size={16} />
+            View all <Icon name="arrow-right" size={16} aria-hidden="true" />
           </Link>
         </div>
 
@@ -117,7 +104,7 @@ export default function TopProducts() {
               <Link key={p._id} to={`/product/${p._id}`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '18px' }}>
                 <div style={{ aspectRatio: '1 / 1', background: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {p.image
-                    ? <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                    ? <img src={p.image} alt={p.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                     : <Icon name="smartphone" size={72} strokeWidth={1} color="var(--graphite-300)" />}
                 </div>
                 <div style={{ textAlign: 'center' }}>
