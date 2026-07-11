@@ -34,6 +34,7 @@ import {
   EyeOff,
   ChevronLeft,
   CheckCircle2,
+  Volume2,
 } from 'lucide-react';
 
 const ICONS = {
@@ -72,6 +73,7 @@ const ICONS = {
   'eye-off':         EyeOff,
   'chevron-left':    ChevronLeft,
   'check-circle':    CheckCircle2,
+  speaker:           Volume2,
 };
 
 export function Icon({ name, size = 20, color = 'currentColor', strokeWidth = 2, style = {}, ...rest }) {
