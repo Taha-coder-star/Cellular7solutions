@@ -11,10 +11,10 @@
             "id": "6d8141ab498ef0b5",
             "type": "leaf",
             "state": {
-              "type": "empty",
+              "type": "graph",
               "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
         ]
@@ -176,18 +176,22 @@
       "bases:Create new base": false
     }
   },
-  "active": "e6453c28518c4d55",
+  "active": "6d8141ab498ef0b5",
   "lastOpenFiles": [
-    "server/scratch-fix-images.js",
-    "server/sedAdu8QG",
-    "server/scratch-seed-images.js",
-    "client/src/components/ui/ProductCard.jsx.tmp.23780.63b2ad3ebea6",
-    "client/src/pages/Shop.jsx.tmp.23780.4b03701b1e9c",
-    "client/src/pages/Shop.jsx.tmp.23780.c337dfe33848",
-    "client/src/pages/Shop.jsx.tmp.23780.85ff148e25db",
-    "client/src/pages/Shop.jsx.tmp.23780.53bcefc5538f",
-    "client/src/components/ui/Button.jsx.tmp.23780.7e793d54a950",
-    "client/src/index.css.tmp.23780.c53a5f77f140",
-    "client/src/pages/Shop.jsx.tmp.23780.329b72bfda9f"
+    "client/src/components/home/TopProducts.jsx.tmp.11648.e491446e3d05",
+    "client/src/components/home/RepairCTA.jsx.tmp.11648.a003bc2eafcd",
+    "client/src/pages/Home.jsx.tmp.11648.aaed2031e4ab",
+    "client/src/pages/Home.jsx.tmp.11648.a89c0f8d82c2",
+    "client/src/utils/image.js",
+    "client/src/utils/image.js.tmp.11648.78f90007070e",
+    "client/src/components/ui/HeroPill.jsx.tmp.11648.99c7ce909825",
+    "client/src/components/home/RepairCTA.jsx.tmp.11648.110c0fb2b81a",
+    "client/src/components/home/TrustStrip.jsx.tmp.11648.01093f85a31a",
+    "client/src/components/home/TopProducts.jsx.tmp.11648.ad58e8ca6c77",
+    "client/src/components/home/Categories.jsx.tmp.11648.44ba5c63a0ee",
+    "Untitled 1.canvas",
+    "client/node_modules/ms/license.md",
+    "client/node_modules/react-router/docs/explanation/special-files.md",
+    "Untitled.canvas"
   ]
 }
