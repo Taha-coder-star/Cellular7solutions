@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from '@/components/ui';
 import api from '@/services/api';
+import { useRevealOnView } from '@/hooks/useReveal';
 
 const usd = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
@@ -26,10 +27,63 @@ function GalleryCardSkeleton() {
   );
 }
 
+function ProductCard({ product }) {
+  const [hover, setHover] = useState(false);
+
+  return (
+    <Link
+      to={`/product/${product._id}`}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '18px' }}
+    >
+      <div style={{ aspectRatio: '1 / 1', background: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+        {product.image
+          ? (
+            <img
+              src={product.image}
+              alt={product.name}
+              loading="lazy"
+              style={{
+                width: '100%', height: '100%', objectFit: 'contain',
+                transform: hover ? 'scale(1.06)' : 'scale(1)',
+                transition: 'transform 0.4s cubic-bezier(0.19, 1, 0.22, 1)',
+              }}
+            />
+          )
+          : <Icon name="smartphone" size={72} strokeWidth={1} color="var(--graphite-300)" />}
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <div
+          style={{
+            fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body)', fontWeight: 'var(--fw-semibold)',
+            color: hover ? 'var(--graphite-600)' : 'var(--text-strong)', marginBottom: '8px',
+            transition: 'color 0.2s ease-out',
+          }}
+        >
+          {product.name}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px' }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
+            {usd(product.price)}
+          </span>
+          {product.wasPrice && (
+            <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-xs)', color: 'var(--graphite-400)', textDecoration: 'line-through' }}>
+              {usd(product.wasPrice)}
+            </span>
+          )}
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 export default function TopProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const gridRef = useRef(null);
+  useRevealOnView(gridRef, { stagger: 60, deps: [products] });
 
   useEffect(() => {
     api
@@ -98,32 +152,9 @@ export default function TopProducts() {
         )}
 
         {!error && (loading || products.length > 0) && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5" style={{ gap: '28px' }}>
+          <div ref={gridRef} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5" style={{ gap: '28px' }}>
             {loading && [1, 2, 3, 4, 5].map((n) => <GalleryCardSkeleton key={n} />)}
-            {!loading && products.map((p) => (
-              <Link key={p._id} to={`/product/${p._id}`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '18px' }}>
-                <div style={{ aspectRatio: '1 / 1', background: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {p.image
-                    ? <img src={p.image} alt={p.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                    : <Icon name="smartphone" size={72} strokeWidth={1} color="var(--graphite-300)" />}
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)', marginBottom: '8px' }}>
-                    {p.name}
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px' }}>
-                    <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
-                      {usd(p.price)}
-                    </span>
-                    {p.wasPrice && (
-                      <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-xs)', color: 'var(--graphite-400)', textDecoration: 'line-through' }}>
-                        {usd(p.wasPrice)}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </Link>
-            ))}
+            {!loading && products.map((p) => <ProductCard key={p._id} product={p} />)}
           </div>
         )}
       </div>

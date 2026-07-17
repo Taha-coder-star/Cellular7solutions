@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from '@/components/ui';
 import api from '@/services/api';
+import { useRevealOnView } from '@/hooks/useReveal';
 
 const CARD_COUNT = 4;
 
@@ -118,6 +119,8 @@ function CategoryCardSkeleton() {
 export default function Categories() {
   const [categories, setCategories] = useState(null);
   const [error, setError] = useState(false);
+  const gridRef = useRef(null);
+  useRevealOnView(gridRef, { stagger: 70, deps: [categories] });
 
   useEffect(() => {
     Promise.all([

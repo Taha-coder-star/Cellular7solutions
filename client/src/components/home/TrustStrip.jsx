@@ -1,11 +1,17 @@
+import { useRef } from 'react';
 import { Icon } from '@/components/ui';
+import { useRevealOnView } from '@/hooks/useReveal';
 
 const ITEMS = ['Trusted Local Repairs', 'Same Day Service', 'Genuine Parts'];
 
 export default function TrustStrip() {
+  const gridRef = useRef(null);
+  useRevealOnView(gridRef, { stagger: 80 });
+
   return (
     <section style={{ background: 'var(--white)', borderBottom: '1px solid var(--border-subtle)' }}>
       <div
+        ref={gridRef}
         className="grid grid-cols-1 sm:grid-cols-3"
         style={{ maxWidth: '1280px', margin: '0 auto', padding: '36px var(--space-6)', boxSizing: 'border-box', gap: '24px' }}
       >
