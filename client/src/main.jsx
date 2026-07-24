@@ -9,6 +9,15 @@ import './index.css';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import MainLayout from './layouts/MainLayout';
+import AdminLayout from './layouts/AdminLayout';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminProducts from './pages/admin/AdminProducts';
+import AdminProductForm from './pages/admin/AdminProductForm';
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminRepairs from './pages/admin/AdminRepairs';
+import AdminBuySell from './pages/admin/AdminBuySell';
+import AdminCategories from './pages/admin/AdminCategories';
+import AdminBrands from './pages/admin/AdminBrands';
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
@@ -42,6 +51,17 @@ createRoot(document.getElementById('root')).render(
               <Route path="/contact"     element={<Contact />} />
               <Route path="/buysell"     element={<BuySell />} />
               <Route path="/repair"      element={<Repair />} />
+            </Route>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index                     element={<AdminDashboard />} />
+              <Route path="products"            element={<AdminProducts />} />
+              <Route path="products/new"        element={<AdminProductForm />} />
+              <Route path="products/:id"        element={<AdminProductForm />} />
+              <Route path="orders"              element={<AdminOrders />} />
+              <Route path="repairs"             element={<AdminRepairs />} />
+              <Route path="buysell"             element={<AdminBuySell />} />
+              <Route path="categories"          element={<AdminCategories />} />
+              <Route path="brands"              element={<AdminBrands />} />
             </Route>
           </Routes>
         </CartProvider>
