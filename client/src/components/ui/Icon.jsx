@@ -35,6 +35,7 @@ import {
   ChevronLeft,
   CheckCircle2,
   Volume2,
+  ZoomIn,
 } from 'lucide-react';
 
 const ICONS = {
@@ -74,6 +75,7 @@ const ICONS = {
   'chevron-left':    ChevronLeft,
   'check-circle':    CheckCircle2,
   speaker:           Volume2,
+  'zoom-in':         ZoomIn,
 };
 
 export function Icon({ name, size = 20, color = 'currentColor', strokeWidth = 2, style = {}, ...rest }) {
