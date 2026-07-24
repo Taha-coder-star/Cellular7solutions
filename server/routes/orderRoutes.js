@@ -4,6 +4,7 @@ const { protect } = require('../middleware/authMiddleware');
 const { admin } = require('../middleware/adminMiddleware');
 const {
   placeOrder,
+  getOrders,
   getMyOrders,
   getOrderById,
   updateOrderStatus,
@@ -11,6 +12,7 @@ const {
 } = require('../controllers/orderController');
 
 router.post('/', protect, placeOrder);
+router.get('/', protect, admin, getOrders);
 router.get('/myorders', protect, getMyOrders);
 router.get('/:id', protect, getOrderById);
 router.put('/:id/status', protect, admin, updateOrderStatus);
