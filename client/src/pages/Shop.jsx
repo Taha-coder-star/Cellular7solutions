@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import api from '@/services/api';
 import { useCart } from '@/context/CartContext';
 import { Button, Input, Select, Badge, Icon, ProductCard } from '@/components/ui';
+import { normalizeBrandName } from '@/utils/format';
 
 const PAGE_SIZE = 12;
 
@@ -25,7 +26,7 @@ function normalizeProduct(p) {
   return {
     _id: p._id,
     name: p.name,
-    brand: p.brand?.name ?? '',
+    brand: normalizeBrandName(p.brand?.name),
     price: p.price,
     image: Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : null,
     condition: p.condition,
@@ -138,12 +139,12 @@ function FiltersTriggerButton({ onClick, activeCount }) {
   return (
     <button
       type="button"
-      className="lg:hidden"
+      className="lg:hidden inline-flex items-center gap-2"
       onClick={onClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        display: 'inline-flex', alignItems: 'center', gap: '8px', height: 'var(--control-h-sm)', padding: '0 16px',
+        height: 'var(--control-h-sm)', padding: '0 16px',
         border: `1px solid ${hover ? 'var(--graphite-900)' : 'var(--border-strong)'}`, borderRadius: 'var(--radius-btn)',
         background: hover ? 'var(--surface-subtle)' : 'var(--white)',
         fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)', cursor: 'pointer',
@@ -199,17 +200,57 @@ function FilterSection({ title, defaultOpen, children }) {
 
 const sectionDividerStyle = { borderBottom: '1px solid var(--border-subtle)', paddingBottom: '20px' };
 
+const VISIBLE_CATEGORY_COUNT = 6;
+
+function ToggleRow({ label, expanded, onClick }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <button
+      type="button"
+      aria-expanded={expanded}
+      onClick={onClick}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        display: 'block', width: '100%', textAlign: 'left', padding: '7px 8px', margin: '0 -8px',
+        border: 'none', cursor: 'pointer', borderRadius: 'var(--radius-sm)',
+        fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-muted)',
+        background: hover ? 'var(--surface-subtle)' : 'transparent',
+        transition: 'var(--transition-base)',
+      }}
+    >
+      {label}
+    </button>
+  );
+}
+
 function FilterPanel({ categories, brands, filters, counts, onFilterChange }) {
   const [minPrice, setMinPrice] = useState(filters.minPrice ?? '');
   const [maxPrice, setMaxPrice] = useState(filters.maxPrice ?? '');
+  const [priceError, setPriceError] = useState(false);
+  const [search, setSearch] = useState(filters.search ?? '');
+  const [showAllCategories, setShowAllCategories] = useState(false);
+
+  const visibleCategories = showAllCategories ? categories : categories.slice(0, VISIBLE_CATEGORY_COUNT);
+  const hiddenCategoryCount = categories.length - visibleCategories.length;
 
   useEffect(() => {
     setMinPrice(filters.minPrice ?? '');
     setMaxPrice(filters.maxPrice ?? '');
+    setPriceError(false);
   }, [filters.minPrice, filters.maxPrice]);
+
+  useEffect(() => {
+    setSearch(filters.search ?? '');
+  }, [filters.search]);
 
   function submitPrice(e) {
     e.preventDefault();
+    if (minPrice !== '' && maxPrice !== '' && Number(minPrice) > Number(maxPrice)) {
+      setPriceError(true);
+      return;
+    }
+    setPriceError(false);
     onFilterChange({ minPrice: minPrice || undefined, maxPrice: maxPrice || undefined });
   }
 
@@ -219,7 +260,8 @@ function FilterPanel({ categories, brands, filters, counts, onFilterChange }) {
         label="Search"
         placeholder="Search products…"
         icon={<Icon name="search" size={16} />}
-        defaultValue={filters.search ?? ''}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
         onKeyDown={(e) => { if (e.key === 'Enter') onFilterChange({ search: e.currentTarget.value || undefined }); }}
         onBlur={(e) => onFilterChange({ search: e.currentTarget.value || undefined })}
       />
@@ -227,9 +269,15 @@ function FilterPanel({ categories, brands, filters, counts, onFilterChange }) {
       <FilterSection title="Category" defaultOpen>
         <div style={sectionDividerStyle}>
           <RadioRow name="category" label="All Categories" count={counts.total} selected={!filters.category} onSelect={() => onFilterChange({ category: undefined })} />
-          {categories.map((c) => (
+          {visibleCategories.map((c) => (
             <RadioRow key={c._id} name="category" label={c.name} count={counts.categories[c._id] ?? 0} selected={filters.category === c._id} onSelect={() => onFilterChange({ category: c._id })} />
           ))}
+          {hiddenCategoryCount > 0 && (
+            <ToggleRow label={`Show ${hiddenCategoryCount} more`} expanded={false} onClick={() => setShowAllCategories(true)} />
+          )}
+          {showAllCategories && categories.length > VISIBLE_CATEGORY_COUNT && (
+            <ToggleRow label="Show less" expanded onClick={() => setShowAllCategories(false)} />
+          )}
         </div>
       </FilterSection>
 
@@ -253,9 +301,9 @@ function FilterPanel({ categories, brands, filters, counts, onFilterChange }) {
       <FilterSection title="Price" defaultOpen>
         <form onSubmit={submitPrice} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Input type="number" inputMode="numeric" min="0" placeholder="Min" aria-label="Minimum price" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} style={{ height: 'var(--control-h-sm)' }} />
+            <Input type="number" inputMode="numeric" min="0" placeholder="Min" aria-label="Minimum price" error={priceError} value={minPrice} onChange={(e) => { setMinPrice(e.target.value); setPriceError(false); }} style={{ height: 'var(--control-h-sm)' }} />
             <span style={{ color: 'var(--text-faint)' }}>–</span>
-            <Input type="number" inputMode="numeric" min="0" placeholder="Max" aria-label="Maximum price" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} style={{ height: 'var(--control-h-sm)' }} />
+            <Input type="number" inputMode="numeric" min="0" placeholder="Max" aria-label="Maximum price" error={priceError && 'Min must be less than max.'} value={maxPrice} onChange={(e) => { setMaxPrice(e.target.value); setPriceError(false); }} style={{ height: 'var(--control-h-sm)' }} />
           </div>
           <Button type="submit" variant="secondary" size="sm">Apply</Button>
         </form>
@@ -281,6 +329,10 @@ export default function Shop() {
   // window, not sync to a paint frame.
   function openSheet() {
     sheetRef.current?.showModal();
+    // showModal() only focuses the <dialog> itself when it has no
+    // autofocus descendant — send focus to the close button explicitly
+    // so keyboard/AT users land somewhere useful instead of the dialog shell.
+    sheetRef.current?.querySelector('[aria-label="Close filters"]')?.focus();
     setTimeout(() => setSheetOpen(true), 20);
   }
   function closeSheet() {
@@ -497,7 +549,7 @@ export default function Shop() {
           {/* Grid */}
           {!error && (loading || sortedProducts.length > 0) && (
             <>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '24px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 280px))', gap: '24px' }}>
                 {loading && Array.from({ length: PAGE_SIZE }).map((_, i) => <ProductCardSkeleton key={i} />)}
                 {!loading && sortedProducts.map((p, i) => (
                   <div key={p._id} className="grid-fade-up" style={{ animationDelay: `${Math.min(i, 9) * 40}ms` }}>
