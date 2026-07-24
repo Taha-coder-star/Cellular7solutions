@@ -33,6 +33,7 @@ const CATEGORY_NAMES = [
   'Gaming',
   'iPad',
   'Tablet',
+  'Toys & Gadgets',
 ];
 
 // "Various" is a generic placeholder brand for accessories where the
@@ -46,6 +47,7 @@ const BRAND_NAMES = [
   'Sony',
   'Nintendo',
   'Anker',
+  'JBL',
   'Various',
 ];
 
@@ -119,6 +121,53 @@ const PRODUCTS = [
   { name: 'Galaxy Tab S9', brand: 'Samsung', category: 'Tablet', price: 799.99, condition: 'new', isFeatured: true, description: '11" Dynamic AMOLED 2X, S Pen included, IP68 water resistance.' },
   { name: 'Galaxy Tab A9+', brand: 'Samsung', category: 'Tablet', price: 169.99, condition: 'new', description: '11" 90Hz display, quad speakers — great everyday family tablet.' },
   { name: 'Nokia T21 Tablet', brand: 'Nokia', category: 'Tablet', price: 179.99, condition: 'new', description: '10.4" 2K display, 3 years of security updates, tough aluminum body.' },
+
+  // ===== Imported from master_inventory_catalog (INV-*), price 0 placeholders =====
+  { name: "French Bulldog Speaker", brand: "Various", category: "Speakers", price: 0, condition: "new", description: "Novelty bulldog speaker with sunglasses (available in Black, White, Red)." },  // INV-019
+  { name: "Hifi Tower Speaker", brand: "Various", category: "Speakers", price: 0, condition: "new", description: "Ultra-tall tower cabinet speaker with integrated top mixing console." },  // INV-027
+  { name: "JBL Tune 520BT Headphones", brand: "JBL", category: "Headphones", price: 0, condition: "new", description: "JBL Pure Bass Wireless on-ear headphones in Black." },  // INV-028
+  { name: "Kakusiga 12H Headphones", brand: "Various", category: "Headphones", price: 0, condition: "new", description: "12-Hour continuous play / 300-Hour standby Bluetooth headphones (Blue)." },  // INV-030
+  { name: "Kakusiga 60H Headphones", brand: "Various", category: "Headphones", price: 0, condition: "new", description: "60-Hour long battery life, flexible headband, supports Aux/TF card (Navy Blue)." },  // INV-029
+  { name: "Kakusiga Touch-Screen Earbuds", brand: "Various", category: "Bluetooth", price: 0, condition: "new", description: "Wireless earbuds with smart touch-screen display on the charging case." },  // INV-021
+  { name: "Maxpower 15\" Dual-Woofer", brand: "Various", category: "Speakers", price: 0, condition: "new", description: "10,000W Peak power, dual woofer party speaker with TWS and Mic support." },  // INV-024
+  { name: "Maxpower LED Tripod Speaker", brand: "Various", category: "Speakers", price: 0, condition: "new", description: "Active rainbow LED light ring speaker with EQ mixer panel and tripod stand." },  // INV-025
+  { name: "Maxpower Octagonal Speaker", brand: "Various", category: "Speakers", price: 0, condition: "new", description: "Heavy-duty, single-woofer portable party speaker with octagonal housing." },  // INV-026
+  { name: "Openear Duo Headphones", brand: "Various", category: "Headphones", price: 0, condition: "new", description: "Bone/Air conduction wireless sports headphones." },  // INV-020
+  { name: "Premium Over-Ear Headphones", brand: "Various", category: "Headphones", price: 0, condition: "new", description: "High-end over-ear headphones featuring a sleek mesh canopy design." },  // INV-023
+  { name: "Sleep TWS Headset", brand: "Various", category: "Bluetooth", price: 0, condition: "new", description: "Ultra-comfortable, low-profile earbuds optimized for sleeping." },  // INV-022
+  { name: "Sport Pro SY-BT85 Neckband", brand: "Various", category: "Bluetooth", price: 0, condition: "new", description: "Premium on-the-neck sports headset with BT 5.3 interface." },  // INV-031
+  { name: "i9S-TWS Wireless Earbuds", brand: "Various", category: "Bluetooth", price: 0, condition: "new", description: "Classic compact white wireless charging earbuds." },  // INV-032
+  { name: "22.5W Quick Charge Power Bank", brand: "Various", category: "Chargers", price: 0, condition: "new", description: "Portable high-capacity power bank with a digital power level display." },  // INV-040
+  { name: "Cyberdock 3-in-1 Charger", brand: "Various", category: "Chargers", price: 0, condition: "new", description: "Magnetic wireless charging dock for phone, watch, and earbuds simultaneously." },  // INV-041
+  { name: "MusicTuner FM Transmitter", brand: "Various", category: "Chargers", price: 0, condition: "new", description: "Bluetooth car FM transmitter and quick charger." },  // INV-038
+  { name: "Vlog Screen Ultra (RK-X40B)", brand: "Various", category: "Phone Accessories", price: 0, condition: "new", description: "7-in-1 wireless screen-sharing and Bluetooth selfie tripod kit." },  // INV-039
+  { name: "Pink Dior Monogram Case", brand: "Various", category: "Cases", price: 0, condition: "new", description: "Pink & white oblique monogram print with 'CD' logo for iPhone 17 Pro Max." },  // INV-011
+  { name: "Chanel-Inspired Pink Pearl Case", brand: "Various", category: "Cases", price: 0, condition: "new", description: "Pink rhinestone bed, large pearl flower emblem, pearl 'Chanel' script for iPhone 17 Pro Max." },  // INV-004
+  { name: "Pink Rose & Pearl Flower Case", brand: "Various", category: "Cases", price: 0, condition: "new", description: "Pink crystals, peach roses, and a stunning pearl-bow centerpiece for iPhone 16 Pro/Max." },  // INV-003
+  { name: "Purple Rhinestone Bow Case", brand: "Various", category: "Cases", price: 0, condition: "new", description: "Crystal-studded case with gold bows & pearl accent for iPhone 17 Pro Max." },  // INV-001
+  { name: "SafePlug 3D Floral Case", brand: "Various", category: "Cases", price: 0, condition: "new", description: "3D pearlescent flowers, gold roses & crystals for iPhone 16 Pro Max." },  // INV-002
+  { name: "SafePlug Black Cameo Case", brand: "Various", category: "Cases", price: 0, condition: "new", description: "Silver rhinestones, gold-trimmed black rose cameo, and square pearl for iPhone 17 Pro Max." },  // INV-005
+  { name: "Spring Meadow Bejeweled Case", brand: "Various", category: "Cases", price: 0, condition: "new", description: "Clear rhinestones, 3D blue flower, white daisy, and gold butterfly for iPhone 17 Pro Max." },  // INV-006
+  { name: "3D Sneakerhead Pink Nike Case", brand: "Various", category: "Cases", price: 0, condition: "new", description: "3D pink high-top sneaker and raised blue Nike lettering for iPhone 12/13 Pro Max." },  // INV-010
+  { name: "Pink Stitch Cartoon Case", brand: "Various", category: "Cases", price: 0, condition: "new", description: "Pink silicone case with a 3D Stitch character for iPhone 17 Pro Max." },  // INV-009
+  { name: "Pre-Owned MacBook Laptop", brand: "Apple", category: "Laptops", price: 0, condition: "used", description: "Space Gray sleek laptop with a braided USB-C cable." },  // INV-018
+  { name: "Pre-Owned iPad", brand: "Apple", category: "iPad", price: 0, condition: "used", description: "Classic tablet with white bezel and gold/silver back." },  // INV-017
+  { name: "Pre-Owned iPhone (Purple)", brand: "Apple", category: "Phones", price: 0, condition: "used", description: "Pastel Purple dual-camera iPhone in excellent condition." },  // INV-015
+  { name: "Pre-Owned iPhone 11 Pro", brand: "Apple", category: "Phones", price: 0, condition: "used", description: "Midnight Green triple-camera premium iPhone in excellent condition." },  // INV-016
+  { name: "Heavy-Duty Bumper Cases", brand: "Various", category: "Cases", price: 0, condition: "new", description: "Tough dual-layer cases in Red or Camo for iPhone 17 Pro Max." },  // INV-007
+  { name: "Sport Rugged Contrast-Bezel", brand: "Various", category: "Cases", price: 0, condition: "new", description: "Dual-tone drop protection: Mint/Pink or Pink/White for iPhone 17 Pro." },  // INV-008
+  { name: "Streetwear Companion Red Case", brand: "Various", category: "Cases", price: 0, condition: "new", description: "3D streetwear companion figure design for iPhone 17 Pro Max." },  // INV-012
+  { name: "360° Rotatable Handle Case", brand: "Various", category: "iPad", price: 0, condition: "new", description: "Purple/Green heavy-duty protective case with a rotatable hand grip for iPad 10.2\"." },  // INV-043
+  { name: "Premium Tab Armor Case", brand: "Various", category: "Tablet", price: 0, condition: "new", description: "Tactical shockproof casing designed for Galaxy Tab models (A9 Plus, etc.)." },  // INV-045
+  { name: "Pro-Series Rugged iPad Case", brand: "Apple", category: "iPad", price: 0, condition: "new", description: "Armored case with heavy-duty hand strap and built-in pencil holder (iPad Pro 12.9\")." },  // INV-044
+  { name: "Spider-Man iPad Case", brand: "Apple", category: "iPad", price: 0, condition: "new", description: "Blue & Red kid-proof protective silicone case with dual kickstands (for iPad 10.2\"/10.9\")." },  // INV-042
+  { name: "Gesture Twist Stunt Car", brand: "Various", category: "Toys & Gadgets", price: 0, condition: "new", description: "Hand-gesture control wearable stunt car with lighting and music (Pink/Blue)." },  // INV-034
+  { name: "Tank Armor 4x4 RC Car", brand: "Various", category: "Toys & Gadgets", price: 0, condition: "new", description: "Chameleon/rainbow metallic stunt RC car with multi-directional drift tires." },  // INV-033
+  { name: "Midnight Blue Cardholder Case", brand: "Various", category: "Cases", price: 0, condition: "new", description: "Navy leatherette backing with integrated card slot for iPhone 16 Plus." },  // INV-014
+  { name: "Vintage Brown Wallet Case", brand: "Various", category: "Cases", price: 0, condition: "new", description: "Tan brown leatherette folio with front card slot for iPhone 16 Pro." },  // INV-013
+  { name: "H30 7-in-1 Smartwatch Set", brand: "Various", category: "Phone Accessories", price: 0, condition: "new", description: "Apple Watch Ultra style smartwatch, wireless earbuds, and 7 interchangeable straps." },  // INV-035
+  { name: "Luxury Smartwatch Gift Set", brand: "Various", category: "Phone Accessories", price: 0, condition: "new", description: "Rectangular smartwatch case complete with premium metal and leather straps." },  // INV-036
+  { name: "Smart Video Calling Camera", brand: "Various", category: "Phone Accessories", price: 0, condition: "new", description: "Two-way video calling camera for real-time home monitoring and connection." },  // INV-037
 ];
 
 async function seed() {
