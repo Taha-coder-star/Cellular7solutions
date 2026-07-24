@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Logo, Icon } from '@/components/ui';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
@@ -149,6 +149,110 @@ function NavIconLink({ to, ariaLabel, children }) {
   );
 }
 
+/** Search icon that expands into an inline input in place — submits into
+ *  the Shop page's existing ?search= filter rather than a separate search flow. */
+function NavSearch() {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const [hovered, setHovered] = useState(false);
+  const inputRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (open) inputRef.current?.focus();
+  }, [open]);
+
+  function submit(e) {
+    e.preventDefault();
+    if (!query.trim()) return;
+    navigate(`/shop?search=${encodeURIComponent(query.trim())}`);
+    setOpen(false);
+    setQuery('');
+  }
+
+  if (!open) {
+    return (
+      <button
+        type="button"
+        aria-label="Search"
+        onClick={() => setOpen(true)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          width: '44px', height: '44px', borderRadius: 'var(--radius-sm)', border: 'none', cursor: 'pointer',
+          color: 'var(--text-muted)', background: hovered ? 'var(--graphite-100)' : 'transparent',
+          transition: 'var(--transition-base)',
+        }}
+      >
+        <Icon name="search" size={20} />
+      </button>
+    );
+  }
+
+  return (
+    <form onSubmit={submit} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+      <input
+        ref={inputRef}
+        type="search"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onKeyDown={(e) => { if (e.key === 'Escape') setOpen(false); }}
+        onBlur={() => { if (!query) setOpen(false); }}
+        placeholder="Search products…"
+        aria-label="Search products"
+        style={{
+          width: '220px', height: '40px', padding: '0 14px',
+          border: '1px solid var(--border-strong)', borderRadius: 'var(--radius-btn)',
+          fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', color: 'var(--text-strong)',
+          background: 'var(--white)', outline: 'none', transition: 'var(--transition-base)',
+        }}
+      />
+      <button
+        type="button"
+        aria-label="Close search"
+        onClick={() => { setOpen(false); setQuery(''); }}
+        style={{
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          width: '36px', height: '36px', borderRadius: '50%', border: 'none', cursor: 'pointer',
+          color: 'var(--text-muted)', background: 'transparent', transition: 'var(--transition-base)',
+        }}
+      >
+        <Icon name="x" size={18} />
+      </button>
+    </form>
+  );
+}
+
+function MobileSearch({ onNavigate }) {
+  const [query, setQuery] = useState('');
+  const navigate = useNavigate();
+
+  function submit(e) {
+    e.preventDefault();
+    if (!query.trim()) return;
+    navigate(`/shop?search=${encodeURIComponent(query.trim())}`);
+    onNavigate?.();
+  }
+
+  return (
+    <form onSubmit={submit} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', padding: 'var(--space-3) 0', borderBottom: '1px solid var(--border-subtle)' }}>
+      <Icon name="search" size={18} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+      <input
+        type="search"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search products…"
+        aria-label="Search products"
+        style={{
+          flex: 1, height: '40px', border: 'none', outline: 'none',
+          fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body)', color: 'var(--text-strong)', background: 'transparent',
+        }}
+      />
+    </form>
+  );
+}
+
 function MenuToggle({ open, onClick }) {
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -245,9 +349,7 @@ export default function Navbar() {
 
         {/* Desktop actions */}
         <div className="hidden md:flex" style={{ alignItems: 'center', gap: 'var(--space-2)' }}>
-          <NavIconLink to="/shop" ariaLabel="Search">
-            <Icon name="search" size={20} />
-          </NavIconLink>
+          <NavSearch />
 
           <NavIconLink to="/cart" ariaLabel={`Cart (${cartCount} items)`}>
             <Icon name="shopping-cart" size={20} />
@@ -281,6 +383,7 @@ export default function Navbar() {
             gap: 'var(--space-1)',
           }}
         >
+          <MobileSearch onNavigate={() => setMobileOpen(false)} />
           <ShopMenuAccordion onNavigate={() => setMobileOpen(false)} />
           {NAV_LINKS.map(({ to, label }) => (
             <NavLink
