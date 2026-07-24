@@ -4,6 +4,7 @@ import { Button } from './Button';
 import { Badge } from './Badge';
 import { Rating } from './Rating';
 import { Icon } from './Icon';
+import { productImageSrc, productImageSrcSet } from '@/utils/image';
 
 const usd = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
@@ -47,7 +48,14 @@ export function ProductCard({ product = {}, onAdd, to, style = {} }) {
       <ClickArea to={to} style={{ display: 'contents', color: 'inherit', textDecoration: 'none' }}>
         <div style={{ position: 'relative', aspectRatio: '4 / 5', background: 'var(--graphite-50)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
           {image
-            ? <img src={image} alt={name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'var(--transition-base)', transform: h ? 'scale(1.03)' : 'none' }} />
+            ? <img
+                src={productImageSrc(image, 400)}
+                srcSet={productImageSrcSet(image)}
+                sizes="(max-width: 640px) 45vw, 280px"
+                alt={name}
+                loading="lazy"
+                style={{ width: '100%', height: '100%', objectFit: 'contain', transition: 'var(--transition-base)', transform: h ? 'scale(1.03)' : 'none' }}
+              />
             : <Icon name={icon} size={96} strokeWidth={1.25} color="var(--graphite-300)" style={{ transition: 'var(--transition-base)', transform: h ? 'scale(1.05)' : 'none' }} />
           }
           <span style={{ position: 'absolute', top: '12px', left: '12px' }}>
@@ -61,7 +69,13 @@ export function ProductCard({ product = {}, onAdd, to, style = {} }) {
               {brand}
             </span>
           )}
-          <span style={{ fontSize: 'var(--fs-lg)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)', lineHeight: 'var(--lh-snug)' }}>
+          <span
+            title={name}
+            style={{
+              fontSize: 'var(--fs-lg)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)', lineHeight: 'var(--lh-snug)',
+              display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+            }}
+          >
             {name}
           </span>
           {rating != null && <Rating value={rating} count={reviews} size={14} />}
