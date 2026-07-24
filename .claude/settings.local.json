@@ -27,7 +27,38 @@
       "Bash(pkill -f vite)",
       "Bash(pkill -f nodemon)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://images.unsplash.com/photo-1628911771730-881503b8e9c9?auto=format&fit=crop&w=1600&q=80\")",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5173/)",
+      "Bash(python -c ' *)",
+      "Bash(pip install *)",
+      "Bash(python *)",
+      "Bash(node --check seed.js)",
+      "Bash(grep -c \"// INV-\" seed.js)",
+      "Bash(timeout 90 node -e ' *)",
+      "WebSearch",
+      "Bash(curl -sI \"https://images.unsplash.com/photo-2G9inL8M1VE\")",
+      "Bash(curl -sI \"https://images.unsplash.com/photo-1758964087156-0eac97044f84?auto=format&fit=crop&w=640&q=80\")",
+      "Bash(node --check _backfill_images.js)",
+      "Bash(timeout 90 node _backfill_images.js)",
+      "Bash(timeout 60 node -e ' *)",
+      "Bash(timeout 140 node _match_product_images.js)",
+      "Bash(IMPECCABLE_CRITIQUE_META='{\"target\":\"Shop page \\(client/src/pages/Shop.jsx\\)\",\"total_score\":25,\"p0_count\":2,\"p1_count\":1}' node .claude/skills/impeccable/scripts/critique-storage.mjs write client-src-pages-shop-jsx \"C:\\\\Users\\\\tahaj\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\F--cellular-solutions\\\\76162364-006e-4cef-b351-7fec984db236\\\\scratchpad\\\\critique-shop.md\")",
+      "Bash(node .claude/skills/impeccable/scripts/critique-storage.mjs trend client-src-pages-shop-jsx 5)",
+      "Bash(node .claude/skills/impeccable/scripts/detect.mjs --json --scope layout client/src/pages/Shop.jsx)",
+      "Bash(node .claude/skills/impeccable/scripts/detect.mjs --json client/src/pages/Shop.jsx)",
+      "Bash(node .claude/skills/impeccable/scripts/critique-storage.mjs slug \"client/src/pages/Shop.jsx\")",
+      "Bash(powershell -Command \"Get-Process -Id 29296 -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Milliseconds 500; Get-Process -Id 29296 -ErrorAction SilentlyContinue\")",
+      "Bash(node .claude/skills/impeccable/scripts/detect.mjs --json client/src/pages/ProductDetail.jsx)",
+      "Bash(node -e ' *)",
+      "Bash(node -e \"require\\('./routes/orderRoutes.js'\\); console.log\\('ok'\\)\")",
+      "Bash(curl *)",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\);console.log\\(j.products.map\\(p=>\\({name:p.name,price:p.price}\\)\\)\\)}\\)\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{const p=JSON.parse\\(d\\);console.log\\({name:p.name,price:p.price,stock:p.stock,images:p.images}\\)}\\)\")",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(rm \"C:\\\\Users\\\\tahaj\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\F--cellular-solutions\\\\8ae623bf-d5d3-4e2b-92e7-4fedf7be5717\\\\scratchpad\\\\critique-admin-dashboard.md\")",
+      "Bash(node .claude/skills/impeccable/scripts/critique-storage.mjs trend \"client/src/pages/admin \\(admin dashboard/panel\\)\" 5)",
+      "Bash(npm run *)"
     ]
   },
   "hooks": {
@@ -43,7 +74,19 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/skills/impeccable/scripts/hook.mjs\"",
+            "timeout": 30,
+            "statusMessage": "Design deep pass"
+          }
+        ]
+      }
     ]
   },
-  "description": "Impeccable design detector: runs after Edit/Write/MultiEdit on UI files and surfaces findings as system reminders."
+  "description": "Impeccable design detector: immediate-tier checks after Edit/Write/MultiEdit on UI files, full-rule deep pass on Stop."
 }
