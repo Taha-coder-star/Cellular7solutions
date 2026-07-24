@@ -6,6 +6,7 @@ export { Checkbox }    from './Checkbox';
 export { Card }        from './Card';
 export { Badge }       from './Badge';
 export { StatusBadge } from './StatusBadge';
+export { Table, tdStyle, trStyle } from './Table';
 export { Rating }      from './Rating';
 export { ProductCard } from './ProductCard';
 export { RepairCard }  from './RepairCard';
