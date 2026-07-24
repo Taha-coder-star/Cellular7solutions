@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Button, Badge, Rating, Icon, Card } from '@/components/ui';
 import { useCart } from '@/context/CartContext';
 import api from '@/services/api';
-import { usd } from '@/utils/format';
+import { usd, normalizeBrandName } from '@/utils/format';
+import { productImageSrc, productImageSrcSet } from '@/utils/image';
 
 const label = {
   fontFamily: 'var(--font-sans)',
@@ -28,20 +29,40 @@ function GallerySkeleton() {
   );
 }
 
+function StepButton({ children, disabled, onClick, ariaLabel }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={onClick}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      aria-label={ariaLabel}
+      style={{
+        width: '44px',
+        height: '44px',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: hover && !disabled ? 'var(--surface-subtle)' : 'var(--white)',
+        border: 'none',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        fontFamily: 'var(--font-sans)',
+        fontSize: 'var(--fs-lg)',
+        color: 'var(--text-strong)',
+        opacity: disabled ? 0.5 : 1,
+        transition: 'var(--transition-base)',
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
 function QuantitySelector({ value, onChange, max }) {
-  const btn = {
-    width: '44px',
-    height: '44px',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'var(--white)',
-    border: 'none',
-    cursor: 'pointer',
-    fontFamily: 'var(--font-sans)',
-    fontSize: 'var(--fs-lg)',
-    color: 'var(--text-strong)',
-  };
+  const atMin = value <= 1;
+  const atMax = max != null && value >= max;
   return (
     <div
       style={{
@@ -52,12 +73,116 @@ function QuantitySelector({ value, onChange, max }) {
         overflow: 'hidden',
       }}
     >
-      <button type="button" style={btn} onClick={() => onChange(Math.max(1, value - 1))} aria-label="Decrease quantity">−</button>
-      <span style={{ minWidth: '44px', textAlign: 'center', fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
+      <StepButton disabled={atMin} onClick={() => onChange(Math.max(1, value - 1))} ariaLabel="Decrease quantity">−</StepButton>
+      <span aria-live="polite" style={{ minWidth: '44px', textAlign: 'center', fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
         {value}
       </span>
-      <button type="button" style={btn} onClick={() => onChange(Math.min(max || 99, value + 1))} aria-label="Increase quantity">+</button>
+      <StepButton disabled={atMax} onClick={() => onChange(Math.min(max || 99, value + 1))} ariaLabel="Increase quantity">+</StepButton>
     </div>
+  );
+}
+
+function GalleryHero({ image, alt, hasImage, onZoom }) {
+  const [hover, setHover] = useState(false);
+  const Wrapper = hasImage ? 'button' : 'div';
+  return (
+    <Wrapper
+      {...(hasImage ? { type: 'button', onClick: onZoom, 'aria-label': `Zoom in on ${alt}` } : {})}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        position: 'relative',
+        aspectRatio: '1 / 1',
+        background: 'var(--graphite-50)',
+        borderRadius: 'var(--radius-card)',
+        border: '1px solid var(--border-subtle)',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 0,
+        cursor: hasImage ? 'zoom-in' : 'default',
+      }}
+    >
+      {hasImage ? (
+        <>
+          <img
+            src={productImageSrc(image, 800)}
+            srcSet={productImageSrcSet(image)}
+            sizes="(max-width: 1024px) 90vw, 600px"
+            alt={alt}
+            style={{
+              width: '100%', height: '100%', objectFit: 'contain',
+              transform: hover ? 'scale(1.03)' : 'none', transition: 'var(--transition-base)',
+            }}
+          />
+          <span
+            style={{
+              position: 'absolute', bottom: 'var(--space-4)', right: 'var(--space-4)',
+              width: '40px', height: '40px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              borderRadius: '50%', background: 'rgba(24, 24, 27, 0.6)', color: 'var(--white)',
+              opacity: hover ? 1 : 0, transition: 'var(--transition-base)',
+            }}
+          >
+            <Icon name="zoom-in" size={18} />
+          </span>
+        </>
+      ) : (
+        <Icon name="smartphone" size={120} strokeWidth={1} color="var(--graphite-300)" />
+      )}
+    </Wrapper>
+  );
+}
+
+const LIGHTBOX_EXIT_MS = 200;
+
+/** Native <dialog> lightbox — same instant-pop-then-layer-a-transition
+ *  technique used for the Shop page's mobile filter sheet. The image itself
+ *  is rendered at a much larger width so pinch/ctrl-scroll zoom (already
+ *  enabled by the page's viewport meta) reveals real detail, not just a
+ *  scaled-up version of the same small file. */
+function ImageLightbox({ dialogRef, open, onDialogClose, onDismiss, src, srcSet, alt }) {
+  return (
+    <dialog
+      ref={dialogRef}
+      aria-label={alt}
+      onClose={onDialogClose}
+      style={{ margin: 0, padding: 0, border: 'none', maxWidth: 'none', width: '100%', height: '100%', maxHeight: 'none', background: 'transparent', overflow: 'hidden' }}
+    >
+      <div
+        onClick={onDismiss}
+        style={{
+          position: 'absolute', inset: 0, background: 'rgba(24, 24, 27, 0.85)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--space-6)',
+          opacity: open ? 1 : 0, transition: 'opacity 0.25s ease-out',
+        }}
+      >
+        <img
+          src={src}
+          srcSet={srcSet}
+          sizes="90vw"
+          alt={alt}
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            maxWidth: '90vw', maxHeight: '90vh', objectFit: 'contain', borderRadius: 'var(--radius-sm)',
+            transform: open ? 'scale(1)' : 'scale(0.96)',
+            transition: `transform ${LIGHTBOX_EXIT_MS * 1.5}ms cubic-bezier(0.19, 1, 0.22, 1)`,
+          }}
+        />
+        <button
+          type="button"
+          onClick={onDismiss}
+          aria-label="Close zoomed image"
+          style={{
+            position: 'absolute', top: 'var(--space-5)', right: 'var(--space-5)',
+            width: '44px', height: '44px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            borderRadius: '50%', border: 'none', cursor: 'pointer', background: 'rgba(255,255,255,0.15)', color: 'var(--white)',
+          }}
+        >
+          <Icon name="x" size={22} />
+        </button>
+      </div>
+    </dialog>
   );
 }
 
@@ -133,6 +258,20 @@ export default function ProductDetail() {
   const [qty, setQty] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [added, setAdded] = useState(false);
+  const lightboxRef = useRef(null);
+  const lightboxTimeoutRef = useRef(null);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  function openLightbox() {
+    clearTimeout(lightboxTimeoutRef.current);
+    lightboxRef.current?.showModal();
+    lightboxTimeoutRef.current = setTimeout(() => setLightboxOpen(true), 20);
+  }
+  function closeLightbox() {
+    clearTimeout(lightboxTimeoutRef.current);
+    setLightboxOpen(false);
+    lightboxTimeoutRef.current = setTimeout(() => lightboxRef.current?.close(), LIGHTBOX_EXIT_MS);
+  }
 
   useEffect(() => {
     setLoading(true);
@@ -149,7 +288,7 @@ export default function ProductDetail() {
       {
         _id: product._id,
         name: product.name,
-        brand: product.brand?.name ?? '',
+        brand: normalizeBrandName(product.brand?.name),
         price: product.price,
         image: product.images?.[0] ?? null,
         condition: product.condition,
@@ -190,7 +329,7 @@ export default function ProductDetail() {
     <div className="max-w-7xl mx-auto" style={{ padding: 'var(--space-10) var(--space-6) var(--pad-section)', fontFamily: 'var(--font-sans)', display: 'flex', flexDirection: 'column', gap: 'var(--space-16)' }}>
 
       {/* Breadcrumb */}
-      <nav style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)' }}>
+      <nav aria-label="Breadcrumb" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)' }}>
         <Link to="/shop" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Shop</Link>
         <span>/</span>
         <span style={{ color: 'var(--text-strong)' }}>{product.name}</span>
@@ -200,24 +339,12 @@ export default function ProductDetail() {
 
         {/* Gallery */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-          <div
-            style={{
-              aspectRatio: '1 / 1',
-              background: 'var(--graphite-50)',
-              borderRadius: 'var(--radius-card)',
-              border: '1px solid var(--border-subtle)',
-              overflow: 'hidden',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {images.length > 0 ? (
-              <img src={images[activeImage]} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            ) : (
-              <Icon name="smartphone" size={120} strokeWidth={1} color="var(--graphite-300)" />
-            )}
-          </div>
+          <GalleryHero
+            image={images[activeImage]}
+            alt={product.name}
+            hasImage={images.length > 0}
+            onZoom={openLightbox}
+          />
 
           {images.length > 1 && (
             <div style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
@@ -238,7 +365,7 @@ export default function ProductDetail() {
                   }}
                   aria-label={`View image ${i + 1}`}
                 >
-                  <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={productImageSrc(img, 400)} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </button>
               ))}
             </div>
@@ -247,7 +374,7 @@ export default function ProductDetail() {
 
         {/* Info */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
-          {product.brand?.name && <span style={label}>{product.brand.name}</span>}
+          {normalizeBrandName(product.brand?.name) && <span style={label}>{normalizeBrandName(product.brand?.name)}</span>}
 
           <h1 style={{ margin: 0, fontSize: 'var(--fs-h1)', fontWeight: 'var(--fw-bold)', letterSpacing: 'var(--ls-tight)', lineHeight: 'var(--lh-tight)', color: 'var(--text-strong)' }}>
             {product.name}
@@ -294,6 +421,18 @@ export default function ProductDetail() {
       </div>
 
       <ReviewsSection productId={id} />
+
+      {images.length > 0 && (
+        <ImageLightbox
+          dialogRef={lightboxRef}
+          open={lightboxOpen}
+          onDialogClose={() => setLightboxOpen(false)}
+          onDismiss={closeLightbox}
+          src={productImageSrc(images[activeImage], 1600)}
+          srcSet={productImageSrcSet(images[activeImage])}
+          alt={product.name}
+        />
+      )}
     </div>
   );
 }
