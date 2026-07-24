@@ -96,6 +96,19 @@ const placeOrder = async (req, res) => {
   }
 };
 
+const getOrders = async (req, res) => {
+  try {
+    const orders = await Order.find()
+      .populate('orderItems')
+      .populate('user', 'name email')
+      .sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (err) {
+    console.error('getOrders:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 const getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user.id })
@@ -177,6 +190,7 @@ const updateOrderToPaid = async (req, res) => {
 
 module.exports = {
   placeOrder,
+  getOrders,
   getMyOrders,
   getOrderById,
   updateOrderStatus,
