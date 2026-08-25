@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Button, Badge, Rating, Icon, Card } from '@/components/ui';
-import { useCart } from '@/context/CartContext';
 import api from '@/services/api';
-import { usd, normalizeBrandName } from '@/utils/format';
+import { normalizeBrandName } from '@/utils/format';
 import { productImageSrc, productImageSrcSet } from '@/utils/image';
+import { whatsappLink } from '@/utils/whatsapp';
 
 const label = {
   fontFamily: 'var(--font-sans)',
@@ -25,59 +25,6 @@ function GallerySkeleton() {
         <div style={{ height: '20px', width: '40%', background: 'var(--graphite-100)', borderRadius: '4px' }} />
         <div style={{ height: '48px', width: '100%', background: 'var(--graphite-100)', borderRadius: 'var(--radius-btn)', marginTop: 'var(--space-6)' }} />
       </div>
-    </div>
-  );
-}
-
-function StepButton({ children, disabled, onClick, ariaLabel }) {
-  const [hover, setHover] = useState(false);
-  return (
-    <button
-      type="button"
-      disabled={disabled}
-      onClick={onClick}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      aria-label={ariaLabel}
-      style={{
-        width: '44px',
-        height: '44px',
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: hover && !disabled ? 'var(--surface-subtle)' : 'var(--white)',
-        border: 'none',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        fontFamily: 'var(--font-sans)',
-        fontSize: 'var(--fs-lg)',
-        color: 'var(--text-strong)',
-        opacity: disabled ? 0.5 : 1,
-        transition: 'var(--transition-base)',
-      }}
-    >
-      {children}
-    </button>
-  );
-}
-
-function QuantitySelector({ value, onChange, max }) {
-  const atMin = value <= 1;
-  const atMax = max != null && value >= max;
-  return (
-    <div
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        border: '1px solid var(--border-strong)',
-        borderRadius: 'var(--radius-btn)',
-        overflow: 'hidden',
-      }}
-    >
-      <StepButton disabled={atMin} onClick={() => onChange(Math.max(1, value - 1))} ariaLabel="Decrease quantity">−</StepButton>
-      <span aria-live="polite" style={{ minWidth: '44px', textAlign: 'center', fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
-        {value}
-      </span>
-      <StepButton disabled={atMax} onClick={() => onChange(Math.min(max || 99, value + 1))} ariaLabel="Increase quantity">+</StepButton>
     </div>
   );
 }
@@ -251,13 +198,10 @@ function ReviewsSection({ productId }) {
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [qty, setQty] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
-  const [added, setAdded] = useState(false);
   const lightboxRef = useRef(null);
   const lightboxTimeoutRef = useRef(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -282,23 +226,6 @@ export default function ProductDetail() {
       .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, [id]);
-
-  function handleAdd() {
-    addToCart(
-      {
-        _id: product._id,
-        name: product.name,
-        brand: normalizeBrandName(product.brand?.name),
-        price: product.price,
-        image: product.images?.[0] ?? null,
-        condition: product.condition,
-        stock: product.stock,
-      },
-      qty
-    );
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
-  }
 
   if (loading) {
     return (
@@ -385,28 +312,26 @@ export default function ProductDetail() {
             {product.rating != null && <Rating value={product.rating} count={product.reviews} size={16} />}
           </div>
 
-          <span style={{ fontSize: 'var(--fs-h2)', fontWeight: 'var(--fw-bold)', color: 'var(--text-strong)' }}>
-            {usd(product.price)}
-          </span>
-
           {/* Stock status */}
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)', fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-medium)', color: outOfStock ? 'var(--danger-500)' : lowStock ? 'var(--warning-700)' : 'var(--success-700)' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'currentColor' }} />
             {outOfStock ? 'Out of stock' : lowStock ? `Only ${product.stock} left in stock` : 'In stock'}
           </span>
 
-          {/* Quantity + Add to Cart */}
+          {/* WhatsApp inquiry */}
           <div style={{ display: 'flex', gap: 'var(--space-4)', alignItems: 'center', flexWrap: 'wrap', marginTop: 'var(--space-2)' }}>
-            <QuantitySelector value={qty} onChange={setQty} max={product.stock} />
             <Button
+              as="a"
+              href={whatsappLink({ ...product, image: images[0] })}
+              target="_blank"
+              rel="noopener noreferrer"
               variant="product"
               size="md"
               disabled={outOfStock}
-              onClick={handleAdd}
-              iconLeft={<Icon name={added ? 'check' : 'shopping-cart'} size={18} />}
+              iconLeft={<Icon name="message-square" size={18} />}
               style={{ flex: '1 1 auto', minWidth: '200px' }}
             >
-              {outOfStock ? 'Out of Stock' : added ? 'Added to Cart' : 'Add to Cart'}
+              {outOfStock ? 'Out of Stock' : 'Inquire on WhatsApp'}
             </Button>
           </div>
 

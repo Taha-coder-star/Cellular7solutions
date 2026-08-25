@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from '@/components/ui';
-import api from '@/services/api';
 import { useRevealOnView } from '@/hooks/useReveal';
+import { useTopCategories } from '@/hooks/useTopCategories';
 
 const CARD_COUNT = 4;
 
@@ -117,30 +117,9 @@ function CategoryCardSkeleton() {
 }
 
 export default function Categories() {
-  const [categories, setCategories] = useState(null);
-  const [error, setError] = useState(false);
+  const { categories, error } = useTopCategories(CARD_COUNT);
   const gridRef = useRef(null);
   useRevealOnView(gridRef, { stagger: 70, deps: [categories] });
-
-  useEffect(() => {
-    Promise.all([
-      api.get('/categories'),
-      api.get('/products', { params: { limit: 100 } }),
-    ])
-      .then(([{ data: cats }, { data: prodData }]) => {
-        const counts = {};
-        for (const p of prodData.products ?? []) {
-          const catId = p.category?._id ?? p.category;
-          if (catId) counts[catId] = (counts[catId] ?? 0) + 1;
-        }
-        const ranked = (cats ?? [])
-          .map((c) => ({ ...c, count: counts[c._id] ?? 0 }))
-          .sort((a, b) => b.count - a.count)
-          .slice(0, CARD_COUNT);
-        setCategories(ranked);
-      })
-      .catch(() => setError(true));
-  }, []);
 
   if (error) return null;
 

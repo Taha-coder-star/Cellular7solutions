@@ -4,19 +4,28 @@ const categorySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
     trim: true,
   },
   slug: {
     type: String,
-    unique: true,
-    sparse: true,
+  },
+  parent: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    default: null,
+  },
+  navOrder: {
+    type: Number,
+    default: null,
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
+
+categorySchema.index({ parent: 1, name: 1 }, { unique: true });
+categorySchema.index({ parent: 1, slug: 1 }, { unique: true, sparse: true });
 
 categorySchema.pre('save', function () {
   if (this.isModified('name')) {

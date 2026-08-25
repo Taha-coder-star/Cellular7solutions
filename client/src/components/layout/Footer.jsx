@@ -1,12 +1,19 @@
 import { Link } from 'react-router-dom';
 import { Logo, Icon } from '@/components/ui';
+import { useCategoryTree } from '@/hooks/useCategoryTree';
 
-const SHOP_LINKS = [
-  { to: '/shop?category=phones',      label: 'Phones' },
-  { to: '/shop?category=consoles',    label: 'Consoles' },
-  { to: '/shop?category=laptops',     label: 'Laptops' },
-  { to: '/shop?category=accessories', label: 'Accessories' },
-];
+// Real top-level category names as they exist in the DB (verified against
+// /categories/tree) — resolved to ids at render time so the links can't drift
+// out of sync with category ids the way a hardcoded slug/id would.
+const SHOP_LINK_NAMES = ['Phones', 'Gaming', 'Laptops', 'Accessories'];
+
+function useShopLinks() {
+  const { tree } = useCategoryTree();
+  return SHOP_LINK_NAMES.map((name) => {
+    const cat = tree?.find((n) => n.name === name);
+    return { to: cat ? `/shop?category=${cat._id}` : '/shop', label: name };
+  });
+}
 
 const SERVICE_LINKS = [
   { to: '/repair',  label: 'Book a Repair' },
@@ -70,6 +77,7 @@ function FooterColumn({ heading, links }) {
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const shopLinks = useShopLinks();
 
   return (
     <footer style={{ background: 'var(--surface-dark)', color: 'var(--text-on-dark)' }}>
@@ -128,7 +136,7 @@ export default function Footer() {
           </div>
 
           {/* Link columns */}
-          <FooterColumn heading="Shop" links={SHOP_LINKS} />
+          <FooterColumn heading="Shop" links={shopLinks} />
           <FooterColumn heading="Service" links={SERVICE_LINKS} />
           <FooterColumn heading="Support" links={SUPPORT_LINKS} />
         </div>

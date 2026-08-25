@@ -4,16 +4,12 @@ import { Icon } from '@/components/ui';
 import api from '@/services/api';
 import { useRevealOnView } from '@/hooks/useReveal';
 
-const usd = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
 // brand is a populated object { _id, name, slug } after the backend fix,
-// images[0] maps to `image`, wasPrice/compareAtPrice not on the model yet.
+// images[0] maps to `image`.
 function normalizeProduct(p) {
   return {
     _id: p._id,
     name: p.name,
-    price: p.price,
-    wasPrice: p.compareAtPrice ?? null,
     image: Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : null,
   };
 }
@@ -62,16 +58,6 @@ function ProductCard({ product }) {
           }}
         >
           {product.name}
-        </div>
-        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px' }}>
-          <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
-            {usd(product.price)}
-          </span>
-          {product.wasPrice && (
-            <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-xs)', color: 'var(--graphite-400)', textDecoration: 'line-through' }}>
-              {usd(product.wasPrice)}
-            </span>
-          )}
         </div>
       </div>
     </Link>

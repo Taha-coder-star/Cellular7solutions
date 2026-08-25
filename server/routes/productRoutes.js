@@ -5,6 +5,7 @@ const { admin } = require('../middleware/adminMiddleware');
 const upload = require('../middleware/uploadMiddleware');
 const {
   getProducts,
+  getProductFacets,
   getProductById,
   createProduct,
   updateProduct,
@@ -13,6 +14,7 @@ const {
 } = require('../controllers/productController');
 
 router.get('/', getProducts);
+router.get('/facets', getProductFacets);
 router.get('/:id', getProductById);
 router.post('/', protect, admin, upload.array('images', 5), createProduct);
 router.put('/:id', protect, admin, upload.array('images', 5), updateProduct);

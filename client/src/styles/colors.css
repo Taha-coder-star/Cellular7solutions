@@ -60,7 +60,7 @@
   --text-strong:   var(--graphite-900);
   --text-body:     var(--graphite-700);
   --text-muted:    var(--graphite-500);
-  --text-faint:    var(--graphite-400);
+  --text-faint:    var(--graphite-500);
   --text-on-dark:  var(--white);
   --text-on-brand: var(--white);
 

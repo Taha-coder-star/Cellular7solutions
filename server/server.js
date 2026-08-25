@@ -2,6 +2,7 @@ require('dotenv').config({ override: true });
 const dns = require('dns');
 const express = require('express');
 const cors = require('cors');
+const multer = require('multer');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
@@ -37,6 +38,9 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/repairs', repairRoutes);
 
 app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError || /image files.*are allowed/.test(err.message || '')) {
+    return res.status(400).json({ message: err.message });
+  }
   console.error('Unhandled error:', err);
   res.status(500).json({ message: 'Server error' });
 });

@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Logo, Icon } from '@/components/ui';
 import { useAuth } from '@/context/AuthContext';
-import { useCart } from '@/context/CartContext';
-import ShopMegaMenu, { ShopMenuAccordion } from '@/components/ShopMegaMenu';
+import CategoryNavBar from '@/components/layout/CategoryNavBar';
+import MobileCategoryMenu from '@/components/layout/MobileCategoryMenu';
 
 const NAV_LINKS = [
   { to: '/buysell', label: 'Buy & Sell' },
@@ -40,80 +40,6 @@ function NavTextLink({ to, label }) {
     >
       {label}
     </NavLink>
-  );
-}
-
-/** "Deals" leads to the general shop, not a service action — graphite per the Reserved Accent Rule, not a discount-sticker amber. */
-function DealsLink({ mobile = false, onClick }) {
-  const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
-  const active = hovered || focused;
-
-  return (
-    <Link
-      to="/shop"
-      onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
-      style={
-        mobile
-          ? {
-              fontFamily: 'var(--font-sans)',
-              fontSize: 'var(--fs-body)',
-              fontWeight: 'var(--fw-bold)',
-              color: active ? 'var(--graphite-700)' : 'var(--brand-primary)',
-              textDecoration: 'none',
-              padding: 'var(--space-3) 0',
-              borderBottom: '1px solid var(--border-subtle)',
-              transition: 'color 0.15s ease',
-              ...(focused ? FOCUS_RING : NO_RING),
-            }
-          : {
-              fontFamily: 'var(--font-sans)',
-              fontSize: 'var(--fs-sm)',
-              fontWeight: 'var(--fw-bold)',
-              color: active ? 'var(--graphite-700)' : 'var(--brand-primary)',
-              textDecoration: 'none',
-              transition: 'color 0.15s ease',
-              paddingBottom: '2px',
-              borderBottom: '2px solid transparent',
-              ...(focused ? { ...FOCUS_RING, outlineOffset: '4px' } : NO_RING),
-            }
-      }
-    >
-      Deals
-    </Link>
-  );
-}
-
-function CartBadge({ count }) {
-  if (!count) return null;
-  return (
-    // Intentionally off the fs- scale: a numeral counter-badge is conventionally 9-11px, distinct from body type sizes.
-    <span
-      style={{
-        position: 'absolute',
-        top: '-6px',
-        right: '-8px',
-        minWidth: '18px',
-        height: '18px',
-        padding: '0 4px',
-        borderRadius: 'var(--radius-pill)',
-        background: 'var(--brand-primary)',
-        color: 'var(--text-on-brand)',
-        fontSize: '10px',
-        fontWeight: 'var(--fw-bold)',
-        fontFamily: 'var(--font-sans)',
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        lineHeight: 1,
-      }}
-    >
-      {count}
-    </span>
   );
 }
 
@@ -224,35 +150,6 @@ function NavSearch() {
   );
 }
 
-function MobileSearch({ onNavigate }) {
-  const [query, setQuery] = useState('');
-  const navigate = useNavigate();
-
-  function submit(e) {
-    e.preventDefault();
-    if (!query.trim()) return;
-    navigate(`/shop?search=${encodeURIComponent(query.trim())}`);
-    onNavigate?.();
-  }
-
-  return (
-    <form onSubmit={submit} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', padding: 'var(--space-3) 0', borderBottom: '1px solid var(--border-subtle)' }}>
-      <Icon name="search" size={18} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
-      <input
-        type="search"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search products…"
-        aria-label="Search products"
-        style={{
-          flex: 1, height: '40px', border: 'none', outline: 'none',
-          fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body)', color: 'var(--text-strong)', background: 'transparent',
-        }}
-      />
-    </form>
-  );
-}
-
 function MenuToggle({ open, onClick }) {
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -290,7 +187,6 @@ function MenuToggle({ open, onClick }) {
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useAuth();
-  const { cartCount } = useCart();
 
   return (
     <header
@@ -340,36 +236,28 @@ export default function Navbar() {
 
         {/* Desktop nav links */}
         <nav className="hidden md:flex" style={{ gap: 'var(--space-8)', alignItems: 'center' }}>
-          <ShopMegaMenu />
           {NAV_LINKS.map(({ to, label }) => (
             <NavTextLink key={label} to={to} label={label} />
           ))}
-          <DealsLink />
         </nav>
 
         {/* Desktop actions */}
         <div className="hidden md:flex" style={{ alignItems: 'center', gap: 'var(--space-2)' }}>
           <NavSearch />
 
-          <NavIconLink to="/cart" ariaLabel={`Cart (${cartCount} items)`}>
-            <Icon name="shopping-cart" size={20} />
-            <CartBadge count={cartCount} />
-          </NavIconLink>
-
           <NavIconLink to={user ? '/account' : '/login'} ariaLabel={user ? 'My Account' : 'Sign In'}>
             <Icon name="user" size={20} />
           </NavIconLink>
         </div>
 
-        {/* Mobile: cart + hamburger */}
+        {/* Mobile: search + hamburger */}
         <div className="flex md:hidden" style={{ alignItems: 'center', gap: 'var(--space-2)' }}>
-          <NavIconLink to="/cart" ariaLabel="Cart">
-            <Icon name="shopping-cart" size={20} />
-            <CartBadge count={cartCount} />
-          </NavIconLink>
+          <NavSearch />
           <MenuToggle open={mobileOpen} onClick={() => setMobileOpen((o) => !o)} />
         </div>
       </div>
+
+      <CategoryNavBar />
 
       {/* Mobile dropdown menu */}
       {mobileOpen && (
@@ -383,8 +271,7 @@ export default function Navbar() {
             gap: 'var(--space-1)',
           }}
         >
-          <MobileSearch onNavigate={() => setMobileOpen(false)} />
-          <ShopMenuAccordion onNavigate={() => setMobileOpen(false)} />
+          <MobileCategoryMenu onNavigate={() => setMobileOpen(false)} />
           {NAV_LINKS.map(({ to, label }) => (
             <NavLink
               key={label}
@@ -403,7 +290,6 @@ export default function Navbar() {
               {label}
             </NavLink>
           ))}
-          <DealsLink mobile onClick={() => setMobileOpen(false)} />
           <Link
             to={user ? '/account' : '/login'}
             onClick={() => setMobileOpen(false)}

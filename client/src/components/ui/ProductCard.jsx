@@ -5,16 +5,14 @@ import { Badge } from './Badge';
 import { Rating } from './Rating';
 import { Icon } from './Icon';
 import { productImageSrc, productImageSrcSet } from '@/utils/image';
+import { whatsappLink } from '@/utils/whatsapp';
 
-const usd = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-/** `to`, when given, wraps the image/title/price region in a Link — kept
- *  outside the Add to Cart button so no interactive element gets nested. */
-export function ProductCard({ product = {}, onAdd, to, style = {} }) {
+/** `to`, when given, wraps the image/title region in a Link — kept
+ *  outside the WhatsApp button so no interactive element gets nested. */
+export function ProductCard({ product = {}, to, style = {} }) {
   const {
     name = 'Product',
     brand = '',
-    price = 0,
     image,
     condition = 'new',
     rating,
@@ -34,6 +32,8 @@ export function ProductCard({ product = {}, onAdd, to, style = {} }) {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        minWidth: 0,
+        maxWidth: '100%',
         background: 'var(--surface-card)',
         border: '1px solid var(--border-subtle)',
         borderRadius: 'var(--radius-card)',
@@ -42,6 +42,7 @@ export function ProductCard({ product = {}, onAdd, to, style = {} }) {
         transition: 'var(--transition-base)',
         overflow: 'hidden',
         fontFamily: 'var(--font-sans)',
+        boxSizing: 'border-box',
         ...style,
       }}
     >
@@ -63,7 +64,7 @@ export function ProductCard({ product = {}, onAdd, to, style = {} }) {
           </span>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: 'var(--pad-card)', paddingBottom: 0 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', padding: 'var(--pad-card)', paddingBottom: 0 }}>
           {brand && (
             <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 'var(--fw-semibold)', letterSpacing: 'var(--ls-wide)', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
               {brand}
@@ -79,17 +80,32 @@ export function ProductCard({ product = {}, onAdd, to, style = {} }) {
             {name}
           </span>
           {rating != null && <Rating value={rating} count={reviews} size={14} />}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '4px' }}>
-            <span style={{ fontSize: 'var(--fs-h4)', fontWeight: 'var(--fw-bold)', color: 'var(--text-strong)' }}>
-              {usd(price)}
-            </span>
-          </div>
         </div>
       </ClickArea>
 
-      <div style={{ padding: 'var(--pad-card)', paddingTop: '8px' }}>
-        <Button variant="product" fullWidth disabled={outOfStock} onClick={onAdd}>
-          {outOfStock ? 'Out of Stock' : 'Add to Cart'}
+      <div style={{ padding: 'var(--pad-card)', paddingTop: '14px', boxSizing: 'border-box', maxWidth: '100%' }}>
+        <Button
+          as="a"
+          href={whatsappLink(product)}
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="product"
+          size="sm"
+          fullWidth
+          disabled={outOfStock}
+          iconLeft={<Icon name="message-square" size={16} style={{ flexShrink: 0 }} />}
+          style={{
+            height: 'auto',
+            minHeight: '44px',
+            maxWidth: '100%',
+            boxSizing: 'border-box',
+            padding: '10px 12px',
+            whiteSpace: 'normal',
+            textAlign: 'center',
+            lineHeight: '1.25',
+          }}
+        >
+          {outOfStock ? 'Out of Stock' : 'Inquire on WhatsApp'}
         </Button>
       </div>
     </div>
