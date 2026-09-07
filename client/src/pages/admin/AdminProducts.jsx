@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Button, Input, Table, tdStyle, trStyle } from '@/components/ui';
+import { Button, Input, Pagination, Table, tdStyle, trStyle } from '@/components/ui';
 import api from '@/services/api';
 
 export default function AdminProducts() {
@@ -11,30 +11,55 @@ export default function AdminProducts() {
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [reloadTick, setReloadTick] = useState(0);
 
-  function load() {
-    const q = search ? `&search=${encodeURIComponent(search)}` : '';
-    const c = categoryId ? `&category=${categoryId}` : '';
-    api.get(`/products?page=${page}&limit=20${q}${c}`).then((res) => {
-      setProducts(res.data.products);
-      setPages(res.data.pages);
-    });
-  }
-
-  useEffect(load, [page, categoryId]);
-
+  // Debounce the raw input so we don't fire a request per keystroke.
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setPage(1);
-      load();
-    }, 300);
+    const timeout = setTimeout(() => setDebouncedSearch(search), 300);
     return () => clearTimeout(timeout);
   }, [search]);
 
+  // A new search term or category filter always starts back at page 1.
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch, categoryId]);
+
+  // Single source of truth for fetching — no stale-closure double-fetch,
+  // and an abort controller so a slow earlier request can't overwrite a
+  // newer one's results.
+  useEffect(() => {
+    const controller = new AbortController();
+    setLoading(true);
+    setError('');
+    const q = debouncedSearch ? `&search=${encodeURIComponent(debouncedSearch)}` : '';
+    const c = categoryId ? `&category=${categoryId}` : '';
+    api.get(`/products?page=${page}&limit=20${q}${c}`, { signal: controller.signal })
+      .then((res) => {
+        setProducts(res.data.products);
+        setPages(res.data.pages);
+      })
+      .catch((err) => {
+        if (controller.signal.aborted) return;
+        setError(err.response?.data?.message || 'Failed to load products');
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+    return () => controller.abort();
+  }, [page, debouncedSearch, categoryId, reloadTick]);
+
   async function handleDelete(id) {
     if (!confirm('Delete this product?')) return;
-    await api.delete(`/products/${id}`);
-    load();
+    setError('');
+    try {
+      await api.delete(`/products/${id}`);
+      setReloadTick((t) => t + 1);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to delete product');
+    }
   }
 
   return (
@@ -62,8 +87,19 @@ export default function AdminProducts() {
           <Button as={Link} to="/admin/products/new">New Product</Button>
         </div>
       </div>
+      {error && <div style={{ color: 'var(--danger-500)', fontSize: 'var(--fs-sm)', marginBottom: '16px' }}>{error}</div>}
+      {!loading && !error && products.length === 0 && (
+        <div style={{ textAlign: 'center', padding: '48px 0', color: 'var(--text-muted)', fontSize: 'var(--fs-sm)' }}>
+          {debouncedSearch ? `No products match "${debouncedSearch}".` : 'No products found.'}
+        </div>
+      )}
       <Table headers={['Name', 'Category', 'Brand', 'Price', 'Stock', '']}>
-        {products.map((p) => (
+        {loading && (
+          <tr>
+            <td style={{ ...tdStyle, color: 'var(--text-muted)' }} colSpan={6}>Loading…</td>
+          </tr>
+        )}
+        {!loading && products.map((p) => (
           <tr key={p._id} style={trStyle}>
             <td style={tdStyle}>{p.name}</td>
             <td style={{ ...tdStyle, color: 'var(--text-muted)' }}>{p.category?.name}</td>
@@ -77,15 +113,7 @@ export default function AdminProducts() {
           </tr>
         ))}
       </Table>
-      {pages > 1 && (
-        <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
-          {Array.from({ length: pages }, (_, i) => i + 1).map((n) => (
-            <Button key={n} variant={n === page ? 'product' : 'secondary'} size="sm" onClick={() => setPage(n)}>
-              {n}
-            </Button>
-          ))}
-        </div>
-      )}
+      <Pagination page={page} totalPages={pages} onChange={setPage} />
     </div>
   );
 }
