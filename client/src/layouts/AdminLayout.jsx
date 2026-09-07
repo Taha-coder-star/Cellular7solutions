@@ -1,4 +1,4 @@
-import { Outlet, NavLink, Navigate } from 'react-router-dom';
+import { Outlet, NavLink, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Icon } from '@/components/ui';
 
@@ -13,18 +13,24 @@ const NAV = [
 ];
 
 export default function AdminLayout() {
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
+  const navigate = useNavigate();
 
   if (loading) return null;
-  if (!user || user.role !== 'admin') return <Navigate to="/login" replace />;
+  if (!user || user.role !== 'admin') return <Navigate to="/admin/login" replace />;
+
+  function handleLogout() {
+    logout();
+    navigate('/admin/login', { replace: true });
+  }
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--surface-subtle)' }}>
-      <aside style={{ width: '240px', flexShrink: 0, background: 'var(--surface-dark)', padding: '24px 16px' }}>
+      <aside style={{ width: '240px', flexShrink: 0, background: 'var(--surface-dark)', padding: '24px 16px', display: 'flex', flexDirection: 'column' }}>
         <div style={{ color: 'var(--text-on-dark)', fontWeight: 'var(--fw-semibold)', fontSize: 'var(--fs-lg)', padding: '0 8px 24px' }}>
           Admin
         </div>
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
           {NAV.map((item) => (
             <NavLink
               key={item.to}
@@ -49,6 +55,28 @@ export default function AdminLayout() {
             </NavLink>
           ))}
         </nav>
+        <button
+          type="button"
+          onClick={handleLogout}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            padding: '10px 12px',
+            borderRadius: 'var(--radius-btn)',
+            color: 'var(--graphite-400)',
+            background: 'transparent',
+            border: 'none',
+            fontFamily: 'var(--font-sans)',
+            fontSize: 'var(--fs-sm)',
+            fontWeight: 'var(--fw-medium)',
+            cursor: 'pointer',
+            textAlign: 'left',
+          }}
+        >
+          <Icon name="log-out" size={18} />
+          Log out
+        </button>
       </aside>
       <main style={{ flex: 1, padding: '32px', minWidth: 0 }}>
         <Outlet />
