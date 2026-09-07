@@ -1,11 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Logo, Icon } from '@/components/ui';
-import { useAuth } from '@/context/AuthContext';
 import CategoryNavBar from '@/components/layout/CategoryNavBar';
 import MobileCategoryMenu from '@/components/layout/MobileCategoryMenu';
+import { useAuth } from '@/context/AuthContext';
+import api from '@/services/api';
 
 const NAV_LINKS = [
+  { to: '/categories/smartphones', label: 'Smartphones' },
+  { to: '/categories/laptops', label: 'Laptops' },
+  { to: '/categories/gaming', label: 'Gaming' },
   { to: '/buysell', label: 'Buy & Sell' },
   { to: '/repair',  label: 'Repairs' },
   { to: '/about',   label: 'About' },
@@ -43,44 +47,13 @@ function NavTextLink({ to, label }) {
   );
 }
 
-function NavIconLink({ to, ariaLabel, children }) {
-  const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
-  const active = hovered || focused;
-
-  return (
-    <Link
-      to={to}
-      aria-label={ariaLabel}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
-      style={{
-        position: 'relative',
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '44px',
-        height: '44px',
-        borderRadius: 'var(--radius-sm)',
-        color: active ? 'var(--text-strong)' : 'var(--text-muted)',
-        background: hovered ? 'var(--graphite-100)' : 'transparent',
-        transition: 'var(--transition-base)',
-        ...(focused ? FOCUS_RING : NO_RING),
-      }}
-    >
-      {children}
-    </Link>
-  );
-}
-
 /** Search icon that expands into an inline input in place — submits into
  *  the Shop page's existing ?search= filter rather than a separate search flow. */
 function NavSearch() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [hovered, setHovered] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -88,10 +61,30 @@ function NavSearch() {
     if (open) inputRef.current?.focus();
   }, [open]);
 
+  // ponytail: reuses the existing /api/products search+limit query instead of a
+  // dedicated suggestions endpoint — same relevance ranking, just capped to 5.
+  useEffect(() => {
+    const q = query.trim();
+    if (!q) { setSuggestions([]); return; }
+    const controller = new AbortController();
+    const timer = setTimeout(() => {
+      api.get('/products', { params: { search: q, limit: 5 }, signal: controller.signal })
+        .then((res) => setSuggestions(res.data.products || []))
+        .catch(() => {});
+    }, 200);
+    return () => { clearTimeout(timer); controller.abort(); };
+  }, [query]);
+
   function submit(e) {
     e.preventDefault();
     if (!query.trim()) return;
     navigate(`/shop?search=${encodeURIComponent(query.trim())}`);
+    setOpen(false);
+    setQuery('');
+  }
+
+  function goToProduct(p) {
+    navigate(`/product/${p._id}`);
     setOpen(false);
     setQuery('');
   }
@@ -117,36 +110,73 @@ function NavSearch() {
   }
 
   return (
-    <form onSubmit={submit} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-      <input
-        ref={inputRef}
-        type="search"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={(e) => { if (e.key === 'Escape') setOpen(false); }}
-        onBlur={() => { if (!query) setOpen(false); }}
-        placeholder="Search products…"
-        aria-label="Search products"
-        style={{
-          width: '220px', height: '40px', padding: '0 14px',
-          border: '1px solid var(--border-strong)', borderRadius: 'var(--radius-btn)',
-          fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', color: 'var(--text-strong)',
-          background: 'var(--white)', outline: 'none', transition: 'var(--transition-base)',
-        }}
-      />
-      <button
-        type="button"
-        aria-label="Close search"
-        onClick={() => { setOpen(false); setQuery(''); }}
-        style={{
-          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-          width: '36px', height: '36px', borderRadius: '50%', border: 'none', cursor: 'pointer',
-          color: 'var(--text-muted)', background: 'transparent', transition: 'var(--transition-base)',
-        }}
-      >
-        <Icon name="x" size={18} />
-      </button>
-    </form>
+    <div style={{ position: 'relative' }}>
+      <form onSubmit={submit} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+        <input
+          ref={inputRef}
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => { if (e.key === 'Escape') setOpen(false); }}
+          onBlur={() => { if (!query) setOpen(false); }}
+          placeholder="Search products…"
+          aria-label="Search products"
+          style={{
+            width: '220px', height: '40px', padding: '0 14px',
+            border: '1px solid var(--border-strong)', borderRadius: 'var(--radius-btn)',
+            fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', color: 'var(--text-strong)',
+            background: 'var(--white)', outline: 'none', transition: 'var(--transition-base)',
+          }}
+        />
+        <button
+          type="button"
+          aria-label="Close search"
+          onClick={() => { setOpen(false); setQuery(''); }}
+          style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: '44px', height: '44px', borderRadius: '50%', border: 'none', cursor: 'pointer',
+            color: 'var(--text-muted)', background: 'transparent', transition: 'var(--transition-base)',
+          }}
+        >
+          <Icon name="x" size={18} />
+        </button>
+      </form>
+
+      {suggestions.length > 0 && (
+        <ul
+          role="listbox"
+          style={{
+            position: 'absolute', top: 'calc(100% + 6px)', left: 0, width: '220px',
+            background: 'var(--white)', border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-md, 0 4px 16px rgba(0,0,0,0.1))',
+            listStyle: 'none', margin: 0, padding: 'var(--space-1) 0', zIndex: 60,
+          }}
+        >
+          {suggestions.map((p) => (
+            <li key={p._id}>
+              <button
+                type="button"
+                // onMouseDown fires before the input's onBlur closes the dropdown
+                onMouseDown={() => goToProduct(p)}
+                style={{
+                  display: 'flex', flexDirection: 'column', width: '100%', textAlign: 'left',
+                  padding: 'var(--space-2) 14px', border: 'none', background: 'transparent', cursor: 'pointer',
+                }}
+              >
+                <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', color: 'var(--text-strong)' }}>
+                  {p.name}
+                </span>
+                {p.category?.name && (
+                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>
+                    in {p.category.name}
+                  </span>
+                )}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
 
@@ -187,6 +217,7 @@ function MenuToggle({ open, onClick }) {
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useAuth();
+  const isAdmin = user?.role === 'admin';
 
   return (
     <header
@@ -244,10 +275,7 @@ export default function Navbar() {
         {/* Desktop actions */}
         <div className="hidden md:flex" style={{ alignItems: 'center', gap: 'var(--space-2)' }}>
           <NavSearch />
-
-          <NavIconLink to={user ? '/account' : '/login'} ariaLabel={user ? 'My Account' : 'Sign In'}>
-            <Icon name="user" size={20} />
-          </NavIconLink>
+          {isAdmin && <NavTextLink to="/admin" label="Admin" />}
         </div>
 
         {/* Mobile: search + hamburger */}
@@ -269,10 +297,14 @@ export default function Navbar() {
             display: 'flex',
             flexDirection: 'column',
             gap: 'var(--space-1)',
+            maxHeight: 'calc(100vh - 116px)',
+            overflowY: 'auto',
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehavior: 'contain',
           }}
         >
           <MobileCategoryMenu onNavigate={() => setMobileOpen(false)} />
-          {NAV_LINKS.map(({ to, label }) => (
+          {[...NAV_LINKS, ...(isAdmin ? [{ to: '/admin', label: 'Admin' }] : [])].map(({ to, label }) => (
             <NavLink
               key={label}
               to={to}
@@ -290,25 +322,6 @@ export default function Navbar() {
               {label}
             </NavLink>
           ))}
-          <Link
-            to={user ? '/account' : '/login'}
-            onClick={() => setMobileOpen(false)}
-            style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: 'var(--fs-body)',
-              fontWeight: 'var(--fw-medium)',
-              color: 'var(--text-body)',
-              textDecoration: 'none',
-              padding: 'var(--space-3) 0',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 'var(--space-2)',
-              marginTop: 'var(--space-2)',
-            }}
-          >
-            <Icon name="user" size={18} />
-            {user ? 'My Account' : 'Sign In'}
-          </Link>
         </div>
       )}
     </header>
