@@ -28,8 +28,13 @@ export default function AdminCategories() {
 
   async function handleDelete(id) {
     if (!confirm('Delete this category?')) return;
-    await api.delete(`/categories/${id}`);
-    load();
+    setError('');
+    try {
+      await api.delete(`/categories/${id}`);
+      load();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to delete category');
+    }
   }
 
   return (
