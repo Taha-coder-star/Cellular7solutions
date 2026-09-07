@@ -1,0 +1,660 @@
+- generic [ref=f4e2]:
+  - banner:
+    - link "Skip to content" [ref=f4e3] [cursor=pointer]:
+      - /url: "#content"
+    - status [ref=f4e4]:
+      - generic [ref=f4e5]:
+        - generic [ref=f4e6]:
+          - generic [ref=f4e7]:
+            - paragraph [ref=f4e8]: Samsung and Cookies
+            - paragraph [ref=f4e9]:
+              - text: This site uses cookies. By clicking ACCEPT or continuing to browse the site you are agreeing to our use of cookies.
+              - link "Find out more here" [ref=f4e10] [cursor=pointer]:
+                - /url: /pk/info/privacy/
+          - link "Accept" [ref=f4e12] [cursor=pointer]:
+            - /url: javascript:void(0)
+        - button "close" [ref=f4e13] [cursor=pointer]
+  - navigation "main navigation" [ref=f4e17]:
+    - generic [ref=f4e19]:
+      - link "Samsung" [ref=f4e21] [cursor=pointer]:
+        - /url: /pk/
+      - generic [ref=f4e25]:
+        - heading "global navigation bar" [level=2] [ref=f4e26]
+        - generic [ref=f4e27]:
+          - menubar "main menu" [ref=f4e28]:
+            - listitem [ref=f4e29]:
+              - generic [ref=f4e30]:
+                - menuitem "Shop" [ref=f4e31] [cursor=pointer]
+                - menuitem "Shop"
+            - listitem [ref=f4e32]:
+              - generic [ref=f4e33]:
+                - menuitem "Mobile" [ref=f4e34] [cursor=pointer]
+                - menuitem "Mobile"
+            - listitem [ref=f4e35]:
+              - generic [ref=f4e36]:
+                - menuitem "TV & AV" [ref=f4e37] [cursor=pointer]
+                - menuitem "TV & AV"
+            - listitem [ref=f4e38]:
+              - generic [ref=f4e39]:
+                - menuitem "Appliances" [ref=f4e40] [cursor=pointer]
+                - menuitem "Appliances"
+            - listitem [ref=f4e41]:
+              - generic [ref=f4e42]:
+                - menuitem "Monitors" [ref=f4e43] [cursor=pointer]
+                - menuitem "Monitors"
+            - listitem [ref=f4e44]:
+              - generic [ref=f4e45]:
+                - menuitem "Wearables" [ref=f4e46] [cursor=pointer]
+                - menuitem "Wearables"
+          - menubar "main menu" [ref=f4e47]:
+            - listitem [ref=f4e48]:
+              - menuitem "For Business. Open in a New Window" [ref=f4e50] [cursor=pointer]: For Business
+            - listitem [ref=f4e51]:
+              - menuitem "Support" [ref=f4e53] [cursor=pointer]
+          - generic [ref=f4e54]:
+            - button "Search" [ref=f4e55] [cursor=pointer]
+            - link "Cart" [ref=f4e60] [cursor=pointer]:
+              - /url: https://shop.samsung.com/pk/cart
+            - button "Manage Account" [ref=f4e66] [cursor=pointer]:
+              - generic [ref=f4e67]: Log-In/Sign-Up
+  - main [ref=f4e70]:
+    - heading "Explore Galaxy Smartphones" [level=1] [ref=f4e75]
+    - generic [ref=f4e77]:
+      - generic [ref=f4e78]:
+        - list [ref=f4e80]:
+          - listitem [ref=f4e81]:
+            - generic [ref=f4e83]:
+              - paragraph [ref=f4e84]: Galaxy Smartphone
+              - paragraph [ref=f4e85]: A true AI companionGalaxy AI
+          - listitem [ref=f4e87]:
+            - link "Galaxy Tab" [ref=f4e88] [cursor=pointer]:
+              - /url: /pk/tablets/all-tablets/
+              - generic [ref=f4e89]:
+                - paragraph [ref=f4e90]: Galaxy Tab
+                - paragraph: Peak productivity unlocked with S Pen and AI
+          - listitem [ref=f4e92]:
+            - link "Galaxy Watch" [ref=f4e93] [cursor=pointer]:
+              - /url: /pk/watches/all-watches/
+              - generic [ref=f4e94]:
+                - paragraph [ref=f4e95]: Galaxy Watch
+                - paragraph: Seamless health tracking, powered by AI
+          - listitem [ref=f4e97]:
+            - link "Galaxy Buds" [ref=f4e98] [cursor=pointer]:
+              - /url: /pk/audio-sound/all-audio-sound/
+              - generic [ref=f4e99]:
+                - paragraph [ref=f4e100]: Galaxy Buds
+                - paragraph: Immersive audio in each moment
+          - listitem [ref=f4e102]:
+            - link "Galaxy Accessories" [ref=f4e103] [cursor=pointer]:
+              - /url: /pk/mobile-accessories/all-mobile-accessories/
+              - generic [ref=f4e104]:
+                - paragraph [ref=f4e105]: Galaxy Accessories
+                - paragraph: Find your perfect match
+        - text: prev next
+      - list [ref=f4e108]:
+        - listitem [ref=f4e109]:
+          - generic "All Smartphones" [ref=f4e110]: All
+        - listitem [ref=f4e112]:
+          - link "Galaxy S" [ref=f4e113] [cursor=pointer]:
+            - /url: /pk/smartphones/galaxy-s/
+        - listitem [ref=f4e115]:
+          - link "Galaxy Z" [ref=f4e116] [cursor=pointer]:
+            - /url: /pk/smartphones/galaxy-z/
+        - listitem [ref=f4e118]:
+          - link "Galaxy A" [ref=f4e119] [cursor=pointer]:
+            - /url: /pk/smartphones/galaxy-a/
+        - listitem [ref=f4e121]:
+          - link "Compare" [ref=f4e122] [cursor=pointer]:
+            - /url: /pk/smartphones/compare/
+    - generic [ref=f4e127]:
+      - generic [ref=f4e128]:
+        - generic [ref=f4e129]:
+          - generic:
+            - generic [ref=f4e130]:
+              - heading "Filters" [level=2] [ref=f4e131]
+              - paragraph [ref=f4e132]: 37 Results
+              - heading [level=2]
+              - button "Sort Newest" [ref=f4e134] [cursor=pointer]:
+                - text: Sort
+                - generic [ref=f4e135]: Newest
+            - list [ref=f4e142]:
+              - listitem [ref=f4e143]:
+                - button "Product Range" [ref=f4e144] [cursor=pointer]
+              - listitem [ref=f4e146]:
+                - button "Storage" [ref=f4e147] [cursor=pointer]
+              - listitem [ref=f4e149]:
+                - button "Price" [ref=f4e150] [cursor=pointer]
+              - listitem [ref=f4e152]:
+                - button "Display Size" [ref=f4e153] [cursor=pointer]
+              - listitem [ref=f4e155]:
+                - button "Feature" [ref=f4e156] [cursor=pointer]
+              - listitem [ref=f4e158]:
+                - button "Connectivity" [ref=f4e159] [cursor=pointer]
+              - listitem [ref=f4e161]:
+                - button "Offers" [ref=f4e162] [cursor=pointer]
+              - listitem [ref=f4e164]:
+                - button "Shop Online" [ref=f4e165] [cursor=pointer]
+              - listitem [ref=f4e167]:
+                - button "Camera lens" [ref=f4e168] [cursor=pointer]
+              - listitem [ref=f4e170]:
+                - button "Type" [ref=f4e171] [cursor=pointer]
+              - listitem
+          - list [ref=f4e173]:
+            - listitem [ref=f4e174]:
+              - generic [ref=f4e175]:
+                - link "Galaxy A27 5G. SM-A276BLIJPKD" [ref=f4e176] [cursor=pointer]:
+                  - /url: /pk/smartphones/galaxy-a/galaxy-a27-5g-light-pink-256gb-sm-a276blijpkd/
+                - button "Quick Look. Galaxy A27 5G" [ref=f4e184] [cursor=pointer]: Quick Look
+              - link "Galaxy A27 5G" [ref=f4e186] [cursor=pointer]:
+                - /url: /pk/smartphones/galaxy-a/galaxy-a27-5g-light-pink-256gb-sm-a276blijpkd/
+              - generic [ref=f4e188]:
+                - 'link "Product Ratings : 3.1 ( Number of Ratings : 7)" [ref=f4e189] [cursor=pointer]':
+                  - /url: /pk/smartphones/galaxy-a/galaxy-a27-5g-light-pink-256gb-sm-a276blijpkd/#reviews
+                  - generic [ref=f4e191]:
+                    - strong [ref=f4e207]:
+                      - generic [ref=f4e208]: "Product Ratings :"
+                      - generic [ref=f4e209]: "3.1"
+                    - emphasis [ref=f4e210]:
+                      - text: (
+                      - generic [ref=f4e211]: "Number of Ratings :"
+                      - text: 7)
+                - button "Open Tooltip Layer" [ref=f4e213] [cursor=pointer]
+              - generic [ref=f4e216]:
+                - generic [ref=f4e217]:
+                  - generic [ref=f4e218]:
+                    - text: "Color :"
+                    - generic [ref=f4e219]: Light Pink
+                  - list [ref=f4e224]:
+                    - listitem [ref=f4e225]:
+                      - button "Black" [ref=f4e226] [cursor=pointer]
+                    - listitem [ref=f4e234]:
+                      - button "Blue" [ref=f4e235] [cursor=pointer]
+                    - listitem [ref=f4e243]:
+                      - button "Light Pink selected" [ref=f4e244] [cursor=pointer]:
+                        - generic [ref=f4e245]:
+                          - generic [ref=f4e251]: Light Pink
+                          - generic [ref=f4e252]: selected
+                - list [ref=f4e257]:
+                  - listitem [ref=f4e258]:
+                    - button "256 GB selected" [ref=f4e259] [cursor=pointer]:
+                      - generic [ref=f4e260]: 256 GB
+                      - generic [ref=f4e261]: selected
+              - generic [ref=f4e264]:
+                - generic [ref=f4e265]: "Total Price:"
+                - strong [ref=f4e266]: ₨. 119,999.00
+              - generic [ref=f4e268]:
+                - link "Buy" [ref=f4e269] [cursor=pointer]:
+                  - /url: /pk/smartphones/galaxy-a/galaxy-a27-5g-light-pink-256gb-sm-a276blijpkd/buy/
+                - link "Learn more:Galaxy A27 5G" [ref=f4e270] [cursor=pointer]:
+                  - /url: /pk/smartphones/galaxy-a/galaxy-a27-5g-light-pink-256gb-sm-a276blijpkd/
+                  - text: Learn more
+              - generic [ref=f4e272]:
+                - checkbox "Compare Galaxy A27 5G" [ref=f4e273]
+                - generic [ref=f4e279] [cursor=pointer]:
+                  - text: Compare
+                  - generic [ref=f4e280]: Galaxy A27 5G
+            - listitem [ref=f4e281]:
+              - generic [ref=f4e282]:
+                - link "Galaxy A17 5G. SM-A176BZKGPKD" [ref=f4e283] [cursor=pointer]:
+                  - /url: /pk/smartphones/galaxy-a/galaxy-a17-5g-black-256gb-sm-a176bzkgpkd/
+                - button "Quick Look. Galaxy A17 5G" [ref=f4e291] [cursor=pointer]: Quick Look
+              - link "Galaxy A17 5G" [ref=f4e293] [cursor=pointer]:
+                - /url: /pk/smartphones/galaxy-a/galaxy-a17-5g-black-256gb-sm-a176bzkgpkd/
+              - generic [ref=f4e295]:
+                - generic [ref=f4e296]:
+                  - generic [ref=f4e297]:
+                    - text: "Color :"
+                    - generic [ref=f4e298]: Black
+                  - list [ref=f4e303]:
+                    - listitem [ref=f4e304]:
+                      - button "Gray" [ref=f4e305] [cursor=pointer]
+                    - listitem [ref=f4e313]:
+                      - button "Blue" [ref=f4e314] [cursor=pointer]
+                    - listitem [ref=f4e322]:
+                      - button "Black selected" [ref=f4e323] [cursor=pointer]:
+                        - generic [ref=f4e324]:
+                          - generic [ref=f4e330]: Black
+                          - generic [ref=f4e331]: selected
+                - list [ref=f4e336]:
+                  - listitem [ref=f4e337]:
+                    - button "256 GB selected" [ref=f4e338] [cursor=pointer]:
+                      - generic [ref=f4e339]: 256 GB
+                      - generic [ref=f4e340]: selected
+              - generic [ref=f4e343]:
+                - generic [ref=f4e344]: "Total Price:"
+                - strong [ref=f4e345]: ₨. 94,999.00
+              - generic [ref=f4e347]:
+                - link "Buy" [ref=f4e348] [cursor=pointer]:
+                  - /url: /pk/smartphones/galaxy-a/galaxy-a17-5g-black-256gb-sm-a176bzkgpkd/buy/
+                - link "Learn more:Galaxy A17 5G" [ref=f4e349] [cursor=pointer]:
+                  - /url: /pk/smartphones/galaxy-a/galaxy-a17-5g-black-256gb-sm-a176bzkgpkd/
+                  - text: Learn more
+              - generic [ref=f4e351]:
+                - checkbox "Compare Galaxy A17 5G" [ref=f4e352]
+                - generic [ref=f4e358] [cursor=pointer]:
+                  - text: Compare
+                  - generic [ref=f4e359]: Galaxy A17 5G
+            - listitem [ref=f4e360]:
+              - generic [ref=f4e361]:
+                - link "Galaxy A37 5G. SM-A376BDGVPKD" [ref=f4e362] [cursor=pointer]:
+                  - /url: /pk/smartphones/galaxy-a/galaxy-a37-5g-awesome-graygreen-256gb-sm-a376bdgvpkd/
+                - button "Quick Look. Galaxy A37 5G" [ref=f4e370] [cursor=pointer]: Quick Look
+              - link "Galaxy A37 5G" [ref=f4e372] [cursor=pointer]:
+                - /url: /pk/smartphones/galaxy-a/galaxy-a37-5g-awesome-graygreen-256gb-sm-a376bdgvpkd/
+              - generic [ref=f4e374]:
+                - 'link "Product Ratings : 3.5 ( Number of Ratings : 2)" [ref=f4e375] [cursor=pointer]':
+                  - /url: /pk/smartphones/galaxy-a/galaxy-a37-5g-awesome-graygreen-256gb-sm-a376bdgvpkd/#reviews
+                  - generic [ref=f4e377]:
+                    - strong [ref=f4e393]:
+                      - generic [ref=f4e394]: "Product Ratings :"
+                      - generic [ref=f4e395]: "3.5"
+                    - emphasis [ref=f4e396]:
+                      - text: (
+                      - generic [ref=f4e397]: "Number of Ratings :"
+                      - text: 2)
+                - button "Open Tooltip Layer" [ref=f4e399] [cursor=pointer]
+              - generic [ref=f4e402]:
+                - generic [ref=f4e403]:
+                  - generic [ref=f4e404]:
+                    - text: "Color :"
+                    - generic [ref=f4e405]: Awesome Graygreen
+                  - list [ref=f4e410]:
+                    - listitem [ref=f4e411]:
+                      - button "Awesome White" [ref=f4e412] [cursor=pointer]
+                    - listitem [ref=f4e420]:
+                      - button "Awesome Lavender" [ref=f4e421] [cursor=pointer]
+                    - listitem [ref=f4e429]:
+                      - button "Awesome Charcoal" [ref=f4e430] [cursor=pointer]
+                    - listitem [ref=f4e438]:
+                      - button "Awesome Graygreen selected" [ref=f4e439] [cursor=pointer]:
+                        - generic [ref=f4e440]:
+                          - generic [ref=f4e446]: Awesome Graygreen
+                          - generic [ref=f4e447]: selected
+                - list [ref=f4e452]:
+                  - listitem [ref=f4e453]:
+                    - button "256 GB selected" [ref=f4e454] [cursor=pointer]:
+                      - generic [ref=f4e455]: 256 GB
+                      - generic [ref=f4e456]: selected
+              - generic [ref=f4e459]:
+                - generic [ref=f4e460]: "Total Price:"
+                - strong [ref=f4e461]: ₨. 149,999.00
+              - generic [ref=f4e463]:
+                - link "Buy:Galaxy A37 5G" [ref=f4e464] [cursor=pointer]:
+                  - /url: javascript:;
+                  - text: Buy
+                - link "Learn more:Galaxy A37 5G" [ref=f4e465] [cursor=pointer]:
+                  - /url: /pk/smartphones/galaxy-a/galaxy-a37-5g-awesome-graygreen-256gb-sm-a376bdgvpkd/
+                  - text: Learn more
+              - generic [ref=f4e467]:
+                - checkbox "Compare Galaxy A37 5G" [ref=f4e468]
+                - generic [ref=f4e474] [cursor=pointer]:
+                  - text: Compare
+                  - generic [ref=f4e475]: Galaxy A37 5G
+            - listitem [ref=f4e476]:
+              - generic [ref=f4e477]:
+                - link "Galaxy A57 5G. SM-A576BDBPPKD" [ref=f4e478] [cursor=pointer]:
+                  - /url: /pk/smartphones/galaxy-a/galaxy-a57-5g-awesome-navy-256gb-sm-a576bdbppkd/
+                - button "Quick Look. Galaxy A57 5G" [ref=f4e486] [cursor=pointer]: Quick Look
+              - link "Galaxy A57 5G" [ref=f4e488] [cursor=pointer]:
+                - /url: /pk/smartphones/galaxy-a/galaxy-a57-5g-awesome-navy-256gb-sm-a576bdbppkd/
+              - generic [ref=f4e490]:
+                - 'link "Product Ratings : 3.3 ( Number of Ratings : 11)" [ref=f4e491] [cursor=pointer]':
+                  - /url: /pk/smartphones/galaxy-a/galaxy-a57-5g-awesome-navy-256gb-sm-a576bdbppkd/#reviews
+                  - generic [ref=f4e493]:
+                    - strong [ref=f4e509]:
+                      - generic [ref=f4e510]: "Product Ratings :"
+                      - generic [ref=f4e511]: "3.3"
+                    - emphasis [ref=f4e512]:
+                      - text: (
+                      - generic [ref=f4e513]: "Number of Ratings :"
+                      - text: 11)
+                - button "Open Tooltip Layer" [ref=f4e515] [cursor=pointer]
+              - generic [ref=f4e518]:
+                - generic [ref=f4e519]:
+                  - generic [ref=f4e520]:
+                    - text: "Color :"
+                    - generic [ref=f4e521]: Awesome Navy
+                  - list [ref=f4e526]:
+                    - listitem [ref=f4e527]:
+                      - button "Awesome Icyblue" [ref=f4e528] [cursor=pointer]
+                    - listitem [ref=f4e536]:
+                      - button "Awesome Lilac" [ref=f4e537] [cursor=pointer]
+                    - listitem [ref=f4e545]:
+                      - button "Awesome Gray" [ref=f4e546] [cursor=pointer]
+                    - listitem [ref=f4e554]:
+                      - button "Awesome Navy selected" [ref=f4e555] [cursor=pointer]:
+                        - generic [ref=f4e556]:
+                          - generic [ref=f4e562]: Awesome Navy
+                          - generic [ref=f4e563]: selected
+                - list [ref=f4e568]:
+                  - listitem [ref=f4e569]:
+                    - button "512GB" [ref=f4e570] [cursor=pointer]
+                  - listitem [ref=f4e572]:
+                    - button "256 GB selected" [ref=f4e573] [cursor=pointer]:
+                      - generic [ref=f4e574]: 256 GB
+                      - generic [ref=f4e575]: selected
+              - generic [ref=f4e578]:
+                - generic [ref=f4e579]: "Total Price:"
+                - strong [ref=f4e580]: ₨. 166,999.00
+              - generic [ref=f4e582]:
+                - link "Buy:Galaxy A57 5G" [ref=f4e583] [cursor=pointer]:
+                  - /url: javascript:;
+                  - text: Buy
+                - link "Learn more:Galaxy A57 5G" [ref=f4e584] [cursor=pointer]:
+                  - /url: /pk/smartphones/galaxy-a/galaxy-a57-5g-awesome-navy-256gb-sm-a576bdbppkd/
+                  - text: Learn more
+              - generic [ref=f4e586]:
+                - checkbox "Compare Galaxy A57 5G" [ref=f4e587]
+                - generic [ref=f4e593] [cursor=pointer]:
+                  - text: Compare
+                  - generic [ref=f4e594]: Galaxy A57 5G
+          - button "View more" [ref=f4e595] [cursor=pointer]
+        - generic [ref=f4e599]:
+          - heading "Buy direct. Get more." [level=2] [ref=f4e601]
+          - list [ref=f4e604]:
+            - listitem [ref=f4e605]:
+              - generic [ref=f4e606]:
+                - paragraph [ref=f4e611]: Free delivery
+                - paragraph [ref=f4e613]: 24/7 tracking available for every order.
+                - link "Learn more. Free delivery" [ref=f4e615] [cursor=pointer]:
+                  - /url: /pk/shop-faq/delivery-and-installations/
+                  - text: Learn more
+            - listitem [ref=f4e618]:
+              - generic [ref=f4e619]:
+                - paragraph [ref=f4e624]: Flexible Finance
+                - paragraph [ref=f4e626]: Enjoy 0% markup with convenient installment options.
+                - link "Learn more. Flexible Finance" [ref=f4e628] [cursor=pointer]:
+                  - /url: /pk/installment-program/
+                  - text: Learn more
+            - listitem [ref=f4e631]:
+              - generic [ref=f4e632]:
+                - paragraph [ref=f4e637]: Bank Transfer
+                - paragraph [ref=f4e639]: Pay for your order later via bank transfer.
+                - link "Learn more. Bank Transfer" [ref=f4e641] [cursor=pointer]:
+                  - /url: /pk/shop-faq/payment-and-financing/
+                  - text: Learn more
+            - listitem [ref=f4e644]:
+              - generic [ref=f4e645]:
+                - paragraph [ref=f4e650]: Samsung Warranty
+                - paragraph [ref=f4e652]: Enjoy complete peace of mind with the Samsung Warranty program.
+                - link "Learn more. Samsung Warranty" [ref=f4e654] [cursor=pointer]:
+                  - /url: /pk/support/warranty/
+                  - text: Learn more
+      - generic [ref=f4e662]:
+        - paragraph [ref=f4e663]: "* Based on the specification of Galaxy S21 Ultra 5G. May not apply to all models."
+        - paragraph [ref=f4e664]: "* Simulated picture. Color availability may vary depending on country or carrier. Galaxy A52 is rated as IP67. Based on test conditions for submersion in up to 1 meter of freshwater for up to 30 minutes. Not advised for beach, pool use and soapy water. In case you spill liquids containing sugar on the phone, please rinse the device in clean, stagnant water while clicking keys. Safe against low water pressure only. High water pressure such as running tap water or shower may damage the device."
+        - paragraph [ref=f4e665]
+      - navigation "Breadcrumb" [ref=f4e666]:
+        - list [ref=f4e668]:
+          - listitem [ref=f4e669]:
+            - link "Home" [ref=f4e670] [cursor=pointer]:
+              - /url: /pk/
+          - listitem [ref=f4e674]:
+            - link "Mobile" [ref=f4e675] [cursor=pointer]:
+              - /url: /pk/mobile/
+          - listitem [ref=f4e679]:
+            - link "Smartphones" [ref=f4e680] [cursor=pointer]:
+              - /url: /pk/smartphones/
+          - listitem [ref=f4e684]:
+            - strong [ref=f4e685]: All smartphones
+  - contentinfo [ref=f4e686]:
+    - generic [ref=f4e687]:
+      - generic [ref=f4e688]:
+        - heading "Footer Navigation" [level=2] [ref=f4e689]
+        - generic [ref=f4e691]:
+          - heading "Shop" [level=3] [ref=f4e692]
+          - list [ref=f4e694]:
+            - listitem [ref=f4e695]:
+              - link "Shop Home Shop Home" [ref=f4e696] [cursor=pointer]:
+                - /url: /pk/offer/
+                - text: Shop Home
+            - listitem [ref=f4e697]:
+              - link "Buy Direct Get More Buy Direct Get More" [ref=f4e698] [cursor=pointer]:
+                - /url: /pk/buy-direct-get-more/
+                - text: Buy Direct Get More
+            - listitem [ref=f4e699]:
+              - link "Smartphone Smartphone" [ref=f4e700] [cursor=pointer]:
+                - /url: /pk/offer/mobile/smartphones/
+                - text: Smartphone
+            - listitem [ref=f4e701]:
+              - link "AI Living AI Living" [ref=f4e702] [cursor=pointer]:
+                - /url: /pk/ai-living/
+                - text: AI Living
+            - listitem [ref=f4e703]:
+              - link "SmartThings SmartThings" [ref=f4e704] [cursor=pointer]:
+                - /url: /pk/smartthings/
+                - text: SmartThings
+            - listitem [ref=f4e705]:
+              - link "New and featured New and featured" [ref=f4e706] [cursor=pointer]:
+                - /url: /pk/offer/
+                - text: New and featured
+            - listitem [ref=f4e707]:
+              - link "Wearables Wearables" [ref=f4e708] [cursor=pointer]:
+                - /url: /pk/offer/mobile/wearables-and-accessories/
+                - text: Wearables
+            - listitem [ref=f4e709]:
+              - link "Tablets Tablets" [ref=f4e710] [cursor=pointer]:
+                - /url: /pk/offer/mobile/tablets/
+                - text: Tablets
+            - listitem [ref=f4e711]:
+              - link "Explore Explore" [ref=f4e712] [cursor=pointer]:
+                - /url: /pk/explore/
+                - text: Explore
+        - generic [ref=f4e714]:
+          - heading "Product" [level=3] [ref=f4e715]
+          - list [ref=f4e717]:
+            - listitem [ref=f4e718]:
+              - link "Galaxy Smartphone Galaxy Smartphone" [ref=f4e719] [cursor=pointer]:
+                - /url: /pk/smartphones/all-smartphones/
+                - text: Galaxy Smartphone
+            - listitem [ref=f4e720]:
+              - link "Galaxy Tab Galaxy Tab" [ref=f4e721] [cursor=pointer]:
+                - /url: /pk/tablets/all-tablets/
+                - text: Galaxy Tab
+            - listitem [ref=f4e722]:
+              - link "Galaxy Watch Galaxy Watch" [ref=f4e723] [cursor=pointer]:
+                - /url: /pk/watches/all-watches/
+                - text: Galaxy Watch
+            - listitem [ref=f4e724]:
+              - link "Galaxy Buds Galaxy Buds" [ref=f4e725] [cursor=pointer]:
+                - /url: /pk/audio-sound/all-audio-sound/
+                - text: Galaxy Buds
+            - listitem [ref=f4e726]:
+              - link "TVs TVs" [ref=f4e727] [cursor=pointer]:
+                - /url: /pk/tvs/all-tvs/
+                - text: TVs
+            - listitem [ref=f4e728]:
+              - link "Projectors Projectors" [ref=f4e729] [cursor=pointer]:
+                - /url: /pk/projectors/all-projectors/
+                - text: Projectors
+            - listitem [ref=f4e730]:
+              - link "Refrigerators Refrigerators" [ref=f4e731] [cursor=pointer]:
+                - /url: /pk/refrigerators/all-refrigerators/
+                - text: Refrigerators
+            - listitem [ref=f4e732]:
+              - link "Laundry Laundry" [ref=f4e733] [cursor=pointer]:
+                - /url: /pk/washers-and-dryers/all-washers-and-dryers/
+                - text: Laundry
+            - listitem [ref=f4e734]:
+              - link "Monitors Monitors" [ref=f4e735] [cursor=pointer]:
+                - /url: /pk/monitors/all-monitors/
+                - text: Monitors
+        - generic [ref=f4e737]:
+          - heading "Support" [level=3] [ref=f4e738]
+          - list [ref=f4e740]:
+            - listitem [ref=f4e741]:
+              - link "Support Home Support Home" [ref=f4e742] [cursor=pointer]:
+                - /url: /pk/support/
+                - text: Support Home
+            - listitem [ref=f4e743]:
+              - link "Manual & Software Manual & Software" [ref=f4e744] [cursor=pointer]:
+                - /url: /pk/support/user-manuals-and-guide/
+                - text: Manual & Software
+            - listitem [ref=f4e745]:
+              - link "Search Support Search Support" [ref=f4e746] [cursor=pointer]:
+                - /url: /pk/search/?searchvalue=mobile#support
+                - text: Search Support
+            - listitem [ref=f4e747]:
+              - link "Shop FAQ Shop FAQ" [ref=f4e748] [cursor=pointer]:
+                - /url: /pk/shop-faq/
+                - text: Shop FAQ
+            - listitem [ref=f4e749]:
+              - link "Warranty Information Warranty Information" [ref=f4e750] [cursor=pointer]:
+                - /url: /pk/support/warranty/
+                - text: Warranty Information
+            - listitem [ref=f4e751]:
+              - link "Service Center Service Center" [ref=f4e752] [cursor=pointer]:
+                - /url: /pk/support/service-center/
+                - text: Service Center
+            - listitem [ref=f4e753]:
+              - link "Book a Repair Book a Repair" [ref=f4e754] [cursor=pointer]:
+                - /url: /pk/mypage/myproducts/
+                - text: Book a Repair
+            - listitem [ref=f4e755]:
+              - link "Track my repair Track my repair" [ref=f4e756] [cursor=pointer]:
+                - /url: /pk/mypage/myrepair/track-repair/
+                - text: Track my repair
+            - listitem [ref=f4e757]:
+              - link "Repair Cost Repair Cost" [ref=f4e758] [cursor=pointer]:
+                - /url: /pk/support/repair-price/
+                - text: Repair Cost
+            - listitem [ref=f4e759]:
+              - 'link "Chat Chat : Open in a New Window" [ref=f4e760] [cursor=pointer]':
+                - /url: //live-chat-static.sprinklr.com/chat/page/lqRt9K-W6/index.html?appId=602fbd5137036f0d8906a01f_app_813143&device=MOBILE
+                - text: Chat
+            - listitem [ref=f4e763]:
+              - link "Call Call" [ref=f4e764] [cursor=pointer]:
+                - /url: /pk/support/contact/
+                - text: Call
+            - listitem [ref=f4e765]:
+              - link "Request call back Request call back" [ref=f4e766] [cursor=pointer]:
+                - /url: https://forms-prod21.sprinklr.com/guided-workflows/69c280420b763158feed3d93?gwId=69d8b2349783db5cbaa5a129&viewType=FULL_PAGE
+                - text: Request call back
+            - listitem [ref=f4e767]:
+              - link "Sign Language Support Sign Language Support" [ref=f4e768] [cursor=pointer]:
+                - /url: /pk/sign-language/
+                - text: Sign Language Support
+        - generic [ref=f4e770]:
+          - heading "Account" [level=3] [ref=f4e771]
+          - list [ref=f4e773]:
+            - listitem [ref=f4e774]:
+              - 'link "Orders Orders : Open in a New Window" [ref=f4e775] [cursor=pointer]':
+                - /url: //shop.samsung.com/pk/track-order
+                - text: Orders
+            - listitem [ref=f4e778]:
+              - link "My Page My Page" [ref=f4e779] [cursor=pointer]:
+                - /url: /pk/mypage/
+                - text: My Page
+            - listitem [ref=f4e780]:
+              - link "My Products My Products" [ref=f4e781] [cursor=pointer]:
+                - /url: /pk/mypage/myproducts/
+                - text: My Products
+            - listitem [ref=f4e782]:
+              - 'link "Vouchers Vouchers : Open in a New Window" [ref=f4e783] [cursor=pointer]':
+                - /url: //shop.samsung.com/pk/mypage/vouchers
+                - text: Vouchers
+        - generic [ref=f4e786]:
+          - generic [ref=f4e787]:
+            - heading "Sustainability" [level=3] [ref=f4e788]
+            - list [ref=f4e790]:
+              - listitem [ref=f4e791]:
+                - link "Environment Environment" [ref=f4e792] [cursor=pointer]:
+                  - /url: /pk/sustainability/environment/
+                  - text: Environment
+              - listitem [ref=f4e793]:
+                - link "Security & Privacy Security & Privacy" [ref=f4e794] [cursor=pointer]:
+                  - /url: /pk/sustainability/security-and-privacy/
+                  - text: Security & Privacy
+              - listitem [ref=f4e795]:
+                - link "Accessibility Accessibility" [ref=f4e796] [cursor=pointer]:
+                  - /url: /pk/sustainability/accessibility/overview/
+                  - text: Accessibility
+              - listitem [ref=f4e797]:
+                - link "Inclusive Workplace Inclusive Workplace" [ref=f4e798] [cursor=pointer]:
+                  - /url: /pk/sustainability/inclusive-workplace/
+                  - text: Inclusive Workplace
+              - listitem [ref=f4e799]:
+                - 'link "Corporate Citizenship Corporate Citizenship : Open in a New Window" [ref=f4e800] [cursor=pointer]':
+                  - /url: http://csr.samsung.com/en/main.do
+                  - text: Corporate Citizenship
+              - listitem [ref=f4e803]:
+                - 'link "Corporate Sustainability Corporate Sustainability : Open in a New Window" [ref=f4e804] [cursor=pointer]':
+                  - /url: //www.samsung.com/global/sustainability/
+                  - text: Corporate Sustainability
+          - generic [ref=f4e807]:
+            - heading "About Us" [level=3] [ref=f4e808]
+            - list [ref=f4e810]:
+              - listitem [ref=f4e811]:
+                - link "Company Info Company Info" [ref=f4e812] [cursor=pointer]:
+                  - /url: /pk/about-us/company-info/
+                  - text: Company Info
+              - listitem [ref=f4e813]:
+                - link "Business Area Business Area" [ref=f4e814] [cursor=pointer]:
+                  - /url: /pk/about-us/business-area/
+                  - text: Business Area
+              - listitem [ref=f4e815]:
+                - link "Brand Identity Brand Identity" [ref=f4e816] [cursor=pointer]:
+                  - /url: /pk/about-us/brand-identity/
+                  - text: Brand Identity
+              - listitem [ref=f4e817]:
+                - link "Careers Careers" [ref=f4e818] [cursor=pointer]:
+                  - /url: /pk/about-us/careers/
+                  - text: Careers
+              - listitem [ref=f4e819]:
+                - 'link "Investor Relations Investor Relations : Open in a New Window" [ref=f4e820] [cursor=pointer]':
+                  - /url: //www.samsung.com/global/ir/
+                  - text: Investor Relations
+              - listitem [ref=f4e823]:
+                - 'link "Newsroom Newsroom : Open in a New Window" [ref=f4e824] [cursor=pointer]':
+                  - /url: /pk/news/
+                  - text: Newsroom
+              - listitem [ref=f4e827]:
+                - link "Ethics Ethics" [ref=f4e828] [cursor=pointer]:
+                  - /url: /pk/about-us/ethics/
+                  - text: Ethics
+              - listitem [ref=f4e829]:
+                - 'link "Samsung Design Samsung Design : Open in a New Window" [ref=f4e830] [cursor=pointer]':
+                  - /url: //design.samsung.com/global/index.html
+                  - text: Samsung Design
+              - listitem [ref=f4e833]:
+                - link "Samsung Innovation Campus Samsung Innovation Campus" [ref=f4e834] [cursor=pointer]:
+                  - /url: /pk/innovation-campus/
+                  - text: Samsung Innovation Campus
+      - generic [ref=f4e835]:
+        - paragraph [ref=f4e838]: Copyright© 1995-2026 Samsung. All rights reserved.
+        - generic [ref=f4e839]:
+          - link "Choose your location or language" [ref=f4e841] [cursor=pointer]:
+            - /url: /pk/function/ipredirection/ipredirectionLocalList/
+            - text: Pakistan/English
+          - list [ref=f4e843]:
+            - listitem [ref=f4e844]:
+              - link "Privacy" [ref=f4e845] [cursor=pointer]:
+                - /url: /pk/info/privacy/
+            - listitem [ref=f4e846]:
+              - link "Legal" [ref=f4e847] [cursor=pointer]:
+                - /url: /pk/info/legal/
+            - listitem [ref=f4e848]:
+              - link "Sitemap" [ref=f4e849] [cursor=pointer]:
+                - /url: /pk/info/sitemap/
+            - listitem [ref=f4e850]:
+              - 'link "Terms and Conditions of Sale : Open in a New Window" [ref=f4e851] [cursor=pointer]':
+                - /url: //shop.samsung.com/pk/terms-and-conditions
+                - text: Terms and Conditions of Sale
+          - generic [ref=f4e852]:
+            - generic [ref=f4e853]: Stay in the Loop?
+            - list [ref=f4e854]:
+              - listitem [ref=f4e855]:
+                - 'link "Facebook : Open in a New Window" [ref=f4e856] [cursor=pointer]':
+                  - /url: //www.facebook.com/SamsungPakistan/
+              - listitem [ref=f4e859]:
+                - 'link "Twitter : Open in a New Window" [ref=f4e860] [cursor=pointer]':
+                  - /url: //twitter.com/SamsungPakistan
+              - listitem [ref=f4e863]:
+                - 'link "Instagram : Open in a New Window" [ref=f4e864] [cursor=pointer]':
+                  - /url: //instagram.com/samsungpakistan
+              - listitem [ref=f4e867]:
+                - 'link "You Tube : Open in a New Window" [ref=f4e868] [cursor=pointer]':
+                  - /url: //www.youtube.com/user/SamsungPakistan
+              - listitem [ref=f4e871]:
+                - 'link "WhatsApp : Open in a New Window" [ref=f4e872] [cursor=pointer]':
+                  - /url: https://wa.me/+9203327267864
