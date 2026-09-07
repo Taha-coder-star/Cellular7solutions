@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { protect } = require('../middleware/authMiddleware');
-const { admin } = require('../middleware/adminMiddleware');
+const { requireAdmin } = require('../middleware/requireAdmin');
+const { honeypot } = require('../middleware/honeypot');
+const { formLimiter } = require('../middleware/rateLimit');
 const { createReview, getProductReviews, deleteReview } = require('../controllers/reviewController');
 
-router.post('/', protect, createReview);
+router.post('/', formLimiter, honeypot, createReview);
 router.get('/product/:productId', getProductReviews);
-router.delete('/:id', protect, admin, deleteReview);
+router.delete('/:id', requireAdmin, deleteReview);
 
 module.exports = router;
