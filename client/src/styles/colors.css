@@ -38,6 +38,7 @@
   --warning-700: #B45309;
   --warning-50:  #FFFBEB;
   --danger-500:  #DC2626;
+  --danger-700:  #B91C1C;
   --danger-50:   #FEF2F2;
   --info-500:    #2563EB;
   --info-50:     #EFF6FF;
@@ -60,7 +61,6 @@
   --text-strong:   var(--graphite-900);
   --text-body:     var(--graphite-700);
   --text-muted:    var(--graphite-500);
-  --text-faint:    var(--graphite-500);
   --text-on-dark:  var(--white);
   --text-on-brand: var(--white);
 
