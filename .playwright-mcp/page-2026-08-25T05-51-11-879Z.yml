@@ -1,0 +1,213 @@
+- generic [ref=f3e3]:
+  - link "Skip to content" [ref=f3e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=f3e5]:
+    - generic [ref=f3e6]: You Break It. We Make It Again.
+    - generic [ref=f3e7]:
+      - link [ref=f3e8] [cursor=pointer]:
+        - /url: /
+        - img "Cellular Solutions" [ref=f3e9]
+      - navigation [ref=f3e10]:
+        - link "Smartphones" [ref=f3e104] [cursor=pointer]:
+          - /url: /categories/smartphones
+        - link "Buy & Sell" [ref=f3e11] [cursor=pointer]:
+          - /url: /buysell
+        - link "Repairs" [ref=f3e12] [cursor=pointer]:
+          - /url: /repair
+        - link "About" [ref=f3e13] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=f3e14] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=f3e15]:
+        - button "Search" [ref=f3e16] [cursor=pointer]
+        - link "Admin" [ref=f3e105] [cursor=pointer]:
+          - /url: /admin
+    - navigation "Category navigation" [ref=f3e106]:
+      - generic [ref=f3e108]:
+        - link "Accessories" [ref=f3e109] [cursor=pointer]:
+          - /url: /categories/accessories
+        - button "Toggle Accessories menu" [ref=f3e110] [cursor=pointer]
+      - generic [ref=f3e114]:
+        - link "Apple Cases" [ref=f3e115] [cursor=pointer]:
+          - /url: /categories/apple-cases
+        - button "Toggle Apple Cases menu" [ref=f3e116] [cursor=pointer]
+      - generic [ref=f3e120]:
+        - link "Samsung Cases" [ref=f3e121] [cursor=pointer]:
+          - /url: /categories/samsung-cases
+        - button "Toggle Samsung Cases menu" [ref=f3e122] [cursor=pointer]
+      - generic [ref=f3e126]:
+        - link "Motorola Cases" [ref=f3e127] [cursor=pointer]:
+          - /url: /categories/motorola-cases
+        - button "Toggle Motorola Cases menu" [ref=f3e128] [cursor=pointer]
+      - generic [ref=f3e132]:
+        - link "Other Cases" [ref=f3e133] [cursor=pointer]:
+          - /url: /categories/other-cases
+        - button "Toggle Other Cases menu" [ref=f3e134] [cursor=pointer]
+      - generic [ref=f3e138]:
+        - link "Apple Parts" [ref=f3e139] [cursor=pointer]:
+          - /url: /categories/apple-parts
+        - button "Toggle Apple Parts menu" [ref=f3e140] [cursor=pointer]
+      - generic [ref=f3e144]:
+        - link "Samsung Parts" [ref=f3e145] [cursor=pointer]:
+          - /url: /categories/samsung-parts
+        - button "Toggle Samsung Parts menu" [ref=f3e146] [cursor=pointer]
+      - generic [ref=f3e150]:
+        - link "Motorola Parts" [ref=f3e151] [cursor=pointer]:
+          - /url: /categories/motorola-parts
+        - button "Toggle Motorola Parts menu" [ref=f3e152] [cursor=pointer]
+      - generic [ref=f3e156]:
+        - link "Other Parts" [ref=f3e157] [cursor=pointer]:
+          - /url: /categories/other-parts
+        - button "Toggle Other Parts menu" [ref=f3e158] [cursor=pointer]
+      - generic [ref=f3e162]:
+        - link "Repair Tools" [ref=f3e163] [cursor=pointer]:
+          - /url: /categories/repair-tools
+        - button "Toggle Repair Tools menu" [ref=f3e164] [cursor=pointer]
+      - generic [ref=f3e168]:
+        - link "Screen Protectors" [ref=f3e169] [cursor=pointer]:
+          - /url: /categories/screen-protectors
+        - button "Toggle Screen Protectors menu" [ref=f3e170] [cursor=pointer]
+      - generic [ref=f3e174]:
+        - button "By Category" [ref=f3e175] [cursor=pointer]
+        - button "Toggle By Category menu" [ref=f3e176] [cursor=pointer]
+  - main [ref=f3e20]:
+    - generic [ref=f3e179]:
+      - generic [ref=f3e180]:
+        - img "A dark flat-lay spread of a laptop, smartphone, wireless headphones, camera, and watch, representing the full range of devices Cellular Solutions sells, repairs, and trades in" [ref=f3e181]
+        - generic [ref=f3e182]:
+          - generic [ref=f3e183]: Just Landed
+          - heading "Everything Tech." [level=1] [ref=f3e184]
+          - paragraph [ref=f3e185]: Buy • Repair • Trade-In
+          - link "Shop New Arrivals" [ref=f3e187] [cursor=pointer]:
+            - /url: /shop
+      - generic [ref=f3e191]:
+        - generic [ref=f3e192]: Trusted Local Repairs
+        - generic [ref=f3e197]: Same Day Service
+        - generic [ref=f3e202]: Genuine Parts
+      - generic [ref=f3e207]:
+        - generic [ref=f3e208]:
+          - heading "Shop by category" [level=2] [ref=f3e209]
+          - link "View all products" [ref=f3e210] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=f3e213]:
+          - link "Samsung Cases 158 items" [ref=f3e214] [cursor=pointer]:
+            - /url: /shop?category=6a89e12e801b80cd28bd17af
+            - generic [ref=f3e217]:
+              - generic [ref=f3e218]: Samsung Cases
+              - generic [ref=f3e219]: 158 items
+          - link "Apple Parts 141 items" [ref=f3e223] [cursor=pointer]:
+            - /url: /shop?category=6a89e137801b80cd28bd17d9
+            - generic [ref=f3e226]:
+              - generic [ref=f3e227]: Apple Parts
+              - generic [ref=f3e228]: 141 items
+          - link "Smartphones 100 items" [ref=f3e232] [cursor=pointer]:
+            - /url: /shop?category=6a8d2c9a29f65be7144d170b
+            - generic [ref=f3e238]:
+              - generic [ref=f3e239]: Smartphones
+              - generic [ref=f3e240]: 100 items
+          - link "Accessories 77 items" [ref=f3e244] [cursor=pointer]:
+            - /url: /shop?category=6a89e125801b80cd28bd1789
+            - generic [ref=f3e247]:
+              - generic [ref=f3e248]: Accessories
+              - generic [ref=f3e249]: 77 items
+      - generic [ref=f3e253]:
+        - img "A technician in blue gloves using tweezers to repair the internal components of a disassembled phone" [ref=f3e254]
+        - generic [ref=f3e255]:
+          - generic [ref=f3e256]: Repair & Service
+          - heading "Need a Repair?" [level=2] [ref=f3e259]
+          - paragraph [ref=f3e260]: Cracked screens, dead batteries, water damage, unlocks. Walk in or book online — most repairs are done same-day, with a free diagnostic quote before any work begins.
+          - generic [ref=f3e261]:
+            - generic [ref=f3e262]:
+              - generic [ref=f3e263]: 45 min
+              - generic [ref=f3e264]: Avg. screen repair
+            - generic [ref=f3e265]:
+              - generic [ref=f3e266]: from $89
+              - generic [ref=f3e267]: Screen replacement
+            - generic [ref=f3e268]:
+              - generic [ref=f3e269]: Free
+              - generic [ref=f3e270]: Device diagnostics
+          - link "Book a Repair" [ref=f3e272] [cursor=pointer]:
+            - /url: /repair
+      - generic [ref=f3e276]:
+        - generic [ref=f3e277]:
+          - heading "Featured this Week" [level=2] [ref=f3e279]
+          - link "View all" [ref=f3e280] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=f3e283]:
+          - link "Google Pixel 6a Google Pixel 6a" [ref=f3e284] [cursor=pointer]:
+            - /url: /product/6a8b13ead166870f92d0d99e
+            - img "Google Pixel 6a" [ref=f3e286]
+            - generic [ref=f3e287]: Google Pixel 6a
+          - link "Google Pixel 10A Google Pixel 10A" [ref=f3e289] [cursor=pointer]:
+            - /url: /product/6a8b13e9d166870f92d0d99d
+            - img "Google Pixel 10A" [ref=f3e291]
+            - generic [ref=f3e292]: Google Pixel 10A
+          - link "Iphone 12 Mini Iphone 12 Mini" [ref=f3e294] [cursor=pointer]:
+            - /url: /product/6a8b13ced166870f92d0d96a
+            - img "Iphone 12 Mini" [ref=f3e296]
+            - generic [ref=f3e297]: Iphone 12 Mini
+          - link "Galaxy S24 Plus Galaxy S24 Plus" [ref=f3e299] [cursor=pointer]:
+            - /url: /product/6a8b1334d166870f92d0d8b9
+            - img "Galaxy S24 Plus" [ref=f3e301]
+            - generic [ref=f3e302]: Galaxy S24 Plus
+          - link "Galaxy S24 Ultra 256GB Galaxy S24 Ultra 256GB" [ref=f3e304] [cursor=pointer]:
+            - /url: /product/6a5f2fef17b22d489252fa99
+            - img "Galaxy S24 Ultra 256GB" [ref=f3e306]
+            - generic [ref=f3e307]: Galaxy S24 Ultra 256GB
+  - contentinfo [ref=f3e48]:
+    - generic [ref=f3e50]:
+      - generic [ref=f3e51]:
+        - img "Cellular Solutions" [ref=f3e52]
+        - paragraph [ref=f3e53]: Your local shop for phones, consoles, laptops and accessories — plus fast, honest repairs.
+        - generic [ref=f3e54]:
+          - link "Facebook" [ref=f3e55] [cursor=pointer]:
+            - /url: "#"
+          - link "Instagram" [ref=f3e59] [cursor=pointer]:
+            - /url: "#"
+          - link "Twitter / X" [ref=f3e62] [cursor=pointer]:
+            - /url: "#"
+      - generic [ref=f3e69]:
+        - generic [ref=f3e70]: Shop
+        - list [ref=f3e71]:
+          - listitem [ref=f3e72]:
+            - link "Phones" [ref=f3e73] [cursor=pointer]:
+              - /url: /shop?category=6a5f2fec17b22d489252fa94
+          - listitem [ref=f3e74]:
+            - link "Gaming" [ref=f3e75] [cursor=pointer]:
+              - /url: /shop?category=6a4d2ef4c9a73e7f29aec332
+          - listitem [ref=f3e76]:
+            - link "Laptops" [ref=f3e77] [cursor=pointer]:
+              - /url: /shop?category=6a4d2ef4c9a73e7f29aec331
+          - listitem [ref=f3e78]:
+            - link "Accessories" [ref=f3e79] [cursor=pointer]:
+              - /url: /shop?category=6a89e125801b80cd28bd1789
+      - generic [ref=f3e80]:
+        - generic [ref=f3e81]: Service
+        - list [ref=f3e82]:
+          - listitem [ref=f3e83]:
+            - link "Book a Repair" [ref=f3e84] [cursor=pointer]:
+              - /url: /repair
+          - listitem [ref=f3e85]:
+            - link "Track Repair" [ref=f3e86] [cursor=pointer]:
+              - /url: /repair
+          - listitem [ref=f3e87]:
+            - link "Sell Your Device" [ref=f3e88] [cursor=pointer]:
+              - /url: /buysell
+      - generic [ref=f3e89]:
+        - generic [ref=f3e90]: Support
+        - list [ref=f3e91]:
+          - listitem [ref=f3e92]:
+            - link "Store Locations" [ref=f3e93] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=f3e94]:
+            - link "Order Tracking" [ref=f3e95] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=f3e96]:
+            - link "Warranty" [ref=f3e97] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=f3e98]:
+            - link "Contact Us" [ref=f3e99] [cursor=pointer]:
+              - /url: /contact
+    - generic [ref=f3e101]:
+      - generic [ref=f3e102]: © 2026 Cellular Solutions. All rights reserved.
+      - generic [ref=f3e103]: YOU BREAK IT · WE FIX IT
