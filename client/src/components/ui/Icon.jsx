@@ -33,9 +33,11 @@ import {
   Eye,
   EyeOff,
   ChevronLeft,
+  ChevronRight,
   CheckCircle2,
   Volume2,
   ZoomIn,
+  LogOut,
 } from 'lucide-react';
 
 const ICONS = {
@@ -73,9 +75,11 @@ const ICONS = {
   eye:               Eye,
   'eye-off':         EyeOff,
   'chevron-left':    ChevronLeft,
+  'chevron-right':   ChevronRight,
   'check-circle':    CheckCircle2,
   speaker:           Volume2,
   'zoom-in':         ZoomIn,
+  'log-out':         LogOut,
 };
 
 export function Icon({ name, size = 20, color = 'currentColor', strokeWidth = 2, style = {}, ...rest }) {
