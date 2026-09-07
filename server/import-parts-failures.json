@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Aftermarket - Charging Dock Flex for iPhone SE (2020) (Black)",
+    "error": "E11000 duplicate key error collection: cellularsolutions.categories index: parent_1_slug_1 dup key: { parent: ObjectId('6a8a8f326f8a43be2c99c765'), slug: \"iphone-se-2022\" }"
+  },
+  {
+    "name": "Iphone SE 2022 Front Camera Proximity Sensor",
+    "error": "E11000 duplicate key error collection: cellularsolutions.categories index: parent_1_slug_1 dup key: { parent: ObjectId('6a8a8f326f8a43be2c99c765'), slug: \"iphone-se-2022\" }"
+  },
+  {
+    "name": "Vibrator Motor for iPhone SE (2022)",
+    "error": "E11000 duplicate key error collection: cellularsolutions.categories index: parent_1_slug_1 dup key: { parent: ObjectId('6a8a8f326f8a43be2c99c765'), slug: \"iphone-se-2022\" }"
+  }
+]
