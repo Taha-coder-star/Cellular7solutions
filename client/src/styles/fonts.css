@@ -1,4 +1,3 @@
 /* Cellular Solutions — Webfonts
-   Brand typeface: Inter, loaded from Google Fonts. */
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+   Brand typeface: Inter, loaded from Google Fonts via <link> in index.html
+   (not @import here — @import blocks on the CSS bundle parsing first). */
