@@ -1,0 +1,35 @@
+- generic [ref=f3e309]:
+  - complementary [ref=f3e310]:
+    - generic [ref=f3e311]: Admin
+    - navigation [ref=f3e312]:
+      - link "Dashboard" [ref=f3e313] [cursor=pointer]:
+        - /url: /admin
+      - link "Products" [ref=f3e316] [cursor=pointer]:
+        - /url: /admin/products
+      - link "Orders" [ref=f3e319] [cursor=pointer]:
+        - /url: /admin/orders
+      - link "Repairs" [ref=f3e324] [cursor=pointer]:
+        - /url: /admin/repairs
+      - link "Buy & Sell" [ref=f3e327] [cursor=pointer]:
+        - /url: /admin/buysell
+      - link "Categories" [ref=f3e330] [cursor=pointer]:
+        - /url: /admin/categories
+      - link "Brands" [ref=f3e332] [cursor=pointer]:
+        - /url: /admin/brands
+    - button "Log out" [ref=f3e336] [cursor=pointer]
+  - main [ref=f3e340]:
+    - generic [ref=f3e341]:
+      - heading "Dashboard" [level=1] [ref=f3e342]
+      - generic [ref=f3e343]:
+        - generic [ref=f3e344]:
+          - generic [ref=f3e345]: Products
+          - generic [ref=f3e346]: "2992"
+        - generic [ref=f3e347]:
+          - generic [ref=f3e348]: Orders
+          - generic [ref=f3e349]: "2"
+        - generic [ref=f3e350]:
+          - generic [ref=f3e351]: Repair Requests
+          - generic [ref=f3e352]: "3"
+        - generic [ref=f3e353]:
+          - generic [ref=f3e354]: Buy & Sell Requests
+          - generic [ref=f3e355]: "0"
