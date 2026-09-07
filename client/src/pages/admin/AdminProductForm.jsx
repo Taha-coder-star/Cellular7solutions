@@ -107,15 +107,30 @@ export default function AdminProductForm() {
           {existingImages.length > 0 && (
             <div>
               <div style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-medium)', color: 'var(--text-strong)', marginBottom: '8px' }}>
-                Existing images (check to remove)
+                Existing images
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-                {existingImages.map((url) => (
-                  <label key={url} style={{ position: 'relative', cursor: 'pointer' }}>
-                    <img src={url} alt="" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: 'var(--radius-input)', opacity: removeImages.includes(url) ? 0.4 : 1, border: '1px solid var(--border-subtle)' }} />
-                    <input type="checkbox" checked={removeImages.includes(url)} onChange={() => toggleRemove(url)} style={{ position: 'absolute', top: '4px', right: '4px' }} />
-                  </label>
-                ))}
+                {existingImages.map((url) => {
+                  const marked = removeImages.includes(url);
+                  return (
+                    <div key={url} style={{ position: 'relative' }}>
+                      <img src={url} alt="" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: 'var(--radius-input)', opacity: marked ? 0.4 : 1, border: '1px solid var(--border-subtle)' }} />
+                      <button
+                        type="button"
+                        onClick={() => toggleRemove(url)}
+                        aria-label={marked ? 'Undo remove image' : 'Remove image'}
+                        style={{ position: 'absolute', top: '4px', right: '4px', border: 'none', background: 'var(--surface-dark)', color: 'var(--white)', borderRadius: '999px', width: '18px', height: '18px', lineHeight: 1, cursor: 'pointer' }}
+                      >
+                        {marked ? '↺' : '✕'}
+                      </button>
+                      {marked && (
+                        <div style={{ position: 'absolute', bottom: '4px', left: '4px', right: '4px', fontSize: 'var(--fs-xs)', textAlign: 'center', color: 'var(--white)', background: 'rgba(0,0,0,0.6)', borderRadius: 'var(--radius-sm)', padding: '1px 0' }}>
+                          removed on save
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
