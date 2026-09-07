@@ -32,7 +32,7 @@ export function Checkbox({ label, checked, defaultChecked, onChange, disabled = 
           flexShrink: 0,
           marginTop: '1px',
           border: '1px solid var(--border-strong)',
-          borderRadius: '6px',
+          borderRadius: 'var(--radius-sm)',
           background: isChecked ? 'var(--graphite-900)' : 'var(--white)',
           backgroundImage: isChecked
             ? "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E\")"
