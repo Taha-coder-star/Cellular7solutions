@@ -58,7 +58,23 @@
       "Bash(echo \"EXIT:$?\")",
       "Bash(rm \"C:\\\\Users\\\\tahaj\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\F--cellular-solutions\\\\8ae623bf-d5d3-4e2b-92e7-4fedf7be5717\\\\scratchpad\\\\critique-admin-dashboard.md\")",
       "Bash(node .claude/skills/impeccable/scripts/critique-storage.mjs trend \"client/src/pages/admin \\(admin dashboard/panel\\)\" 5)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(node *)",
+      "Bash(python3 *)",
+      "Bash(IMPECCABLE_CRITIQUE_META='{\"target\":\"audio page\",\"total_score\":30,\"max_score\":40,\"na_heuristics\":\"\",\"p0_count\":1,\"p1_count\":2}' node .claude/skills/impeccable/scripts/critique-storage.mjs write \"http://localhost:5173/shop?category=6a89ca94e91f54dd41253232\" \"C:\\\\Users\\\\tahaj\\\\.claude\\\\jobs\\\\55111288\\\\tmp\\\\critique_body.md\")",
+      "Bash(rm -f \"C:\\\\Users\\\\tahaj\\\\.claude\\\\jobs\\\\55111288\\\\tmp\\\\critique_body.md\")",
+      "WebFetch(domain:excellatlanta.com)",
+      "Bash(npx oxlint *)",
+      "Bash(taskkill //F //IM chrome.exe)",
+      "mcp__plugin_playwright_playwright__browser_evaluate",
+      "WebFetch(domain:www.whois.com)",
+      "Bash(ls scripts *)",
+      "Bash(ls seed*)",
+      "Bash(find . -iname \"*seed*\" -not -path \"*/node_modules/*\")",
+      "Bash(npx vite *)",
+      "WebFetch(domain:source.unsplash.com)",
+      "Bash(IMPECCABLE_CRITIQUE_META='{\"target\":\"whole site\",\"total_score\":26,\"max_score\":40,\"na_heuristics\":\"\",\"p0_count\":2,\"p1_count\":2}' node .claude/skills/impeccable/scripts/critique-storage.mjs write \"whole site\" \"C:\\\\Users\\\\tahaj\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\F--cellular-solutions\\\\fb017a01-8168-4c06-8a48-7e32372349e2\\\\scratchpad\\\\critique-whole-site.md\")",
+      "Bash(git status *)"
     ]
   },
   "hooks": {
