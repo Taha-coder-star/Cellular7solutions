@@ -1,0 +1,85 @@
+- generic [ref=e3]:
+  - link "Skip to content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e5]:
+    - generic [ref=e6]: You Break It. We Make It Again.
+    - generic [ref=e7]:
+      - link [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img "Cellular Solutions" [ref=e9]
+      - navigation [ref=e10]:
+        - link "Buy & Sell" [ref=e11] [cursor=pointer]:
+          - /url: /buysell
+        - link "Repairs" [ref=e12] [cursor=pointer]:
+          - /url: /repair
+        - link "About" [ref=e13] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /contact
+        - link "Deals" [ref=e15] [cursor=pointer]:
+          - /url: /shop
+      - generic [ref=e16]:
+        - button "Search" [ref=e17] [cursor=pointer]
+        - link "Cart (1 items)" [ref=e21] [cursor=pointer]:
+          - /url: /cart
+          - generic [ref=e26]: "1"
+        - link "Sign In" [ref=e27] [cursor=pointer]:
+          - /url: /login
+  - main [ref=e31]
+  - contentinfo [ref=e40]:
+    - generic [ref=e42]:
+      - generic [ref=e43]:
+        - img "Cellular Solutions" [ref=e44]
+        - paragraph [ref=e45]: Your local shop for phones, consoles, laptops and accessories — plus fast, honest repairs.
+        - generic [ref=e46]:
+          - link "Facebook" [ref=e47] [cursor=pointer]:
+            - /url: "#"
+          - link "Instagram" [ref=e51] [cursor=pointer]:
+            - /url: "#"
+          - link "Twitter / X" [ref=e54] [cursor=pointer]:
+            - /url: "#"
+      - generic [ref=e61]:
+        - generic [ref=e62]: Shop
+        - list [ref=e63]:
+          - listitem [ref=e64]:
+            - link "Phones" [ref=e65] [cursor=pointer]:
+              - /url: /shop
+          - listitem [ref=e66]:
+            - link "Gaming" [ref=e67] [cursor=pointer]:
+              - /url: /shop
+          - listitem [ref=e68]:
+            - link "Laptops" [ref=e69] [cursor=pointer]:
+              - /url: /shop
+          - listitem [ref=e70]:
+            - link "Accessories" [ref=e71] [cursor=pointer]:
+              - /url: /shop
+      - generic [ref=e72]:
+        - generic [ref=e73]: Service
+        - list [ref=e74]:
+          - listitem [ref=e75]:
+            - link "Book a Repair" [ref=e76] [cursor=pointer]:
+              - /url: /repair
+          - listitem [ref=e77]:
+            - link "Track Repair" [ref=e78] [cursor=pointer]:
+              - /url: /repair
+          - listitem [ref=e79]:
+            - link "Sell Your Device" [ref=e80] [cursor=pointer]:
+              - /url: /buysell
+      - generic [ref=e81]:
+        - generic [ref=e82]: Support
+        - list [ref=e83]:
+          - listitem [ref=e84]:
+            - link "Store Locations" [ref=e85] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=e86]:
+            - link "Order Tracking" [ref=e87] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=e88]:
+            - link "Warranty" [ref=e89] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=e90]:
+            - link "Contact Us" [ref=e91] [cursor=pointer]:
+              - /url: /contact
+    - generic [ref=e93]:
+      - generic [ref=e94]: © 2026 Cellular Solutions. All rights reserved.
+      - generic [ref=e95]: YOU BREAK IT · WE FIX IT
