@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button, Card, Input, Textarea, Icon } from '@/components/ui';
+import api from '@/services/api';
 
 // ⚑ Hours are still a placeholder — confirm real hours with client before launch
 const INFO = [
@@ -13,6 +14,8 @@ export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   function validate() {
     const next = {};
@@ -24,12 +27,20 @@ export default function Contact() {
     return Object.keys(next).length === 0;
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+    setSubmitError('');
     if (!validate()) return;
-    // No backend endpoint for general contact yet — log and confirm to the user
-    console.log('Contact form submission:', form);
-    setSent(true);
+    setSubmitting(true);
+    try {
+      await api.post('/contact', form);
+      setSent(true);
+      setForm({ name: '', email: '', message: '' });
+    } catch (err) {
+      setSubmitError(err.response?.data?.message || 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -86,9 +97,12 @@ export default function Contact() {
                 error={errors.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
               />
+              {submitError && (
+                <p style={{ margin: 0, fontSize: 'var(--fs-sm)', color: 'var(--danger-700)' }}>{submitError}</p>
+              )}
               <div>
-                <Button type="submit" variant="product">
-                  Send Message
+                <Button type="submit" variant="product" disabled={submitting}>
+                  {submitting ? 'Sending…' : 'Send Message'}
                 </Button>
               </div>
             </form>
