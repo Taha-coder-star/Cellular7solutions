@@ -1,0 +1,101 @@
+- generic [ref=f3e3]:
+  - link "Skip to content" [ref=f3e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=f3e5]:
+    - generic [ref=f3e6]: You Break It. We Make It Again.
+    - generic [ref=f3e7]:
+      - link [ref=f3e8] [cursor=pointer]:
+        - /url: /
+        - img "Cellular Solutions" [ref=f3e9]
+      - navigation [ref=f3e10]:
+        - link "Buy & Sell" [ref=f3e11] [cursor=pointer]:
+          - /url: /buysell
+        - link "Repairs" [ref=f3e12] [cursor=pointer]:
+          - /url: /repair
+        - link "About" [ref=f3e13] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=f3e14] [cursor=pointer]:
+          - /url: /contact
+      - button "Search" [ref=f3e16] [cursor=pointer]
+  - main [ref=f3e20]:
+    - generic [ref=f3e22]:
+      - link "Cellular Solutions YOU BREAK IT · WE FIX IT" [ref=f3e23] [cursor=pointer]:
+        - /url: /
+        - img "Cellular Solutions" [ref=f3e24]
+        - generic [ref=f3e25]: YOU BREAK IT · WE FIX IT
+      - generic [ref=f3e26]:
+        - generic [ref=f3e27]:
+          - heading "Sign in" [level=1] [ref=f3e28]
+          - paragraph [ref=f3e29]: Welcome back to Cellular Solutions.
+        - generic [ref=f3e30]:
+          - generic [ref=f3e31]:
+            - generic [ref=f3e32]: Email
+            - textbox "Email" [ref=f3e34]:
+              - /placeholder: you@example.com
+          - generic [ref=f3e35]:
+            - generic [ref=f3e36]: Password
+            - generic [ref=f3e37]:
+              - textbox "Password" [ref=f3e38]:
+                - /placeholder: Enter your password
+              - button "Show password" [ref=f3e40] [cursor=pointer]
+          - generic [ref=f3e44] [cursor=pointer]:
+            - checkbox "Remember me" [checked] [ref=f3e45]
+            - generic [ref=f3e46]: Remember me
+          - button "Sign In" [ref=f3e47] [cursor=pointer]
+  - contentinfo [ref=f3e48]:
+    - generic [ref=f3e50]:
+      - generic [ref=f3e51]:
+        - img "Cellular Solutions" [ref=f3e52]
+        - paragraph [ref=f3e53]: Your local shop for phones, consoles, laptops and accessories — plus fast, honest repairs.
+        - generic [ref=f3e54]:
+          - link "Facebook" [ref=f3e55] [cursor=pointer]:
+            - /url: "#"
+          - link "Instagram" [ref=f3e59] [cursor=pointer]:
+            - /url: "#"
+          - link "Twitter / X" [ref=f3e62] [cursor=pointer]:
+            - /url: "#"
+      - generic [ref=f3e69]:
+        - generic [ref=f3e70]: Shop
+        - list [ref=f3e71]:
+          - listitem [ref=f3e72]:
+            - link "Phones" [ref=f3e73] [cursor=pointer]:
+              - /url: /shop
+          - listitem [ref=f3e74]:
+            - link "Gaming" [ref=f3e75] [cursor=pointer]:
+              - /url: /shop
+          - listitem [ref=f3e76]:
+            - link "Laptops" [ref=f3e77] [cursor=pointer]:
+              - /url: /shop
+          - listitem [ref=f3e78]:
+            - link "Accessories" [ref=f3e79] [cursor=pointer]:
+              - /url: /shop
+      - generic [ref=f3e80]:
+        - generic [ref=f3e81]: Service
+        - list [ref=f3e82]:
+          - listitem [ref=f3e83]:
+            - link "Book a Repair" [ref=f3e84] [cursor=pointer]:
+              - /url: /repair
+          - listitem [ref=f3e85]:
+            - link "Track Repair" [ref=f3e86] [cursor=pointer]:
+              - /url: /repair
+          - listitem [ref=f3e87]:
+            - link "Sell Your Device" [ref=f3e88] [cursor=pointer]:
+              - /url: /buysell
+      - generic [ref=f3e89]:
+        - generic [ref=f3e90]: Support
+        - list [ref=f3e91]:
+          - listitem [ref=f3e92]:
+            - link "Store Locations" [ref=f3e93] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=f3e94]:
+            - link "Order Tracking" [ref=f3e95] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=f3e96]:
+            - link "Warranty" [ref=f3e97] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=f3e98]:
+            - link "Contact Us" [ref=f3e99] [cursor=pointer]:
+              - /url: /contact
+    - generic [ref=f3e101]:
+      - generic [ref=f3e102]: © 2026 Cellular Solutions. All rights reserved.
+      - generic [ref=f3e103]: YOU BREAK IT · WE FIX IT
