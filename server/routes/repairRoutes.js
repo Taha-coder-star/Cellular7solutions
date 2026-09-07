@@ -1,19 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const { optionalProtect, protect } = require('../middleware/authMiddleware');
-const { admin } = require('../middleware/adminMiddleware');
+const { requireAdmin } = require('../middleware/requireAdmin');
+const { honeypot } = require('../middleware/honeypot');
+const { formLimiter } = require('../middleware/rateLimit');
 const {
   createRepairRequest,
   getRepairRequests,
-  getMyRepairRequests,
   getRepairRequestById,
   updateRepair,
+  deleteRepairRequest,
 } = require('../controllers/repairController');
 
-router.post('/', optionalProtect, createRepairRequest);
-router.get('/', protect, admin, getRepairRequests);
-router.get('/my', protect, getMyRepairRequests);
-router.get('/:id', protect, admin, getRepairRequestById);
-router.put('/:id', protect, admin, updateRepair);
+router.post('/', formLimiter, honeypot, createRepairRequest);
+router.get('/', requireAdmin, getRepairRequests);
+router.get('/:id', requireAdmin, getRepairRequestById);
+router.put('/:id', requireAdmin, updateRepair);
+router.delete('/:id', requireAdmin, deleteRepairRequest);
 
 module.exports = router;
