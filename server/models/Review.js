@@ -1,10 +1,16 @@
 const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+  name: {
+    type: String,
     required: true,
+    trim: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true,
   },
   product: {
     type: mongoose.Schema.Types.ObjectId,
@@ -27,7 +33,5 @@ const reviewSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
-reviewSchema.index({ user: 1, product: 1 }, { unique: true });
 
 module.exports = mongoose.model('Review', reviewSchema);
