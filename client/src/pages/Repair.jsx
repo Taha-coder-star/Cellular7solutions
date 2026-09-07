@@ -23,6 +23,7 @@ export default function Repair() {
     availableDate: '',
     availableTime: TIME_SLOTS[0],
     agreedToTerms: false,
+    website: '', // honeypot — left empty by real users, autofilled by bots
   });
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState('');
@@ -59,6 +60,7 @@ export default function Repair() {
         availableTime: form.availableTime,
         images: [],
         agreedToTerms: form.agreedToTerms,
+        website: form.website,
       });
       setDone(true);
     } catch (err) {
@@ -101,8 +103,18 @@ export default function Repair() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
+              <input
+                type="text"
+                name="website"
+                value={form.website}
+                onChange={(e) => setForm({ ...form, website: e.target.value })}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
+              />
               {serverError && (
-                <div style={{ padding: 'var(--space-3) var(--space-4)', background: 'var(--danger-50)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--fs-sm)', color: 'var(--danger-500)' }}>
+                <div style={{ padding: 'var(--space-3) var(--space-4)', background: 'var(--danger-50)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--fs-sm)', color: 'var(--danger-700)' }}>
                   {serverError}
                 </div>
               )}
