@@ -19,15 +19,15 @@ import AdminCategories from './pages/admin/AdminCategories';
 import AdminBrands from './pages/admin/AdminBrands';
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import ForgotPassword from './pages/ForgotPassword';
+import AdminLogin from './pages/admin/AdminLogin';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import BuySell from './pages/BuySell';
 import Repair from './pages/Repair';
 import Shop from './pages/Shop';
 import CategoryPage from './pages/CategoryPage';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Terms from './pages/Terms';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -38,15 +38,15 @@ createRoot(document.getElementById('root')).render(
             <Route path="/"            element={<Home />} />
             <Route path="/shop"        element={<Shop />} />
             <Route path="/categories/*" element={<CategoryPage />} />
-            <Route path="/login"       element={<Login />} />
-            <Route path="/register"    element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/about"       element={<About />} />
             <Route path="/contact"     element={<Contact />} />
             <Route path="/buysell"     element={<BuySell />} />
             <Route path="/repair"      element={<Repair />} />
+            <Route path="/privacy"     element={<PrivacyPolicy />} />
+            <Route path="/terms"       element={<Terms />} />
           </Route>
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index                     element={<AdminDashboard />} />
             <Route path="products"            element={<AdminProducts />} />
