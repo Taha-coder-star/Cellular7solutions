@@ -1,15 +1,15 @@
 export function StatusBadge({ status, style = {} }) {
   const map = {
-    pending:       { fg: 'var(--warning-500)', bg: 'var(--warning-50)', label: 'Pending' },
+    pending:       { fg: 'var(--warning-700)', bg: 'var(--warning-50)', label: 'Pending' },
     processing:    { fg: 'var(--info-500)',    bg: 'var(--info-50)',    label: 'Processing' },
     confirmed:     { fg: 'var(--info-500)',    bg: 'var(--info-50)',    label: 'Confirmed' },
     'in-progress': { fg: 'var(--cobalt-700)',  bg: 'var(--cobalt-50)',  label: 'In Progress' },
     shipped:       { fg: 'var(--info-500)',    bg: 'var(--info-50)',    label: 'Shipped' },
-    delivered:     { fg: 'var(--success-500)', bg: 'var(--success-50)', label: 'Delivered' },
-    completed:     { fg: 'var(--success-500)', bg: 'var(--success-50)', label: 'Completed' },
-    paid:          { fg: 'var(--success-500)', bg: 'var(--success-50)', label: 'Paid' },
-    cancelled:     { fg: 'var(--danger-500)',  bg: 'var(--danger-50)',  label: 'Cancelled' },
-    rejected:      { fg: 'var(--danger-500)',  bg: 'var(--danger-50)',  label: 'Rejected' },
+    delivered:     { fg: 'var(--success-700)', bg: 'var(--success-50)', label: 'Delivered' },
+    completed:     { fg: 'var(--success-700)', bg: 'var(--success-50)', label: 'Completed' },
+    paid:          { fg: 'var(--success-700)', bg: 'var(--success-50)', label: 'Paid' },
+    cancelled:     { fg: 'var(--danger-700)',  bg: 'var(--danger-50)',  label: 'Cancelled' },
+    rejected:      { fg: 'var(--danger-700)',  bg: 'var(--danger-50)',  label: 'Rejected' },
   };
   const s = map[status] || map.pending;
 
