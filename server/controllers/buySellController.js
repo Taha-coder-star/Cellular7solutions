@@ -15,7 +15,6 @@ const createBuySellRequest = async (req, res) => {
       condition,
       description,
       images: images || [],
-      user: req.user ? req.user.id : undefined,
     });
 
     await request.save();
@@ -28,9 +27,7 @@ const createBuySellRequest = async (req, res) => {
 
 const getBuySellRequests = async (req, res) => {
   try {
-    const requests = await BuySellRequest.find()
-      .populate('user', 'name email')
-      .sort({ createdAt: -1 });
+    const requests = await BuySellRequest.find().sort({ createdAt: -1 });
     res.json(requests);
   } catch (err) {
     console.error('getBuySellRequests:', err);
@@ -40,7 +37,7 @@ const getBuySellRequests = async (req, res) => {
 
 const getBuySellRequestById = async (req, res) => {
   try {
-    const request = await BuySellRequest.findById(req.params.id).populate('user', 'name email');
+    const request = await BuySellRequest.findById(req.params.id);
     if (!request) {
       return res.status(404).json({ message: 'Request not found' });
     }
@@ -74,9 +71,23 @@ const updateBuySellStatus = async (req, res) => {
   }
 };
 
+const deleteBuySellRequest = async (req, res) => {
+  try {
+    const request = await BuySellRequest.findByIdAndDelete(req.params.id);
+    if (!request) {
+      return res.status(404).json({ message: 'Request not found' });
+    }
+    res.json({ message: 'Request deleted' });
+  } catch (err) {
+    console.error('deleteBuySellRequest:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   createBuySellRequest,
   getBuySellRequests,
   getBuySellRequestById,
   updateBuySellStatus,
+  deleteBuySellRequest,
 };
