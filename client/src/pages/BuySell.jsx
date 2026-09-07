@@ -12,7 +12,7 @@ const STEPS = [
 ];
 
 export default function BuySell() {
-  const [form, setForm] = useState({ name: '', phone: '', device: '', condition: CONDITIONS[0], description: '' });
+  const [form, setForm] = useState({ name: '', phone: '', device: '', condition: CONDITIONS[0], description: '', website: '' });
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -42,6 +42,7 @@ export default function BuySell() {
         condition: form.condition,
         description: form.description.trim(),
         images: [],
+        website: form.website,
       });
       setDone(true);
     } catch (err) {
@@ -84,8 +85,18 @@ export default function BuySell() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
+              <input
+                type="text"
+                name="website"
+                value={form.website}
+                onChange={(e) => setForm({ ...form, website: e.target.value })}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
+              />
               {serverError && (
-                <div style={{ padding: 'var(--space-3) var(--space-4)', background: 'var(--danger-50)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--fs-sm)', color: 'var(--danger-500)' }}>
+                <div style={{ padding: 'var(--space-3) var(--space-4)', background: 'var(--danger-50)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--fs-sm)', color: 'var(--danger-700)' }}>
                   {serverError}
                 </div>
               )}
