@@ -45,7 +45,7 @@ export function Select({ label, hint, error, id, options = [], style = {}, child
             return <option key={val} value={val}>{lbl}</option>;
           })}
         </select>
-        <span style={{ position: 'absolute', right: '14px', pointerEvents: 'none', color: 'var(--text-muted)', fontSize: '12px' }}>▾</span>
+        <span style={{ position: 'absolute', right: '14px', pointerEvents: 'none', color: 'var(--text-muted)', fontSize: 'var(--fs-xs)' }}>▾</span>
       </div>
       {(hint || error) && (
         <span id={hintId} style={{ fontSize: 'var(--fs-xs)', color: error ? 'var(--danger-500)' : 'var(--text-muted)' }}>
