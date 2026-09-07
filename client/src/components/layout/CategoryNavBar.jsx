@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Icon } from '@/components/ui';
 import { useCategoryTree } from '@/hooks/useCategoryTree';
 import { BY_CATEGORY_LINKS } from '@/data/byCategoryLinks';
@@ -48,7 +48,6 @@ function MegaPanelColumns({ columns, buildPath }) {
 }
 
 function NavItem({ node, isOpen, onOpenRequest, onCloseRequest, onOpenNow, onCloseNow }) {
-  const navigate = useNavigate();
   const wrapperRef = useRef(null);
   const panelRef = useRef(null);
   const [alignRight, setAlignRight] = useState(false);

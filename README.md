@@ -1,6 +1,6 @@
 # Cellular Solutions — E-Commerce Platform
 
-A full-stack MERN e-commerce application for a mobile phone accessories and electronics retailer. Built with a modern Apple-inspired design, featuring a complete product catalog, checkout flow, admin dashboard, and service request management.
+A full-stack MERN application for a mobile phone accessories and electronics retailer: product catalog, guest checkout, repair booking, buy/sell trade-in requests, product reviews, and an admin dashboard. There are no customer accounts — the storefront is fully guest, and there is exactly one admin account.
 
 ---
 
@@ -13,39 +13,35 @@ A full-stack MERN e-commerce application for a mobile phone accessories and elec
 - Axios
 
 **Backend**
-- Node.js + Express.js
+- Node.js + Express
 - MongoDB Atlas (Mongoose)
-- JWT Authentication
+- JWT (admin-only auth)
 - Cloudinary (image storage)
 
 **Deployment**
-- Vercel (Frontend)
-- Render (Backend)
+- Vercel (frontend)
+- Render (backend)
 
 ---
 
 ## Features
 
-### Customer
+### Storefront (guest, no account required)
 - Browse products by category, brand, condition, and price range
-- Search products
-- Product detail pages with multiple images
-- Shopping cart
-- Stripe checkout
-- Order history and tracking
-- Profile management
-- Submit Buy/Sell requests for used devices
-- Submit Unlock requests
+- Search with in-nav suggestions
+- Product detail pages with multiple images, reviews
+- Checkout with name/email/phone/address per order — no signup
+- Submit buy/sell (trade-in) requests
+- Book a repair
+- Leave a product review
 
-### Admin
-- Dashboard with sales overview, order stats, low stock alerts
-- Full product management (CRUD + image upload)
+### Admin (single account)
+- Dashboard with sales/order stats
+- Product management (CRUD + image upload)
 - Category and brand management
 - Order management with status updates
-- Customer management
-- Inventory tracking
-- Buy/Sell request management
-- Unlock request management
+- Repair and buy/sell request management
+- Review moderation (delete)
 
 ---
 
@@ -57,7 +53,7 @@ cellular-solutions/
 │   └── src/
 │       ├── assets/
 │       ├── components/         # Reusable UI components
-│       ├── context/            # AuthContext, CartContext
+│       ├── context/            # AuthContext (admin session only)
 │       ├── hooks/              # Custom React hooks
 │       ├── layouts/            # MainLayout, AdminLayout
 │       ├── pages/              # One component per route
@@ -70,17 +66,21 @@ cellular-solutions/
 │   │   └── cloudinary.js       # Cloudinary config
 │   ├── controllers/            # Route handler logic
 │   ├── middleware/
-│   │   ├── authMiddleware.js   # JWT verification
-│   │   ├── adminMiddleware.js  # Role-based access
-│   │   └── uploadMiddleware.js # Multer + Cloudinary
+│   │   ├── requireAdmin.js     # JWT verify + admin role check
+│   │   ├── uploadMiddleware.js # Multer + Cloudinary
+│   │   ├── rateLimit.js        # Rate limits on public forms + admin login
+│   │   └── honeypot.js         # Bot-trap field on public forms
 │   ├── models/                 # Mongoose schemas
 │   ├── routes/                 # Express routers
 │   ├── utils/
 │   │   └── generateToken.js    # JWT signing
-│   ├── test-api.js             # Automated API tests
-│   └── server.js               # Entry point
+│   ├── seed-admin.js            # One-time admin account creation (run manually)
+│   ├── seed.js                  # Product catalog seed
+│   └── server.js                 # Entry point
 │
-├── project.md                  # Full project specification
+├── project.md                  # Original client project specification
+├── PRODUCT.md                  # Product/positioning/brand register
+├── DESIGN.md                   # Design tokens (color, type, elevation)
 └── README.md
 ```
 
@@ -92,7 +92,6 @@ cellular-solutions/
 - Node.js v18+
 - MongoDB Atlas account
 - Cloudinary account
-- Stripe account
 
 ### 1. Clone the repository
 ```bash
@@ -104,149 +103,103 @@ cd cellular-solutions
 ```bash
 cd server
 npm install
-```
-
-Create `server/.env`:
-```
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-NODE_ENV=development
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-STRIPE_SECRET_KEY=your_stripe_secret_key
-```
-
-Start the backend:
-```bash
+cp .env.example .env   # then fill in real values
 npm run dev
 ```
 
 You should see:
 ```
 MongoDB connected: <host>
+Indexes synced
 Server running on port 5000
 ```
 
-### 3. Frontend setup
+### 3. Create the admin account (one time, manual)
+```bash
+node seed-admin.js "Your Name" you@example.com yourStrongPassword
+```
+There is no public sign-up route by design — this script is the only way to create an admin.
+
+### 4. Frontend setup
 ```bash
 cd ../client
 npm install
+cp .env.example .env   # then set VITE_API_URL if not using localhost:5000
 npm run dev
 ```
 
-Frontend runs at `http://localhost:5173`
+Frontend runs at `http://localhost:5173`. Admin panel is at `/admin/login`.
 
 ---
 
 ## Environment Variables
 
-### Backend (`server/.env`)
+### Backend (`server/.env`) — see `server/.env.example`
 
 | Variable | Description |
 |---|---|
 | `PORT` | Server port (default 5000) |
-| `MONGO_URI` | MongoDB Atlas connection string |
-| `JWT_SECRET` | Secret key for signing JWTs |
 | `NODE_ENV` | `development` or `production` |
+| `MONGO_URI` | MongoDB Atlas connection string |
+| `JWT_SECRET` | Secret key for signing admin JWTs |
 | `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name |
 | `CLOUDINARY_API_KEY` | Cloudinary API key |
 | `CLOUDINARY_API_SECRET` | Cloudinary API secret |
-| `STRIPE_SECRET_KEY` | Stripe secret key |
-| `TEST_ADMIN_EMAIL` | Admin email for test script |
-| `TEST_ADMIN_PASSWORD` | Admin password for test script |
+| `CLIENT_URL` | Frontend origin, restricts CORS in production (optional — allows all origins if unset) |
 
-### Frontend (`client/.env`)
+### Frontend (`client/.env`) — see `client/.env.example`
 
 | Variable | Description |
 |---|---|
-| `VITE_API_URL` | Backend API base URL |
-| `VITE_STRIPE_PUBLIC_KEY` | Stripe publishable key |
+| `VITE_API_URL` | Backend API base URL, e.g. `http://localhost:5000/api` |
 
 ---
 
 ## API Reference
 
-### Auth
+### Admin auth
 | Method | Endpoint | Access | Description |
 |---|---|---|---|
-| POST | `/api/auth/register` | Public | Register new user |
-| POST | `/api/auth/login` | Public | Login |
-| GET | `/api/auth/me` | Protected | Get current user |
+| POST | `/api/admin/login` | Public (rate-limited) | Admin login |
 
 ### Products
 | Method | Endpoint | Access | Description |
 |---|---|---|---|
-| GET | `/api/products` | Public | Get all products (filterable) |
+| GET | `/api/products` | Public | List/search products (filterable, paginated) |
 | GET | `/api/products/:id` | Public | Get product by ID |
 | POST | `/api/products` | Admin | Create product |
 | PUT | `/api/products/:id` | Admin | Update product |
+| DELETE | `/api/products/:id/images` | Admin | Remove a product image |
 | DELETE | `/api/products/:id` | Admin | Delete product |
-| DELETE | `/api/products/:id/images` | Admin | Remove product image |
 
-**Product query params:**
-- `?search=iphone` — search by name
-- `?category=<id>` — filter by category
-- `?brand=<id>` — filter by brand
-- `?condition=new` or `?condition=used`
-- `?minPrice=500&maxPrice=5000`
-- `?page=1&limit=12`
+**Query params:** `?search=`, `?category=<id>`, `?brand=<id>`, `?condition=new\|used`, `?minPrice=&maxPrice=`, `?page=&limit=`
 
-### Categories
+### Categories / Brands
+Standard public GET, admin-only POST/PUT/DELETE under `/api/categories` and `/api/brands`.
+
+### Orders (guest checkout)
 | Method | Endpoint | Access | Description |
 |---|---|---|---|
-| GET | `/api/categories` | Public | Get all categories |
-| GET | `/api/categories/:id` | Public | Get category by ID |
-| POST | `/api/categories` | Admin | Create category |
-| PUT | `/api/categories/:id` | Admin | Update category |
-| DELETE | `/api/categories/:id` | Admin | Delete category |
-
-### Brands
-| Method | Endpoint | Access | Description |
-|---|---|---|---|
-| GET | `/api/brands` | Public | Get all brands |
-| GET | `/api/brands/:id` | Public | Get brand by ID |
-| POST | `/api/brands` | Admin | Create brand |
-| PUT | `/api/brands/:id` | Admin | Update brand |
-| DELETE | `/api/brands/:id` | Admin | Delete brand |
-
-### Orders
-| Method | Endpoint | Access | Description |
-|---|---|---|---|
-| POST | `/api/orders` | Protected | Place order |
-| GET | `/api/orders/myorders` | Protected | Get my orders |
-| GET | `/api/orders/:id` | Protected | Get order by ID |
+| POST | `/api/orders` | Public (rate-limited) | Place order — requires `shippingAddress: {fullName, email, phone, address, city}` |
+| GET | `/api/orders` | Admin | List all orders |
+| GET | `/api/orders/:id` | Public | Get order by ID (order ID itself is the access token, like a guest checkout confirmation link) |
 | PUT | `/api/orders/:id/status` | Admin | Update order status |
 | PUT | `/api/orders/:id/pay` | Admin | Mark order as paid |
 
-### Services
+### Repairs / Buy & Sell (guest submissions)
 | Method | Endpoint | Access | Description |
 |---|---|---|---|
-| POST | `/api/buysell` | Public | Submit buy/sell request |
-| GET | `/api/buysell` | Admin | Get all requests |
-| PUT | `/api/buysell/:id/status` | Admin | Update request status |
-| POST | `/api/unlock` | Public | Submit unlock request |
-| GET | `/api/unlock` | Admin | Get all requests |
-| PUT | `/api/unlock/:id/status` | Admin | Update request status |
+| POST | `/api/repairs`, `/api/buysell` | Public (rate-limited + honeypot) | Submit a request |
+| GET | `/api/repairs`, `/api/buysell` | Admin | List requests |
+| PUT | `/api/repairs/:id`, `/api/buysell/:id/status` | Admin | Update status |
+| DELETE | `/api/repairs/:id`, `/api/buysell/:id` | Admin | Delete request |
 
----
-
-## Running Tests
-
-The project includes an automated test script that verifies the full API + database layer independently:
-
-```bash
-cd server
-node test-api.js
-```
-
-The script:
-- Auto-creates and promotes an admin test user (no manual setup needed)
-- Tests all CRUD operations for Auth, Categories, Brands, and Products
-- Verifies database state independently via direct MongoDB queries (not just API responses)
-- Cleans up all test data after each run
-- Exits with code `0` (all pass) or `1` (any failure) for CI compatibility
+### Reviews (open, no purchase verification)
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| POST | `/api/reviews` | Public (rate-limited + honeypot) | Submit a review — `name, email, product, rating, comment` |
+| GET | `/api/reviews/product/:productId` | Public | List reviews for a product |
+| DELETE | `/api/reviews/:id` | Admin | Delete a review |
 
 ---
 
@@ -254,47 +207,40 @@ The script:
 
 ### Backend (Render)
 1. Push code to GitHub
-2. Create a new Web Service on Render
-3. Set build command: `npm install`
-4. Set start command: `node server.js`
-5. Add all environment variables from `server/.env`
-6. Deploy
+2. New Web Service → root directory `server`
+3. Build command: `npm install` · Start command: `npm start`
+4. Add all environment variables from `server/.env.example`
+5. Once you have the frontend's URL, set `CLIENT_URL` to it and redeploy
 
 ### Frontend (Vercel)
-1. Push code to GitHub
-2. Import project on Vercel
-3. Set root directory to `client/`
-4. Add environment variables (`VITE_API_URL` pointing to your Render backend URL)
-5. Deploy
+1. Import project on Vercel → root directory `client`
+2. Add `VITE_API_URL` pointing at your Render backend, e.g. `https://your-app.onrender.com/api`
+3. Deploy
 
 ### Before going live
-- [ ] Restrict MongoDB Atlas Network Access from `0.0.0.0/0` to Render's server IP
-- [ ] Set `NODE_ENV=production` on Render
-- [ ] Confirm domain with client (Cellularsolution7.com)
-- [ ] Replace placeholder/Google images with licensed client-provided photos
-- [ ] Test Stripe webhooks in production mode
-- [ ] Run full QA pass on live URL
+- [ ] Run `node seed-admin.js` with real, strong credentials — do not ship default/test creds
+- [ ] Set `NODE_ENV=production` on Render (enables HTTPS redirect + HSTS)
+- [ ] Set `CLIENT_URL` on Render once the frontend domain is known
+- [ ] Confirm the production domain with the client
+- [ ] Restrict MongoDB Atlas Network Access as appropriate for your hosting setup
 
 ---
 
-## Known Issues / Development Notes
+## Notes
 
-- **MongoDB connection**: Uses legacy non-SRV connection string format (`mongodb://` with explicit shard hosts) instead of `mongodb+srv://`. The SRV format causes `querySrv ECONNREFUSED` on the development machine due to a local DNS resolution issue. The legacy format works identically and is safe for production. Do not revert to `srv://` without testing first.
-- **Image placeholders**: Client requested temporary use of placeholder images during development. All placeholder images must be replaced with licensed or client-provided photos before production launch.
-- **System clock**: Ensure your development machine's system clock is accurate — JWT expiry validation depends on correct timestamps.
+- **DNS resolution**: `server.js` pins DNS to `1.1.1.1`/`8.8.8.8` and forces IPv4-first resolution before connecting to MongoDB Atlas. This is required on the original dev network to resolve `mongodb+srv://` SRV records reliably — do not remove it without testing on your own network first.
+- **No test runner configured.** `npm test` in `server/` is a stub.
 
 ---
 
 ## Client Information
 
-**Business**: Cellular Solutions  
-**Domain**: Cellularsolution7.com (confirm before deployment)  
-**Project price**: PKR 80,000  
-**Payment terms**: 40% advance, remainder on delivery  
+**Business**: Cellular Solutions
+**Domain**: Cellularsolution7.com (confirm before deployment)
 
 ---
 
 ## Developer
 
-Built by Taha Ahmed (23K-0534)  
+Built by Taha Ahmed (23K-0534)
 FAST-NUCES Karachi
