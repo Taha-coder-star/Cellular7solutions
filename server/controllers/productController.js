@@ -205,7 +205,7 @@ const createProduct = async (req, res) => {
       return res.status(400).json({ message: 'Brand not found' });
     }
 
-    const images = req.files ? req.files.map((f) => f.path) : [];
+    const images = req.files ? req.files.map((f) => f.secure_url) : [];
 
     const product = new Product({ name, description, price, category, brand, condition, stock, images, isFeatured });
     await product.save();
@@ -255,7 +255,7 @@ const updateProduct = async (req, res) => {
     }
 
     if (req.files && req.files.length > 0) {
-      const newUrls = req.files.map((f) => f.path);
+      const newUrls = req.files.map((f) => f.secure_url);
       product.images = [...product.images, ...newUrls];
     }
 
