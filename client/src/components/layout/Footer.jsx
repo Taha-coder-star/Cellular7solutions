@@ -4,14 +4,22 @@ import { useCategoryTree } from '@/hooks/useCategoryTree';
 
 // Real top-level category names as they exist in the DB (verified against
 // /categories/tree) — resolved to ids at render time so the links can't drift
-// out of sync with category ids the way a hardcoded slug/id would.
-const SHOP_LINK_NAMES = ['Phones', 'Gaming', 'Laptops', 'Accessories'];
+// out of sync with category ids the way a hardcoded slug/id would. `label` is
+// the display name shown in the footer, which can differ from the DB `name`
+// used to find the category (e.g. DB "Phones" displays as "Smartphones" to
+// match the rest of the site's terminology).
+const SHOP_LINKS = [
+  { name: 'Phones', label: 'Smartphones' },
+  { name: 'Gaming', label: 'Gaming' },
+  { name: 'Laptops', label: 'Laptops' },
+  { name: 'Accessories', label: 'Accessories' },
+];
 
 function useShopLinks() {
   const { tree } = useCategoryTree();
-  return SHOP_LINK_NAMES.map((name) => {
+  return SHOP_LINKS.map(({ name, label }) => {
     const cat = tree?.find((n) => n.name === name);
-    return { to: cat ? `/shop?category=${cat._id}` : '/shop', label: name };
+    return { to: cat ? `/shop?category=${cat._id}` : '/shop', label };
   });
 }
 
@@ -113,8 +121,8 @@ export default function Footer() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: '36px',
-                    height: '36px',
+                    width: '44px',
+                    height: '44px',
                     borderRadius: 'var(--radius-sm)',
                     background: 'var(--graphite-800)',
                     color: 'var(--graphite-400)',
@@ -164,6 +172,14 @@ export default function Footer() {
           >
             © {year} Cellular Solutions. All rights reserved.
           </span>
+          <div style={{ display: 'flex', gap: 'var(--space-4)' }}>
+            <Link to="/privacy" style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-xs)', color: 'var(--graphite-400)', textDecoration: 'none' }}>
+              Privacy Policy
+            </Link>
+            <Link to="/terms" style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-xs)', color: 'var(--graphite-400)', textDecoration: 'none' }}>
+              Terms &amp; Conditions
+            </Link>
+          </div>
           <span
             style={{
               fontFamily: 'var(--font-sans)',
