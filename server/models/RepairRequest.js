@@ -59,10 +59,6 @@ const repairRequestSchema = new mongoose.Schema({
   estimatedCost: {
     type: Number,
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  },
   createdAt: {
     type: Date,
     default: Date.now,
