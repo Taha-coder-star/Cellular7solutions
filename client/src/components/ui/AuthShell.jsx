@@ -39,7 +39,7 @@ export function AuthShell({ children }) {
           }}
         >
           <Logo variant="icon" tone="dark" height={40} />
-          <span style={{ fontSize: '10px', fontWeight: 600, letterSpacing: '.18em', color: 'var(--graphite-400)' }}>
+          <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 600, letterSpacing: '.18em', color: 'var(--graphite-400)' }}>
             YOU BREAK IT · WE FIX IT
           </span>
         </Link>
@@ -55,7 +55,7 @@ export function AuthShell({ children }) {
 export function AuthHead({ title, subtitle }) {
   return (
     <div style={{ textAlign: 'center' }}>
-      <h1 style={{ margin: '0 0 5px', fontSize: '23px', fontWeight: 800, letterSpacing: '-.02em', color: 'var(--text-strong)' }}>
+      <h1 style={{ margin: '0 0 5px', fontSize: 'var(--fs-h3)', fontWeight: 800, letterSpacing: '-.02em', color: 'var(--text-strong)' }}>
         {title}
       </h1>
       {subtitle && <p style={{ margin: 0, fontSize: '14px', color: 'var(--text-muted)' }}>{subtitle}</p>}
@@ -67,7 +67,7 @@ export function AuthDivider({ text = 'OR' }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
       <span style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
-      <span style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '.12em', color: 'var(--text-muted)' }}>{text}</span>
+      <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 600, letterSpacing: '.12em', color: 'var(--text-muted)' }}>{text}</span>
       <span style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
     </div>
   );
