@@ -1,0 +1,27 @@
+{
+  "iPhone 17 Pro Max": {
+    "status": "MISSING",
+    "reason": "no search results",
+    "ts": 1787638675773
+  },
+  "iPhone 17 Pro": {
+    "status": "MISSING",
+    "reason": "no search results",
+    "ts": 1787638677845
+  },
+  "iPhone 17": {
+    "status": "MISSING",
+    "reason": "no search results",
+    "ts": 1787638679834
+  },
+  "iPhone 17e": {
+    "status": "MISSING",
+    "reason": "no search results",
+    "ts": 1787638681857
+  },
+  "iPhone Air": {
+    "status": "MISSING",
+    "reason": "no search results",
+    "ts": 1787638683865
+  }
+}
