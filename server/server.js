@@ -12,6 +12,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const buySellRoutes = require('./routes/buySellRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const repairRoutes = require('./routes/repairRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 const Category = require('./models/Category');
 const Brand = require('./models/Brand');
 const Review = require('./models/Review');
@@ -50,6 +51,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/buysell', buySellRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/repairs', repairRoutes);
+app.use('/api/contact', contactRoutes);
 
 app.use((err, req, res, next) => {
   if (err instanceof multer.MulterError || /image files.*are allowed/.test(err.message || '')) {

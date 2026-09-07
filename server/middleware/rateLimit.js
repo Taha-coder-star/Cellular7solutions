@@ -20,4 +20,14 @@ const loginLimiter = rateLimit({
   message: { message: 'Too many login attempts. Please try again later.' },
 });
 
-module.exports = { formLimiter, loginLimiter };
+// Contact form — tighter than the general form limiter since it sends real
+// email via SMTP (cost + spam risk), not just a DB write.
+const contactLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many submissions from this IP. Please try again later.' },
+});
+
+module.exports = { formLimiter, loginLimiter, contactLimiter };
