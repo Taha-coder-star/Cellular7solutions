@@ -6,6 +6,7 @@ const STATUSES = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
+  const [error, setError] = useState('');
 
   function load() {
     api.get('/orders').then((res) => setOrders(res.data));
@@ -14,13 +15,23 @@ export default function AdminOrders() {
   useEffect(load, []);
 
   async function handleStatus(id, status) {
-    await api.put(`/orders/${id}/status`, { status });
-    load();
+    setError('');
+    try {
+      await api.put(`/orders/${id}/status`, { status });
+      load();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to update order status');
+    }
   }
 
   async function handleMarkPaid(id) {
-    await api.put(`/orders/${id}/pay`, {});
-    load();
+    setError('');
+    try {
+      await api.put(`/orders/${id}/pay`, {});
+      load();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to mark order as paid');
+    }
   }
 
   return (
@@ -28,12 +39,13 @@ export default function AdminOrders() {
       <h1 style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-h3)', fontWeight: 'var(--fw-bold)', color: 'var(--text-strong)', marginBottom: '24px' }}>
         Orders
       </h1>
+      {error && <div style={{ color: 'var(--danger-500)', fontSize: 'var(--fs-sm)', marginBottom: '16px' }}>{error}</div>}
       <Table headers={['Customer', 'Total', 'Paid', 'Status', 'Placed']}>
         {orders.map((o) => (
           <tr key={o._id} style={trStyle}>
             <td style={tdStyle}>
-              <div>{o.user?.name || 'Unknown'}</div>
-              <div style={{ color: 'var(--text-muted)', fontSize: 'var(--fs-xs)' }}>{o.user?.email}</div>
+              <div>{o.shippingAddress?.fullName || 'Unknown'}</div>
+              <div style={{ color: 'var(--text-muted)', fontSize: 'var(--fs-xs)' }}>{o.shippingAddress?.email}</div>
             </td>
             <td style={tdStyle}>Rs. {o.totalPrice?.toLocaleString()}</td>
             <td style={tdStyle}>
