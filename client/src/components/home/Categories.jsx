@@ -26,6 +26,10 @@ const ICON_BY_NAME = {
 // Same verified Unsplash photos already used for the product catalog —
 // reused here (not re-sourced) so the two surfaces stay visually consistent.
 const PHOTO_BY_NAME = {
+  smartphones: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9',
+  'samsung cases': 'https://images.unsplash.com/photo-1535157412991-2ef801c1748b',
+  'apple parts': 'https://images.unsplash.com/photo-1550041473-d296a3a8a18a',
+  accessories: 'https://images.unsplash.com/photo-1573739022854-abceaeb585dc',
   laptops: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1',
   gaming: 'https://images.unsplash.com/photo-1612036781124-847f8939b154',
   headphones: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb',
