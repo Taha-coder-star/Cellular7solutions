@@ -1,0 +1,124 @@
+- generic [ref=f1e3]:
+  - link "Skip to content" [ref=f1e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=f1e5]:
+    - generic [ref=f1e6]: You Break It. We Make It Again.
+    - generic [ref=f1e7]:
+      - link [ref=f1e8] [cursor=pointer]:
+        - /url: /
+        - img "Cellular Solutions" [ref=f1e9]
+      - navigation [ref=f1e10]:
+        - link "Buy & Sell" [ref=f1e11] [cursor=pointer]:
+          - /url: /buysell
+        - link "Repairs" [ref=f1e12] [cursor=pointer]:
+          - /url: /repair
+        - link "About" [ref=f1e13] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=f1e14] [cursor=pointer]:
+          - /url: /contact
+        - link "Deals" [ref=f1e15] [cursor=pointer]:
+          - /url: /shop
+      - generic [ref=f1e16]:
+        - button "Search" [ref=f1e17] [cursor=pointer]
+        - link "Cart (1 items)" [ref=f1e21] [cursor=pointer]:
+          - /url: /cart
+          - generic [ref=f1e26]: "1"
+        - link "Sign In" [ref=f1e27] [cursor=pointer]:
+          - /url: /login
+  - main [ref=f1e31]:
+    - generic [ref=f1e32]:
+      - generic [ref=f1e33]:
+        - img "A dark flat-lay spread of a laptop, smartphone, wireless headphones, camera, and watch, representing the full range of devices Cellular Solutions sells, repairs, and trades in" [ref=f1e34]
+        - generic [ref=f1e35]:
+          - generic [ref=f1e36]: Just Landed
+          - heading "Everything Tech." [level=1] [ref=f1e37]
+          - paragraph [ref=f1e38]: Buy • Repair • Trade-In
+          - link "Shop New Arrivals" [ref=f1e40] [cursor=pointer]:
+            - /url: /shop
+      - generic [ref=f1e44]:
+        - generic [ref=f1e45]: Trusted Local Repairs
+        - generic [ref=f1e50]: Same Day Service
+        - generic [ref=f1e55]: Genuine Parts
+      - generic [ref=f1e61]:
+        - heading "Shop by category" [level=2] [ref=f1e62]
+        - link "View all products" [ref=f1e63] [cursor=pointer]:
+          - /url: /shop
+      - generic [ref=f1e71]:
+        - img "A technician in blue gloves using tweezers to repair the internal components of a disassembled phone" [ref=f1e72]
+        - generic [ref=f1e73]:
+          - generic [ref=f1e74]: Repair & Service
+          - heading "Need a Repair?" [level=2] [ref=f1e77]
+          - paragraph [ref=f1e78]: Cracked screens, dead batteries, water damage, unlocks. Walk in or book online — most repairs are done same-day, with a free diagnostic quote before any work begins.
+          - generic [ref=f1e79]:
+            - generic [ref=f1e80]:
+              - generic [ref=f1e81]: 45 min
+              - generic [ref=f1e82]: Avg. screen repair
+            - generic [ref=f1e83]:
+              - generic [ref=f1e84]: from $89
+              - generic [ref=f1e85]: Screen replacement
+            - generic [ref=f1e86]:
+              - generic [ref=f1e87]: Free
+              - generic [ref=f1e88]: Device diagnostics
+          - link "Book a Repair" [ref=f1e90] [cursor=pointer]:
+            - /url: /repair
+      - generic [ref=f1e95]:
+        - heading "Featured this Week" [level=2] [ref=f1e97]
+        - link "View all" [ref=f1e98] [cursor=pointer]:
+          - /url: /shop
+  - contentinfo [ref=f1e117]:
+    - generic [ref=f1e119]:
+      - generic [ref=f1e120]:
+        - img "Cellular Solutions" [ref=f1e121]
+        - paragraph [ref=f1e122]: Your local shop for phones, consoles, laptops and accessories — plus fast, honest repairs.
+        - generic [ref=f1e123]:
+          - link "Facebook" [ref=f1e124] [cursor=pointer]:
+            - /url: "#"
+          - link "Instagram" [ref=f1e128] [cursor=pointer]:
+            - /url: "#"
+          - link "Twitter / X" [ref=f1e131] [cursor=pointer]:
+            - /url: "#"
+      - generic [ref=f1e138]:
+        - generic [ref=f1e139]: Shop
+        - list [ref=f1e140]:
+          - listitem [ref=f1e141]:
+            - link "Phones" [ref=f1e142] [cursor=pointer]:
+              - /url: /shop
+          - listitem [ref=f1e143]:
+            - link "Gaming" [ref=f1e144] [cursor=pointer]:
+              - /url: /shop
+          - listitem [ref=f1e145]:
+            - link "Laptops" [ref=f1e146] [cursor=pointer]:
+              - /url: /shop
+          - listitem [ref=f1e147]:
+            - link "Accessories" [ref=f1e148] [cursor=pointer]:
+              - /url: /shop
+      - generic [ref=f1e149]:
+        - generic [ref=f1e150]: Service
+        - list [ref=f1e151]:
+          - listitem [ref=f1e152]:
+            - link "Book a Repair" [ref=f1e153] [cursor=pointer]:
+              - /url: /repair
+          - listitem [ref=f1e154]:
+            - link "Track Repair" [ref=f1e155] [cursor=pointer]:
+              - /url: /repair
+          - listitem [ref=f1e156]:
+            - link "Sell Your Device" [ref=f1e157] [cursor=pointer]:
+              - /url: /buysell
+      - generic [ref=f1e158]:
+        - generic [ref=f1e159]: Support
+        - list [ref=f1e160]:
+          - listitem [ref=f1e161]:
+            - link "Store Locations" [ref=f1e162] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=f1e163]:
+            - link "Order Tracking" [ref=f1e164] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=f1e165]:
+            - link "Warranty" [ref=f1e166] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=f1e167]:
+            - link "Contact Us" [ref=f1e168] [cursor=pointer]:
+              - /url: /contact
+    - generic [ref=f1e170]:
+      - generic [ref=f1e171]: © 2026 Cellular Solutions. All rights reserved.
+      - generic [ref=f1e172]: YOU BREAK IT · WE FIX IT
