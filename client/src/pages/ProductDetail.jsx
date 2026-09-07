@@ -20,9 +20,9 @@ function GallerySkeleton() {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
       <div className="animate-pulse" style={{ aspectRatio: '1 / 1', background: 'var(--graphite-100)', borderRadius: 'var(--radius-card)' }} />
       <div className="animate-pulse" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-        <div style={{ height: '14px', width: '30%', background: 'var(--graphite-100)', borderRadius: '4px' }} />
-        <div style={{ height: '32px', width: '70%', background: 'var(--graphite-100)', borderRadius: '4px' }} />
-        <div style={{ height: '20px', width: '40%', background: 'var(--graphite-100)', borderRadius: '4px' }} />
+        <div style={{ height: '14px', width: '30%', background: 'var(--graphite-100)', borderRadius: 'var(--radius-sm)' }} />
+        <div style={{ height: '32px', width: '70%', background: 'var(--graphite-100)', borderRadius: 'var(--radius-sm)' }} />
+        <div style={{ height: '20px', width: '40%', background: 'var(--graphite-100)', borderRadius: 'var(--radius-sm)' }} />
         <div style={{ height: '48px', width: '100%', background: 'var(--graphite-100)', borderRadius: 'var(--radius-btn)', marginTop: 'var(--space-6)' }} />
       </div>
     </div>
@@ -169,7 +169,7 @@ function ReviewsSection({ productId }) {
       {!loading && !error && reviews.length === 0 && (
         <Card>
           <p style={{ margin: 0, fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)' }}>
-            No reviews yet. Reviews appear here after verified purchases.
+            No reviews yet. Be the first to share your thoughts.
           </p>
         </Card>
       )}
@@ -179,7 +179,7 @@ function ReviewsSection({ productId }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
               <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
-                {r.user?.name || 'Customer'}
+                {r.name || 'Customer'}
               </span>
               <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>
                 {new Date(r.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
