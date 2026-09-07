@@ -36,7 +36,6 @@ const createRepairRequest = async (req, res) => {
       availableTime,
       images: images || [],
       agreedToTerms: true,
-      user: req.user ? req.user.id : undefined,
     });
 
     await request.save();
@@ -49,9 +48,7 @@ const createRepairRequest = async (req, res) => {
 
 const getRepairRequests = async (req, res) => {
   try {
-    const requests = await RepairRequest.find()
-      .populate('user', 'name email')
-      .sort({ createdAt: -1 });
+    const requests = await RepairRequest.find().sort({ createdAt: -1 });
     res.json(requests);
   } catch (err) {
     console.error('getRepairRequests:', err);
@@ -59,19 +56,9 @@ const getRepairRequests = async (req, res) => {
   }
 };
 
-const getMyRepairRequests = async (req, res) => {
-  try {
-    const requests = await RepairRequest.find({ user: req.user.id }).sort({ createdAt: -1 });
-    res.json(requests);
-  } catch (err) {
-    console.error('getMyRepairRequests:', err);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
-
 const getRepairRequestById = async (req, res) => {
   try {
-    const request = await RepairRequest.findById(req.params.id).populate('user', 'name email');
+    const request = await RepairRequest.findById(req.params.id);
     if (!request) {
       return res.status(404).json({ message: 'Request not found' });
     }
@@ -109,10 +96,23 @@ const updateRepair = async (req, res) => {
   }
 };
 
+const deleteRepairRequest = async (req, res) => {
+  try {
+    const request = await RepairRequest.findByIdAndDelete(req.params.id);
+    if (!request) {
+      return res.status(404).json({ message: 'Request not found' });
+    }
+    res.json({ message: 'Request deleted' });
+  } catch (err) {
+    console.error('deleteRepairRequest:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   createRepairRequest,
   getRepairRequests,
-  getMyRepairRequests,
   getRepairRequestById,
   updateRepair,
+  deleteRepairRequest,
 };
