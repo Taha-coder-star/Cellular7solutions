@@ -14,12 +14,13 @@ const placeOrder = async (req, res) => {
     if (
       !shippingAddress ||
       !shippingAddress.fullName ||
+      !shippingAddress.email ||
       !shippingAddress.phone ||
       !shippingAddress.address ||
       !shippingAddress.city
     ) {
       return res.status(400).json({
-        message: 'shippingAddress with fullName, phone, address, and city is required',
+        message: 'shippingAddress with fullName, email, phone, address, and city is required',
       });
     }
 
@@ -79,7 +80,6 @@ const placeOrder = async (req, res) => {
 
     const order = await Order.create({
       _id: orderId,
-      user: req.user.id,
       orderItems: createdItems.map((i) => i._id),
       shippingAddress,
       paymentMethod,
@@ -100,7 +100,6 @@ const getOrders = async (req, res) => {
   try {
     const orders = await Order.find()
       .populate('orderItems')
-      .populate('user', 'name email')
       .sort({ createdAt: -1 });
     res.json(orders);
   } catch (err) {
@@ -109,28 +108,14 @@ const getOrders = async (req, res) => {
   }
 };
 
-const getMyOrders = async (req, res) => {
-  try {
-    const orders = await Order.find({ user: req.user.id })
-      .populate('orderItems')
-      .sort({ createdAt: -1 });
-    res.json(orders);
-  } catch (err) {
-    console.error('getMyOrders:', err);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
-
+// No accounts to own an order — the order id itself (an unguessable ObjectId)
+// is the guest's proof of access, same pattern as a guest checkout confirmation link.
 const getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).populate('orderItems');
 
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
-    }
-
-    if (req.user.role !== 'admin' && order.user.toString() !== req.user.id) {
-      return res.status(403).json({ message: 'Not authorised to view this order' });
     }
 
     res.json(order);
@@ -191,7 +176,6 @@ const updateOrderToPaid = async (req, res) => {
 module.exports = {
   placeOrder,
   getOrders,
-  getMyOrders,
   getOrderById,
   updateOrderStatus,
   updateOrderToPaid,
