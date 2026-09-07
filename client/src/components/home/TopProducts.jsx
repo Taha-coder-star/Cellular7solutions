@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@/components/ui';
 import api from '@/services/api';
 import { useRevealOnView } from '@/hooks/useReveal';
+import { productImageSrc, productImageSrcSet } from '@/utils/image';
 
 // brand is a populated object { _id, name, slug } after the backend fix,
 // images[0] maps to `image`.
@@ -18,7 +19,7 @@ function GalleryCardSkeleton() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
       <div className="animate-pulse" style={{ aspectRatio: '1 / 1', background: 'var(--graphite-100)' }} />
-      <div className="animate-pulse" style={{ height: '14px', width: '60%', margin: '0 auto', background: 'var(--graphite-100)', borderRadius: '4px' }} />
+      <div className="animate-pulse" style={{ height: '14px', width: '60%', margin: '0 auto', background: 'var(--graphite-100)', borderRadius: 'var(--radius-sm)' }} />
     </div>
   );
 }
@@ -37,7 +38,9 @@ function ProductCard({ product }) {
         {product.image
           ? (
             <img
-              src={product.image}
+              src={productImageSrc(product.image, 400)}
+              srcSet={productImageSrcSet(product.image)}
+              sizes="(max-width: 640px) 45vw, 280px"
               alt={product.name}
               loading="lazy"
               style={{
