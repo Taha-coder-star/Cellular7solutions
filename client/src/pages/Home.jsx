@@ -62,7 +62,7 @@ export default function Home() {
             className="hero-fade-up"
             style={{
               margin: '0 0 14px',
-              fontSize: 'clamp(2.25rem, 5vw, 64px)',
+              fontSize: 'clamp(var(--fs-h2), 5vw, var(--fs-display))',
               lineHeight: 1.02,
               fontWeight: 'var(--fw-extrabold)',
               letterSpacing: '-.03em',
