@@ -1,0 +1,149 @@
+- generic [ref=e3]:
+  - link "Skip to content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e5]:
+    - generic [ref=e6]: You Break It. We Make It Again.
+    - generic [ref=e7]:
+      - link [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img "Cellular Solutions" [ref=e9]
+      - navigation [ref=e10]:
+        - link "Buy & Sell" [ref=e11] [cursor=pointer]:
+          - /url: /buysell
+        - link "Repairs" [ref=e12] [cursor=pointer]:
+          - /url: /repair
+        - link "About" [ref=e13] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /contact
+      - button "Search" [ref=e16] [cursor=pointer]
+    - navigation "Category navigation" [ref=e20]:
+      - generic [ref=e22]:
+        - link "Accessories" [ref=e23] [cursor=pointer]:
+          - /url: /categories/accessories
+        - button "Toggle Accessories menu" [ref=e24] [cursor=pointer]
+      - generic [ref=e28]:
+        - link "Apple Cases" [ref=e29] [cursor=pointer]:
+          - /url: /categories/apple-cases
+        - button "Toggle Apple Cases menu" [ref=e30] [cursor=pointer]
+      - generic [ref=e34]:
+        - link "Samsung Cases" [ref=e35] [cursor=pointer]:
+          - /url: /categories/samsung-cases
+        - button "Toggle Samsung Cases menu" [ref=e36] [cursor=pointer]
+      - generic [ref=e40]:
+        - link "Motorola Cases" [ref=e41] [cursor=pointer]:
+          - /url: /categories/motorola-cases
+        - button "Toggle Motorola Cases menu" [ref=e42] [cursor=pointer]
+      - generic [ref=e46]:
+        - link "Other Cases" [ref=e47] [cursor=pointer]:
+          - /url: /categories/other-cases
+        - button "Toggle Other Cases menu" [ref=e48] [cursor=pointer]
+      - generic [ref=e52]:
+        - link "Apple Parts" [ref=e53] [cursor=pointer]:
+          - /url: /categories/apple-parts
+        - button "Toggle Apple Parts menu" [ref=e54] [cursor=pointer]
+      - generic [ref=e58]:
+        - link "Samsung Parts" [ref=e59] [cursor=pointer]:
+          - /url: /categories/samsung-parts
+        - button "Toggle Samsung Parts menu" [ref=e60] [cursor=pointer]
+      - generic [ref=e64]:
+        - link "Motorola Parts" [ref=e65] [cursor=pointer]:
+          - /url: /categories/motorola-parts
+        - button "Toggle Motorola Parts menu" [ref=e66] [cursor=pointer]
+      - generic [ref=e70]:
+        - link "Other Parts" [ref=e71] [cursor=pointer]:
+          - /url: /categories/other-parts
+        - button "Toggle Other Parts menu" [ref=e72] [cursor=pointer]
+      - generic [ref=e76]:
+        - link "Repair Tools" [ref=e77] [cursor=pointer]:
+          - /url: /categories/repair-tools
+        - button "Toggle Repair Tools menu" [ref=e78] [cursor=pointer]
+      - generic [ref=e82]:
+        - link "Screen Protectors" [ref=e83] [cursor=pointer]:
+          - /url: /categories/screen-protectors
+        - button "Toggle Screen Protectors menu" [ref=e84] [cursor=pointer]
+      - generic [ref=e88]:
+        - button "By Category" [ref=e89] [cursor=pointer]
+        - button "Toggle By Category menu" [ref=e90] [cursor=pointer]
+  - main [ref=e93]:
+    - generic [ref=e95]:
+      - link "Cellular Solutions YOU BREAK IT · WE FIX IT" [ref=e96] [cursor=pointer]:
+        - /url: /
+        - img "Cellular Solutions" [ref=e97]
+        - generic [ref=e98]: YOU BREAK IT · WE FIX IT
+      - generic [ref=e99]:
+        - generic [ref=e100]:
+          - heading "Sign in" [level=1] [ref=e101]
+          - paragraph [ref=e102]: Welcome back to Cellular Solutions.
+        - generic [ref=e103]:
+          - generic [ref=e104]:
+            - generic [ref=e105]: Email
+            - textbox "Email" [ref=e107]:
+              - /placeholder: you@example.com
+          - generic [ref=e108]:
+            - generic [ref=e109]: Password
+            - generic [ref=e110]:
+              - textbox "Password" [ref=e111]:
+                - /placeholder: Enter your password
+              - button "Show password" [ref=e113] [cursor=pointer]
+          - generic [ref=e117] [cursor=pointer]:
+            - checkbox "Remember me" [checked] [ref=e118]
+            - generic [ref=e119]: Remember me
+          - button "Sign In" [ref=e120] [cursor=pointer]
+  - contentinfo [ref=e121]:
+    - generic [ref=e123]:
+      - generic [ref=e124]:
+        - img "Cellular Solutions" [ref=e125]
+        - paragraph [ref=e126]: Your local shop for phones, consoles, laptops and accessories — plus fast, honest repairs.
+        - generic [ref=e127]:
+          - link "Facebook" [ref=e128] [cursor=pointer]:
+            - /url: "#"
+          - link "Instagram" [ref=e132] [cursor=pointer]:
+            - /url: "#"
+          - link "Twitter / X" [ref=e135] [cursor=pointer]:
+            - /url: "#"
+      - generic [ref=e142]:
+        - generic [ref=e143]: Shop
+        - list [ref=e144]:
+          - listitem [ref=e145]:
+            - link "Phones" [ref=e146] [cursor=pointer]:
+              - /url: /shop?category=6a5f2fec17b22d489252fa94
+          - listitem [ref=e147]:
+            - link "Gaming" [ref=e148] [cursor=pointer]:
+              - /url: /shop?category=6a4d2ef4c9a73e7f29aec332
+          - listitem [ref=e149]:
+            - link "Laptops" [ref=e150] [cursor=pointer]:
+              - /url: /shop?category=6a4d2ef4c9a73e7f29aec331
+          - listitem [ref=e151]:
+            - link "Accessories" [ref=e152] [cursor=pointer]:
+              - /url: /shop?category=6a89e125801b80cd28bd1789
+      - generic [ref=e153]:
+        - generic [ref=e154]: Service
+        - list [ref=e155]:
+          - listitem [ref=e156]:
+            - link "Book a Repair" [ref=e157] [cursor=pointer]:
+              - /url: /repair
+          - listitem [ref=e158]:
+            - link "Track Repair" [ref=e159] [cursor=pointer]:
+              - /url: /repair
+          - listitem [ref=e160]:
+            - link "Sell Your Device" [ref=e161] [cursor=pointer]:
+              - /url: /buysell
+      - generic [ref=e162]:
+        - generic [ref=e163]: Support
+        - list [ref=e164]:
+          - listitem [ref=e165]:
+            - link "Store Locations" [ref=e166] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=e167]:
+            - link "Order Tracking" [ref=e168] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=e169]:
+            - link "Warranty" [ref=e170] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=e171]:
+            - link "Contact Us" [ref=e172] [cursor=pointer]:
+              - /url: /contact
+    - generic [ref=e174]:
+      - generic [ref=e175]: © 2026 Cellular Solutions. All rights reserved.
+      - generic [ref=e176]: YOU BREAK IT · WE FIX IT
