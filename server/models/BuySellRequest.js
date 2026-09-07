@@ -33,10 +33,6 @@ const buySellRequestSchema = new mongoose.Schema({
     enum: ['pending', 'reviewing', 'accepted', 'rejected'],
     default: 'pending',
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  },
   createdAt: {
     type: Date,
     default: Date.now,
