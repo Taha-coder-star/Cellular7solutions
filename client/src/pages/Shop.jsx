@@ -26,9 +26,9 @@ function ProductCardSkeleton() {
     >
       <div style={{ aspectRatio: '1 / 1', background: 'var(--graphite-100)' }} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: 'var(--pad-card)' }}>
-        <div style={{ height: '11px', width: '35%', background: 'var(--graphite-100)', borderRadius: '4px' }} />
-        <div style={{ height: '18px', width: '85%', background: 'var(--graphite-100)', borderRadius: '4px' }} />
-        <div style={{ height: '22px', width: '45%', background: 'var(--graphite-100)', borderRadius: '4px' }} />
+        <div style={{ height: '11px', width: '35%', background: 'var(--graphite-100)', borderRadius: 'var(--radius-sm)' }} />
+        <div style={{ height: '18px', width: '85%', background: 'var(--graphite-100)', borderRadius: 'var(--radius-sm)' }} />
+        <div style={{ height: '22px', width: '45%', background: 'var(--graphite-100)', borderRadius: 'var(--radius-sm)' }} />
         <div style={{ height: 'var(--control-h)', width: '100%', background: 'var(--graphite-100)', borderRadius: 'var(--radius-btn)', marginTop: '6px' }} />
       </div>
     </div>
