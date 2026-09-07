@@ -1,46 +1,35 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState } from 'react';
 import api from '../services/api';
 
 const AuthContext = createContext(null);
 
+// Single admin account, no customer accounts — the login response already
+// carries the full user payload, so it's stored as-is rather than re-fetched
+// from a /me endpoint. A stale/expired token gets cleared by the response
+// interceptor in services/api.js the next time an admin API call 401s.
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem('adminUser');
+    return stored ? JSON.parse(stored) : null;
+  });
+  const loading = false;
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setLoading(false);
-      return;
-    }
-    api.get('/auth/me')
-      .then((res) => setUser(res.data))
-      .catch(() => localStorage.removeItem('token'))
-      .finally(() => setLoading(false));
-  }, []);
-
-  // Backend returns a flat payload: { _id, name, email, role, token }
   async function login(email, password) {
-    const { data } = await api.post('/auth/login', { email, password });
-    localStorage.setItem('token', data.token);
+    const { data } = await api.post('/admin/login', { email, password });
     const { token, ...userData } = data;
-    setUser(userData);
-  }
-
-  async function register(name, email, password) {
-    const { data } = await api.post('/auth/register', { name, email, password });
-    localStorage.setItem('token', data.token);
-    const { token, ...userData } = data;
+    localStorage.setItem('token', token);
+    localStorage.setItem('adminUser', JSON.stringify(userData));
     setUser(userData);
   }
 
   function logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('adminUser');
     setUser(null);
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
