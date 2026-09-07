@@ -74,7 +74,10 @@
       "Bash(npx vite *)",
       "WebFetch(domain:source.unsplash.com)",
       "Bash(IMPECCABLE_CRITIQUE_META='{\"target\":\"whole site\",\"total_score\":26,\"max_score\":40,\"na_heuristics\":\"\",\"p0_count\":2,\"p1_count\":2}' node .claude/skills/impeccable/scripts/critique-storage.mjs write \"whole site\" \"C:\\\\Users\\\\tahaj\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\F--cellular-solutions\\\\fb017a01-8168-4c06-8a48-7e32372349e2\\\\scratchpad\\\\critique-whole-site.md\")",
-      "Bash(git status *)"
+      "Bash(git status *)",
+      "Bash(npm audit *)",
+      "Bash(taskkill //F //PID 25864)",
+      "Bash(netstat -ano)"
     ]
   },
   "hooks": {

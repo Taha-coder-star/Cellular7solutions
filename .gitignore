@@ -7,3 +7,16 @@ npm-debug.log*
 
 .obsidian/
 *.canvas
+
+# build output
+dist/
+build/
+
+# AI coding assistant tooling state — not application code
+.agents/
+.claude/skills/
+.claude/settings.local.json
+.codex/
+.impeccable/
+.playwright-mcp/
+skills-lock.json
