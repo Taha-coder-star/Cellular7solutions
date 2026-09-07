@@ -27,8 +27,13 @@ export default function AdminBrands() {
 
   async function handleDelete(id) {
     if (!confirm('Delete this brand?')) return;
-    await api.delete(`/brands/${id}`);
-    load();
+    setError('');
+    try {
+      await api.delete(`/brands/${id}`);
+      load();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to delete brand');
+    }
   }
 
   return (
