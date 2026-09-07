@@ -23,10 +23,14 @@ button:focus-visible,
   outline-offset: 2px;
 }
 
+/* Scoped to the named entrance animations only — leaves hover/focus
+   transitions (color, background, outline) on interactive elements alone,
+   since those communicate state change rather than decorative motion. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
+  .hero-fade-up, .grid-fade-up, .chip-pop {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
