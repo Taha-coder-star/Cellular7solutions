@@ -1,4 +1,4 @@
-const WHATSAPP_NUMBER = '12564792094';
+const WHATSAPP_NUMBER = '12565159620';
 
 export function whatsappLink(product) {
   const lines = [`Hi, I'm interested in: ${product?.name ?? 'this product'}`];
