@@ -63,6 +63,14 @@ button:focus-visible,
   animation: chip-pop 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Clear the fixed mobile Repair/Buy/Sell action bar so it never covers the
+   footer. Bar height (58px) + iOS home-indicator safe area. Mobile only. */
+@media (max-width: 767px) {
+  .has-mobile-actionbar {
+    padding-bottom: calc(58px + env(safe-area-inset-bottom));
+  }
+}
+
 /* Filter sidebar accordion — native <details>, just stripped of its
    default disclosure triangle so the chevron icon can take over. */
 .filter-section > summary {

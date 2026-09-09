@@ -1,10 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import ServiceActionBar from '@/components/layout/ServiceActionBar';
 
 export default function MainLayout() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className="has-mobile-actionbar" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <a
         href="#main-content"
         style={{
@@ -37,6 +38,7 @@ export default function MainLayout() {
         <Outlet />
       </main>
       <Footer />
+      <ServiceActionBar variant="fixed" />
     </div>
   );
 }

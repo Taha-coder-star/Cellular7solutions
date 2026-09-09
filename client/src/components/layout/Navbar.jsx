@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Logo, Icon } from '@/components/ui';
 import CategoryNavBar from '@/components/layout/CategoryNavBar';
-import MobileCategoryMenu from '@/components/layout/MobileCategoryMenu';
+import MobileNav from '@/components/layout/MobileNav';
 import { useAuth } from '@/context/AuthContext';
 import api from '@/services/api';
 
@@ -49,8 +49,7 @@ function NavTextLink({ to, label }) {
 
 /** Search icon that expands into an inline input in place — submits into
  *  the Shop page's existing ?search= filter rather than a separate search flow. */
-function NavSearch() {
-  const [open, setOpen] = useState(false);
+function NavSearch({ open, setOpen }) {
   const [query, setQuery] = useState('');
   const [hovered, setHovered] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
@@ -216,6 +215,7 @@ function MenuToggle({ open, onClick }) {
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { user } = useAuth();
   const isAdmin = user?.role === 'admin';
 
@@ -274,56 +274,25 @@ export default function Navbar() {
 
         {/* Desktop actions */}
         <div className="hidden md:flex" style={{ alignItems: 'center', gap: 'var(--space-2)' }}>
-          <NavSearch />
+          <NavSearch open={searchOpen} setOpen={setSearchOpen} />
           {isAdmin && <NavTextLink to="/admin" label="Admin" />}
         </div>
 
         {/* Mobile: search + hamburger */}
         <div className="flex md:hidden" style={{ alignItems: 'center', gap: 'var(--space-2)' }}>
-          <NavSearch />
+          <NavSearch open={searchOpen} setOpen={setSearchOpen} />
           <MenuToggle open={mobileOpen} onClick={() => setMobileOpen((o) => !o)} />
         </div>
       </div>
 
       <CategoryNavBar />
 
-      {/* Mobile dropdown menu */}
-      {mobileOpen && (
-        <div
-          style={{
-            background: 'var(--surface-page)',
-            borderTop: '1px solid var(--border-subtle)',
-            padding: 'var(--space-4) var(--space-6) var(--space-6)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 'var(--space-1)',
-            maxHeight: 'calc(100vh - 116px)',
-            overflowY: 'auto',
-            WebkitOverflowScrolling: 'touch',
-            overscrollBehavior: 'contain',
-          }}
-        >
-          <MobileCategoryMenu onNavigate={() => setMobileOpen(false)} />
-          {[...NAV_LINKS, ...(isAdmin ? [{ to: '/admin', label: 'Admin' }] : [])].map(({ to, label }) => (
-            <NavLink
-              key={label}
-              to={to}
-              onClick={() => setMobileOpen(false)}
-              style={({ isActive }) => ({
-                fontFamily: 'var(--font-sans)',
-                fontSize: 'var(--fs-body)',
-                fontWeight: isActive ? 'var(--fw-semibold)' : 'var(--fw-regular)',
-                color: isActive ? 'var(--text-strong)' : 'var(--text-body)',
-                textDecoration: 'none',
-                padding: 'var(--space-3) 0',
-                borderBottom: '1px solid var(--border-subtle)',
-              })}
-            >
-              {label}
-            </NavLink>
-          ))}
-        </div>
-      )}
+      <MobileNav
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        onOpenSearch={() => { setMobileOpen(false); setSearchOpen(true); }}
+        isAdmin={isAdmin}
+      />
     </header>
   );
 }
