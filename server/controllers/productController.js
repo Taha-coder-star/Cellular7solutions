@@ -24,14 +24,27 @@ const BRAND_SYNONYMS = {
 // of the product's own brand/category) instead means "apple case" only
 // returns products that are actually both Apple-branded and a case, even
 // when neither word appears together in the title.
-async function buildTokenSearchFilter(rawText) {
-  const tokens = rawText.split(/\s+/).filter(Boolean).slice(0, 8);
-  if (!tokens.length) return null;
-
+// ponytail: brand/category names barely change; cache them for 60s instead
+// of two round trips to Atlas on every keystroke. Upgrade to cache
+// invalidation on brand/category writes if 60s staleness ever matters.
+let brandCategoryCache = null;
+async function getBrandsAndCategories() {
+  if (brandCategoryCache && Date.now() - brandCategoryCache.at < 60_000) {
+    return brandCategoryCache;
+  }
   const [brands, categories] = await Promise.all([
     Brand.find({}, '_id name').lean(),
     Category.find({}, '_id name').lean(),
   ]);
+  brandCategoryCache = { brands, categories, at: Date.now() };
+  return brandCategoryCache;
+}
+
+async function buildTokenSearchFilter(rawText) {
+  const tokens = rawText.split(/\s+/).filter(Boolean).slice(0, 8);
+  if (!tokens.length) return null;
+
+  const { brands, categories } = await getBrandsAndCategories();
 
   const andConditions = tokens.map((token) => {
     const re = new RegExp(escapeRegex(token), 'i');
