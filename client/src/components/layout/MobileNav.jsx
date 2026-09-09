@@ -178,8 +178,10 @@ export default function MobileNav({ open, onClose, onOpenSearch, isAdmin }) {
           style={{
             display: 'flex',
             height: '100%',
-            width: `${(stack.length + 1) * 100}%`,
-            transform: `translateX(-${(level / (stack.length + 1)) * 100}%)`,
+            // Track stays one viewport wide; each panel is exactly one viewport
+            // (flex: 0 0 100%) and overflows to the right. Translate one full
+            // viewport per drilled level.
+            transform: `translateX(-${level * 100}%)`,
             transition: prefersReduced ? 'none' : 'transform 0.28s var(--ease-out)',
           }}
         >
@@ -277,8 +279,8 @@ function Panel({ children }) {
   return (
     <div
       style={{
+        flex: '0 0 100%',
         width: '100%',
-        flexShrink: 0,
         height: '100%',
         overflowY: 'auto',
         WebkitOverflowScrolling: 'touch',
