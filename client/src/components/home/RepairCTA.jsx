@@ -1,120 +1,31 @@
-import { HeroPill, Icon } from '@/components/ui';
-import { unsplashSrcSet } from '@/utils/image';
+import { Link } from 'react-router-dom';
+import { Icon } from '@/components/ui';
 
-const REPAIR_PHOTO = 'https://images.unsplash.com/photo-1639776739297-f7e1f21526f4';
-
-const STATS = [
-  { value: '45 min',  label: 'Avg. screen repair' },
-  { value: 'from $89', label: 'Screen replacement' },
-  { value: 'Free',     label: 'Device diagnostics' },
+const SERVICES = [
+  { title: 'Phones', detail: 'Screens, batteries, and charging issues.', icon: 'smartphone' },
+  { title: 'Laptops', detail: 'Power, performance, and hardware concerns.', icon: 'wrench' },
+  { title: 'Gaming consoles', detail: 'Describe the fault for assessment.', icon: 'search' },
 ];
 
 export default function RepairCTA() {
   return (
-    <section
-      className="flex items-center justify-center md:justify-start"
-      style={{ position: 'relative', minHeight: '560px', background: 'var(--cobalt-900)', overflow: 'hidden' }}
-    >
-      <img
-        src={`${REPAIR_PHOTO}?auto=format&fit=crop&w=1600&q=80`}
-        srcSet={unsplashSrcSet(REPAIR_PHOTO)}
-        sizes="100vw"
-        loading="lazy"
-        alt="A technician in blue gloves using tweezers to repair the internal components of a disassembled phone"
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-      />
-
-      {/* Legibility gradient — bottom-weighted on mobile, side-weighted on desktop (copy sits left, mirrors the storefront hero's right-weighted copy for page rhythm) */}
-      <div
-        aria-hidden="true"
-        className="block md:hidden"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(180deg, rgba(30,58,138,.35) 0%, rgba(30,58,138,.62) 45%, rgba(30,58,138,.93) 100%)',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="hidden md:block"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(270deg, rgba(30,58,138,0) 35%, rgba(30,58,138,.85) 100%)',
-          pointerEvents: 'none',
-        }}
-      />
-
-      <div
-        className="relative text-center md:text-left px-6 md:px-0 md:ml-16"
-        style={{ zIndex: 1, maxWidth: '460px' }}
-      >
-        <div
-          className="hero-fade-up"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            fontSize: 'var(--fs-xs)',
-            fontWeight: 'var(--fw-semibold)',
-            letterSpacing: 'var(--ls-wider)',
-            textTransform: 'uppercase',
-            color: 'var(--cobalt-300)',
-            marginBottom: '14px',
-            animationDelay: '80ms',
-          }}
-        >
-          <Icon name="wrench" size={16} aria-hidden="true" />
-          Repair &amp; Service
-        </div>
-        <h2
-          className="hero-fade-up"
-          style={{
-            margin: '0 0 14px',
-            fontSize: 'clamp(var(--fs-h2), 5vw, var(--fs-display))',
-            lineHeight: 1.05,
-            fontWeight: 'var(--fw-extrabold)',
-            letterSpacing: 'var(--ls-tight)',
-            color: 'var(--white)',
-            textShadow: '0 2px 18px rgba(0,0,0,.35)',
-            textWrap: 'balance',
-            animationDelay: '160ms',
-          }}
-        >
-          Need a Repair?
-        </h2>
-        <p
-          className="hero-fade-up"
-          style={{
-            margin: '0 0 28px',
-            fontSize: 'var(--fs-body)',
-            lineHeight: 'var(--lh-relaxed)',
-            color: 'rgba(255,255,255,0.82)',
-            textShadow: '0 1px 10px rgba(0,0,0,.3)',
-            animationDelay: '220ms',
-          }}
-        >
-          Cracked screens, dead batteries, water damage, unlocks. Walk in or book online — most repairs are done same-day, with a free diagnostic quote before any work begins.
-        </p>
-        <div
-          className="hero-fade-up flex justify-center md:justify-start"
-          style={{ gap: '32px', flexWrap: 'wrap', marginBottom: '32px', animationDelay: '280ms' }}
-        >
-          {STATS.map(({ value, label }) => (
-            <div key={label}>
-              <div style={{ fontSize: 'var(--fs-h4)', fontWeight: 'var(--fw-extrabold)', color: 'var(--white)' }}>
-                {value}
-              </div>
-              <div style={{ fontSize: 'var(--fs-xs)', color: 'rgba(255,255,255,0.68)' }}>
-                {label}
-              </div>
-            </div>
+    <section className="repair-showcase storefront-section" aria-labelledby="repair-heading">
+      <div className="repair-showcase-media">
+        <img src="/assets/repair/electronics-diagnostics-720.webp" alt="Illustration of electronics undergoing diagnostics" loading="lazy" width="720" height="540" data-scroll-image />
+      </div>
+      <div className="repair-showcase-copy">
+        <p className="storefront-eyebrow">Made to last longer</p>
+        <h2 id="repair-heading">A little care goes a long way.</h2>
+        <p>From a phone that will not charge to a laptop or console with an unfamiliar fault, describe the issue and send our team a WhatsApp enquiry.</p>
+        <ul className="repair-service-accordion" aria-label="Repair services">
+          {SERVICES.map(({ title, detail, icon }) => (
+            <li className="repair-service-panel" key={title}>
+              <Icon name={icon} size={24} />
+              <div><strong>{title}</strong><span>{detail}</span></div>
+            </li>
           ))}
-        </div>
-        <div className="hero-fade-up" style={{ display: 'inline-block', animationDelay: '340ms' }}>
-          <HeroPill to="/repair" textColor="var(--cobalt-700)">Book a Repair</HeroPill>
-        </div>
+        </ul>
+        <Link className="storefront-button storefront-button-dark" to="/repair">Request a repair <Icon name="arrow-up-right" size={18} /></Link>
       </div>
     </section>
   );

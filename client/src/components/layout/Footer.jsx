@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Logo, Icon } from '@/components/ui';
+import { Logo } from '@/components/ui';
 import { useCategoryTree } from '@/hooks/useCategoryTree';
 
 // Real top-level category names as they exist in the DB (verified against
@@ -24,23 +24,15 @@ function useShopLinks() {
 }
 
 const SERVICE_LINKS = [
-  { to: '/repair',  label: 'Book a Repair' },
-  { to: '/repair',  label: 'Track Repair' },
+  { to: '/repair',  label: 'Request a repair' },
   { to: '/buysell', label: 'Sell Your Device' },
 ];
 
 const SUPPORT_LINKS = [
-  { to: '/contact', label: 'Store Locations' },
-  { to: '/contact', label: 'Order Tracking' },
-  { to: '/contact', label: 'Warranty' },
+  { to: '/contact', label: 'Store details' },
+  { to: '/shop',    label: 'Product inquiries' },
+  { to: '/contact', label: 'Ask about warranty' },
   { to: '/contact', label: 'Contact Us' },
-];
-
-// Lucide has no brand icons; using generic stand-ins until real social SVGs are swapped in
-const SOCIAL = [
-  { name: 'globe',           href: '#', label: 'Facebook' },
-  { name: 'message-square',  href: '#', label: 'Instagram' },
-  { name: 'share-2',         href: '#', label: 'Twitter / X' },
 ];
 
 function FooterColumn({ heading, links }) {
@@ -88,7 +80,7 @@ export default function Footer() {
   const shopLinks = useShopLinks();
 
   return (
-    <footer style={{ background: 'var(--surface-dark)', color: 'var(--text-on-dark)' }}>
+    <footer className="storefront-footer" style={{ background: 'var(--surface-dark)', color: 'var(--text-on-dark)' }}>
       {/* Main footer body */}
       <div
         className="max-w-7xl mx-auto"
@@ -108,39 +100,8 @@ export default function Footer() {
                 maxWidth: '240px',
               }}
             >
-              Your local shop for phones, consoles, laptops and accessories — plus fast, honest repairs.
+              Your local shop for phones, consoles, laptops and accessories — with repair enquiries for the tech you own.
             </p>
-            {/* Social icons */}
-            <div style={{ display: 'flex', gap: 'var(--space-4)', marginTop: 'var(--space-2)' }}>
-              {SOCIAL.map(({ name, href, label }) => (
-                <a
-                  key={name}
-                  href={href}
-                  aria-label={label}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '44px',
-                    height: '44px',
-                    borderRadius: 'var(--radius-sm)',
-                    background: 'var(--graphite-800)',
-                    color: 'var(--graphite-400)',
-                    transition: 'var(--transition-base)',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'var(--graphite-700)';
-                    e.currentTarget.style.color = 'var(--white)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'var(--graphite-800)';
-                    e.currentTarget.style.color = 'var(--graphite-400)';
-                  }}
-                >
-                  <Icon name={name} size={16} color="currentColor" />
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Link columns */}

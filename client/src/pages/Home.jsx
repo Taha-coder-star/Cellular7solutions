@@ -1,104 +1,78 @@
-import { HeroPill } from '@/components/ui';
-import TrustStrip    from '@/components/home/TrustStrip';
-import Categories    from '@/components/home/Categories';
-import RepairCTA      from '@/components/home/RepairCTA';
-import TopProducts   from '@/components/home/TopProducts';
-import { unsplashSrcSet } from '@/utils/image';
+import { useRef } from 'react';
+import { Link } from 'react-router-dom';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+import { Icon } from '@/components/ui';
+import TrustStrip from '@/components/home/TrustStrip';
+import Categories from '@/components/home/Categories';
+import RepairCTA from '@/components/home/RepairCTA';
+import RepairIntro from '@/components/home/RepairIntro';
+import '@/styles/repairJourney.css';
 
-const HERO_PHOTO = 'https://images.unsplash.com/photo-1628911771730-881503b8e9c9';
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+const STATEMENT = 'The right device changes what you can do. The right people keep it working.';
 
 export default function Home() {
+  const pageRef = useRef(null);
+
+  useGSAP(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    gsap.utils.toArray('.repair-showcase [data-scroll-image]').forEach((image) => {
+      gsap.fromTo(image, { scale: 0.8, opacity: 0.55 }, {
+        scale: 1,
+        opacity: 1,
+        ease: 'none',
+        scrollTrigger: { trigger: image, start: 'top 95%', end: 'center 48%', scrub: true },
+      });
+    });
+
+    gsap.fromTo('[data-reveal-word]', { opacity: 0.13 }, {
+      opacity: 1,
+      stagger: 0.06,
+      ease: 'none',
+      scrollTrigger: { trigger: '[data-statement]', start: 'top 88%', end: 'bottom 35%', scrub: true },
+    });
+  }, { scope: pageRef });
+
   return (
-    <div style={{ fontFamily: 'var(--font-sans)' }}>
-
-      {/* ── Hero — editorial full-bleed ── */}
-      <section
-        className="flex items-center justify-center md:justify-end"
-        style={{ position: 'relative', minHeight: '560px', background: 'var(--graphite-900)', overflow: 'hidden' }}
-      >
-        {/* Hero photo */}
-        <img
-          src={`${HERO_PHOTO}?auto=format&fit=crop&w=1600&q=80`}
-          srcSet={unsplashSrcSet(HERO_PHOTO)}
-          sizes="100vw"
-          alt="A dark flat-lay spread of a laptop, smartphone, wireless headphones, camera, and watch, representing the full range of devices Cellular Solutions sells, repairs, and trades in"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-
-        {/* Legibility gradient — bottom-weighted on mobile (copy sits centered/lower), side-weighted on desktop (copy sits right) */}
-        <div
-          aria-hidden="true"
-          className="block md:hidden"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(180deg, rgba(24,24,27,.35) 0%, rgba(24,24,27,.6) 45%, rgba(24,24,27,.92) 100%)',
-            pointerEvents: 'none',
-          }}
-        />
-        <div
-          aria-hidden="true"
-          className="hidden md:block"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(90deg, rgba(24,24,27,0) 35%, rgba(24,24,27,.8) 100%)',
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Copy */}
-        <div
-          className="relative text-center md:text-right px-6 md:px-0 md:mr-16"
-          style={{ zIndex: 1, maxWidth: '440px' }}
-        >
-          <div
-            className="hero-fade-up"
-            style={{ fontSize: 'var(--fs-xs)', fontWeight: 'var(--fw-semibold)', letterSpacing: 'var(--ls-wider)', textTransform: 'uppercase', color: 'var(--graphite-300)', marginBottom: '14px', animationDelay: '80ms' }}
-          >
-            Just Landed
+    <div ref={pageRef} className="storefront-home overflow-x-hidden w-full max-w-full">
+      <section className="home-hero" aria-labelledby="home-title">
+        <div className="home-hero-inner">
+          <div className="home-hero-copy">
+            <p className="home-hero-mobile-only home-hero-eyebrow">New &amp; used phones</p>
+            <h1 id="home-title"><span className="home-hero-desktop-only">Better tech.<br />Better every day<span className="home-hero-period">.</span></span><span className="home-hero-mobile-only">Shop a phone.<br />Repair yours.</span></h1>
+            <p className="home-hero-desktop-only">Discover devices worth keeping, a clear path to ask about repairs, and an easier way to trade what you no longer use.</p>
+            <div className="home-hero-actions">
+              <Link className="storefront-button storefront-button-light" to="/shop">Explore the shop <Icon name="arrow-up-right" size={18} /></Link>
+              <Link className="storefront-button storefront-button-outline" to="/repair">Request a repair <Icon name="arrow-right" size={18} /></Link>
+            </div>
+            <p className="home-hero-mobile-only home-hero-services">Phones <span>•</span> Repairs <span>•</span> Trade-ins</p>
+            <div className="home-hero-mobile-only home-hero-mobile-actions">
+              <Link className="home-hero-mobile-cta" to="/categories/smartphones">Browse smartphones <Icon name="arrow-right" size={22} /></Link>
+              <Link className="home-hero-mobile-cta home-hero-mobile-repair" to="/repair">Request a repair <Icon name="arrow-right" size={20} /></Link>
+            </div>
           </div>
-          <h1
-            className="hero-fade-up"
-            style={{
-              margin: '0 0 14px',
-              fontSize: 'clamp(var(--fs-h2), 5vw, var(--fs-display))',
-              lineHeight: 1.02,
-              fontWeight: 'var(--fw-extrabold)',
-              letterSpacing: '-.03em',
-              color: 'var(--white)',
-              textShadow: '0 2px 18px rgba(0,0,0,.35)',
-              textWrap: 'balance',
-              animationDelay: '160ms',
-            }}
-          >
-            Everything Tech.
-          </h1>
-          <p
-            className="hero-fade-up"
-            style={{
-              margin: '0 0 28px',
-              fontSize: 'var(--fs-lg)',
-              fontWeight: 'var(--fw-semibold)',
-              letterSpacing: '.02em',
-              color: 'rgba(255,255,255,0.9)',
-              textShadow: '0 1px 10px rgba(0,0,0,.4)',
-              animationDelay: '240ms',
-            }}
-          >
-            Buy &nbsp;•&nbsp; Repair &nbsp;•&nbsp; Trade-In
-          </p>
-          <div className="hero-fade-up" style={{ display: 'inline-block', animationDelay: '320ms' }}>
-            <HeroPill to="/shop">Shop New Arrivals</HeroPill>
+          <div className="home-hero-art" aria-hidden="true">
+            <div className="home-hero-orbit" />
+            <img src="https://images.unsplash.com/photo-1628911771730-881503b8e9c9?auto=format&fit=crop&w=1100&q=85" alt="" fetchPriority="high" />
           </div>
         </div>
+        <div className="home-hero-bottom"><span>Cellular Solutions</span><span>Shop · Repair · Trade</span></div>
       </section>
 
+      <RepairIntro />
       <TrustStrip />
       <Categories />
-      <RepairCTA />
-      <TopProducts />
 
+      <section className="home-statement" data-statement>
+        <p>{STATEMENT.split(' ').map((word, index) => <span data-reveal-word key={`${word}-${index}`}>{word}{' '}</span>)}</p>
+        <Link to="/about">Meet Cellular Solutions <Icon name="arrow-up-right" size={18} /></Link>
+      </section>
+
+      <RepairCTA />
     </div>
   );
 }

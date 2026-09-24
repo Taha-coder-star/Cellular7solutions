@@ -62,7 +62,7 @@ export function RepairCard({ repair = {}, onBook, style = {} }) {
       </div>
 
       <Button variant="service" fullWidth onClick={onBook} iconLeft={<Icon name="calendar-check" size={18} />}>
-        Book Repair
+        Request a repair
       </Button>
     </div>
   );

@@ -75,7 +75,7 @@ export function Button({
         ...(hover && !disabled
           ? {
               background: hoverBg[variant],
-              borderColor: hoverBg[variant] === 'var(--surface-subtle)' ? 'var(--border-strong)' : hoverBg[variant],
+              border: `1px solid ${hoverBg[variant] === 'var(--surface-subtle)' ? 'var(--border-strong)' : hoverBg[variant]}`,
             }
           : {}),
         ...style,

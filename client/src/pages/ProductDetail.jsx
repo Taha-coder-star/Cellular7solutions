@@ -6,6 +6,50 @@ import { normalizeBrandName } from '@/utils/format';
 import { productImageSrc, productImageSrcSet } from '@/utils/image';
 import { whatsappLink } from '@/utils/whatsapp';
 
+// Shared with MobileProductListing's grid so favourites persist across pages.
+const WISHLIST_KEY = 'cs_wishlist';
+const readWishlist = () => {
+  try { return new Set(JSON.parse(localStorage.getItem(WISHLIST_KEY)) || []); }
+  catch { return new Set(); }
+};
+
+function WishlistButton({ saved, onToggle }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-pressed={saved}
+      aria-label={saved ? 'Remove from favourites' : 'Add to favourites'}
+      style={{
+        flexShrink: 0, display: 'grid', placeItems: 'center', width: '50px', height: '50px',
+        borderRadius: '14px', border: '1px solid var(--border-subtle)', cursor: 'pointer',
+        background: saved ? 'var(--graphite-900)' : '#fff',
+        color: saved ? '#fff' : 'var(--graphite-500)',
+      }}
+    >
+      <Icon name="heart" size={18} fill={saved ? 'currentColor' : 'none'} />
+    </button>
+  );
+}
+
+function WhatsappCta({ product, images, outOfStock }) {
+  return (
+    <Button
+      as="a"
+      href={whatsappLink({ ...product, image: images[0] })}
+      target="_blank"
+      rel="noopener noreferrer"
+      variant="product"
+      size="md"
+      disabled={outOfStock}
+      iconLeft={<Icon name="message-square" size={18} />}
+      style={{ flex: '1 1 auto', minWidth: '200px' }}
+    >
+      {outOfStock ? 'Out of Stock' : 'Inquire on WhatsApp'}
+    </Button>
+  );
+}
+
 const label = {
   fontFamily: 'var(--font-sans)',
   fontSize: 'var(--fs-xs)',
@@ -29,7 +73,7 @@ function GallerySkeleton() {
   );
 }
 
-function GalleryHero({ image, alt, hasImage, onZoom }) {
+function GalleryHero({ image, alt, hasImage, onZoom, isNew }) {
   const [hover, setHover] = useState(false);
   const Wrapper = hasImage ? 'button' : 'div';
   return (
@@ -40,17 +84,27 @@ function GalleryHero({ image, alt, hasImage, onZoom }) {
       style={{
         position: 'relative',
         aspectRatio: '1 / 1',
-        background: 'var(--graphite-50)',
+        background: '#f5f5f7',
         borderRadius: 'var(--radius-card)',
-        border: '1px solid var(--border-subtle)',
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 0,
+        padding: hasImage ? '34px' : 0,
+        boxSizing: 'border-box',
         cursor: hasImage ? 'zoom-in' : 'default',
       }}
     >
+      {isNew && (
+        <span
+          style={{
+            position: 'absolute', left: '14px', top: '14px', padding: '5px 10px', borderRadius: 'var(--radius-pill)',
+            background: 'var(--graphite-900)', color: '#fff', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em',
+          }}
+        >
+          NEW
+        </span>
+      )}
       {hasImage ? (
         <>
           <img
@@ -196,6 +250,35 @@ function ReviewsSection({ productId }) {
   );
 }
 
+function SimilarRail({ products }) {
+  if (!products.length) return null;
+  return (
+    <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
+      <h2 style={{ margin: 0, fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-h3)', fontWeight: 'var(--fw-bold)', letterSpacing: 'var(--ls-tight)', color: 'var(--text-strong)' }}>
+        Similar products
+      </h2>
+      <div style={{ display: 'flex', gap: 'var(--space-4)', overflowX: 'auto', paddingBottom: 'var(--space-2)' }}>
+        {products.map((p) => (
+          <Link
+            key={p._id}
+            to={`/product/${p._id}`}
+            style={{ flex: '0 0 140px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', textDecoration: 'none' }}
+          >
+            <div style={{ aspectRatio: '1 / 1', background: '#f5f5f7', borderRadius: 'var(--radius-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: p.images?.[0] ? '16px' : 0 }}>
+              {p.images?.[0]
+                ? <img src={productImageSrc(p.images[0], 300)} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                : <Icon name="smartphone" size={48} strokeWidth={1} color="var(--graphite-300)" />}
+            </div>
+            <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-medium)', color: 'var(--text-strong)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {p.name}
+            </span>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -205,6 +288,17 @@ export default function ProductDetail() {
   const lightboxRef = useRef(null);
   const lightboxTimeoutRef = useRef(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [wishlist, setWishlist] = useState(readWishlist);
+  const [similar, setSimilar] = useState([]);
+
+  function toggleWishlist() {
+    setWishlist((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      localStorage.setItem(WISHLIST_KEY, JSON.stringify([...next]));
+      return next;
+    });
+  }
 
   function openLightbox() {
     clearTimeout(lightboxTimeoutRef.current);
@@ -220,12 +314,21 @@ export default function ProductDetail() {
   useEffect(() => {
     setLoading(true);
     setError(false);
+    setSimilar([]);
     api
       .get(`/products/${id}`)
       .then(({ data }) => setProduct(data))
       .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, [id]);
+
+  useEffect(() => {
+    if (!product?.category?._id) return;
+    api
+      .get('/products', { params: { category: product.category._id, limit: 9 } })
+      .then(({ data }) => setSimilar(data.products.filter((p) => p._id !== id).slice(0, 8)))
+      .catch(() => setSimilar([]));
+  }, [product?.category?._id, id]);
 
   if (loading) {
     return (
@@ -253,14 +356,17 @@ export default function ProductDetail() {
   const lowStock = product.stock > 0 && product.stock <= 5;
 
   return (
-    <div className="max-w-7xl mx-auto" style={{ padding: 'var(--space-10) var(--space-6) var(--pad-section)', fontFamily: 'var(--font-sans)', display: 'flex', flexDirection: 'column', gap: 'var(--space-16)' }}>
+    <div className="max-w-7xl mx-auto has-product-ctabar storefront-product-detail" style={{ padding: 'var(--space-10) var(--space-6) var(--pad-section)', fontFamily: 'var(--font-sans)', display: 'flex', flexDirection: 'column', gap: 'var(--space-16)' }}>
 
-      {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)' }}>
-        <Link to="/shop" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Shop</Link>
-        <span>/</span>
-        <span style={{ color: 'var(--text-strong)' }}>{product.name}</span>
-      </nav>
+      {/* Back — product name already reads as the h1 below, no need for a full breadcrumb strip */}
+      <Link
+        to="/shop"
+        aria-label="Back to Shop"
+        style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-1)', width: 'fit-content', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)', textDecoration: 'none' }}
+      >
+        <Icon name="chevron-left" size={16} />
+        Shop
+      </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
@@ -271,6 +377,7 @@ export default function ProductDetail() {
             alt={product.name}
             hasImage={images.length > 0}
             onZoom={openLightbox}
+            isNew={product.condition === 'new'}
           />
 
           {images.length > 1 && (
@@ -281,14 +388,14 @@ export default function ProductDetail() {
                   type="button"
                   onClick={() => setActiveImage(i)}
                   style={{
-                    width: '72px',
-                    height: '72px',
+                    width: '54px',
+                    height: '54px',
                     padding: 0,
-                    borderRadius: 'var(--radius-sm)',
-                    border: `2px solid ${i === activeImage ? 'var(--graphite-900)' : 'var(--border-subtle)'}`,
+                    borderRadius: '12px',
+                    border: `2px solid ${i === activeImage ? 'var(--graphite-900)' : 'transparent'}`,
                     overflow: 'hidden',
                     cursor: 'pointer',
-                    background: 'var(--graphite-50)',
+                    background: '#f5f5f7',
                   }}
                   aria-label={`View image ${i + 1}`}
                 >
@@ -318,34 +425,57 @@ export default function ProductDetail() {
             {outOfStock ? 'Out of stock' : lowStock ? `Only ${product.stock} left in stock` : 'In stock'}
           </span>
 
-          {/* WhatsApp inquiry */}
-          <div style={{ display: 'flex', gap: 'var(--space-4)', alignItems: 'center', flexWrap: 'wrap', marginTop: 'var(--space-2)' }}>
-            <Button
-              as="a"
-              href={whatsappLink({ ...product, image: images[0] })}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="product"
-              size="md"
-              disabled={outOfStock}
-              iconLeft={<Icon name="message-square" size={18} />}
-              style={{ flex: '1 1 auto', minWidth: '200px' }}
-            >
-              {outOfStock ? 'Out of Stock' : 'Inquire on WhatsApp'}
-            </Button>
+          {/* WhatsApp inquiry — desktop inline, mobile sticky bottom bar (see below) */}
+          <div className="hidden md:flex" style={{ gap: 'var(--space-3)', alignItems: 'center', flexWrap: 'wrap', marginTop: 'var(--space-2)' }}>
+            <WishlistButton saved={wishlist.has(id)} onToggle={toggleWishlist} />
+            <WhatsappCta product={product} images={images} outOfStock={outOfStock} />
           </div>
 
-          {/* Description */}
+          {/* Description — skip if it's just the product name echoed back */}
+          {product.description?.trim().toLowerCase() !== product.name?.trim().toLowerCase() && (
+            <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 'var(--space-5)', marginTop: 'var(--space-2)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+              <span style={label}>Description</span>
+              <p style={{ margin: 0, fontSize: 'var(--fs-body)', color: 'var(--text-body)', lineHeight: 'var(--lh-relaxed)', whiteSpace: 'pre-line' }}>
+                {product.description}
+              </p>
+            </div>
+          )}
+
+          {/* Specs — only fields the data actually has */}
           <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 'var(--space-5)', marginTop: 'var(--space-2)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-            <span style={label}>Description</span>
-            <p style={{ margin: 0, fontSize: 'var(--fs-body)', color: 'var(--text-body)', lineHeight: 'var(--lh-relaxed)', whiteSpace: 'pre-line' }}>
-              {product.description}
-            </p>
+            <span style={label}>Specifications</span>
+            <dl style={{ margin: 0, display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+              {[
+                ['Brand', normalizeBrandName(product.brand?.name)],
+                ['Category', product.category?.name],
+                ['Condition', product.condition && (product.condition[0].toUpperCase() + product.condition.slice(1))],
+              ].filter(([, value]) => value).map(([k, v]) => (
+                <div key={k} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--fs-sm)' }}>
+                  <dt style={{ color: 'var(--text-muted)' }}>{k}</dt>
+                  <dd style={{ margin: 0, color: 'var(--text-strong)', fontWeight: 'var(--fw-medium)' }}>{v}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
       </div>
 
       <ReviewsSection productId={id} />
+
+      <SimilarRail products={similar} />
+
+      {/* Mobile sticky CTA bar — sits above the global Repair/Buy/Sell bar */}
+      <div
+        className="flex md:hidden"
+        style={{
+          position: 'fixed', left: 0, right: 0, bottom: '92px', zIndex: 39,
+          gap: 'var(--space-3)', alignItems: 'center',
+          padding: 'var(--space-3) var(--space-4)', background: 'var(--surface-page)', borderTop: '1px solid var(--border-subtle)',
+        }}
+      >
+        <WishlistButton saved={wishlist.has(id)} onToggle={toggleWishlist} />
+        <WhatsappCta product={product} images={images} outOfStock={outOfStock} />
+      </div>
 
       {images.length > 0 && (
         <ImageLightbox

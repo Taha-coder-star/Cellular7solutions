@@ -10,6 +10,7 @@ import {
   Wrench,
   Truck,
   ArrowRight,
+  ArrowUpRight,
   CalendarCheck,
   Search,
   ShoppingCart,
@@ -18,6 +19,7 @@ import {
   Menu,
   Monitor,
   Battery,
+  BatteryCharging,
   Camera,
   Droplets,
   DollarSign,
@@ -38,6 +40,13 @@ import {
   Volume2,
   ZoomIn,
   LogOut,
+  Heart,
+  Bell,
+  SlidersHorizontal,
+  Settings,
+  Package,
+  ShoppingBag,
+  Recycle,
 } from 'lucide-react';
 
 const ICONS = {
@@ -52,6 +61,7 @@ const ICONS = {
   wrench:              Wrench,
   truck:               Truck,
   'arrow-right':       ArrowRight,
+  'arrow-up-right':    ArrowUpRight,
   'calendar-check':    CalendarCheck,
   search:              Search,
   'shopping-cart':     ShoppingCart,
@@ -60,6 +70,7 @@ const ICONS = {
   menu:                Menu,
   monitor:             Monitor,
   battery:             Battery,
+  'battery-charging':  BatteryCharging,
   camera:              Camera,
   droplets:            Droplets,
   'dollar-sign':       DollarSign,
@@ -80,6 +91,13 @@ const ICONS = {
   speaker:           Volume2,
   'zoom-in':         ZoomIn,
   'log-out':         LogOut,
+  heart:             Heart,
+  bell:              Bell,
+  sliders:           SlidersHorizontal,
+  settings:          Settings,
+  package:           Package,
+  'shopping-bag':    ShoppingBag,
+  recycle:           Recycle,
 };
 
 export function Icon({ name, size = 20, color = 'currentColor', strokeWidth = 2, style = {}, ...rest }) {

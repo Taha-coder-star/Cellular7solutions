@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@/components/ui';
 import { useCategoryTree } from '@/hooks/useCategoryTree';
 import { BY_CATEGORY_LINKS } from '@/data/byCategoryLinks';
+import { isBrowseableCategory } from '@/components/layout/shopNav';
 
 const OPEN_DELAY = 180;
 const CLOSE_DELAY = 300;
@@ -52,8 +53,9 @@ function NavItem({ node, isOpen, onOpenRequest, onCloseRequest, onOpenNow, onClo
   const panelRef = useRef(null);
   const [alignRight, setAlignRight] = useState(false);
   const isByCategory = node.__byCategory;
-  const hasChildren = isByCategory || node.children?.length > 0;
-  const targetPath = isByCategory ? '#' : pathFor([], node.slug);
+  const isGroup = node.__group;
+  const hasChildren = isByCategory || isGroup || node.children?.length > 0;
+  const targetPath = isByCategory || isGroup ? '#' : pathFor([], node.slug);
 
   // Nav items near the right edge (Repair Tools, Screen Protectors, By
   // Category) would otherwise push their panel off-screen since it's
@@ -89,7 +91,7 @@ function NavItem({ node, isOpen, onOpenRequest, onCloseRequest, onOpenNow, onClo
       onKeyDown={handleKeyDown}
     >
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
-        {isByCategory ? (
+        {isByCategory || isGroup ? (
           <button
             type="button"
             onClick={() => hasChildren && (isOpen ? onCloseNow() : onOpenNow())}
@@ -146,7 +148,9 @@ function NavItem({ node, isOpen, onOpenRequest, onCloseRequest, onOpenNow, onClo
               ))}
             </div>
           ) : (
-            <MegaPanelColumns columns={node.children} buildPath={(slug, grandSlug) => pathFor([node.slug], slug) + (grandSlug ? `/${grandSlug}` : '')} />
+            <MegaPanelColumns columns={node.children} buildPath={isGroup
+              ? (slug, grandSlug) => pathFor([], slug) + (grandSlug ? `/${grandSlug}` : '')
+              : (slug, grandSlug) => pathFor([node.slug], slug) + (grandSlug ? `/${grandSlug}` : '')} />
           )}
         </div>
       )}
@@ -201,12 +205,22 @@ export default function CategoryNavBar() {
 
   if (!tree?.length) return null;
 
-  const navItems = [...tree.filter((n) => n.navOrder != null), { _id: 'by-category', name: 'By Category', __byCategory: true }];
+  const publicTree = tree.filter(isBrowseableCategory);
+  const accessoryItem = ['Accessories']
+    .map((name) => publicTree.find((node) => node.name === name))
+    .filter(Boolean);
+  const grouped = ['Cases', 'Parts'].map((name) => ({
+    _id: `group-${name.toLowerCase()}`,
+    name,
+    __group: true,
+    children: publicTree.filter((node) => node.name.endsWith(` ${name}`)),
+  })).filter((group) => group.children.length);
+  const navItems = [...accessoryItem, ...grouped, { _id: 'by-category', name: 'By Category', __byCategory: true }];
 
   return (
     <nav
       aria-label="Category navigation"
-      className="hidden md:flex"
+      className="hidden lg:flex"
       style={{
         gap: 'var(--space-6)',
         alignItems: 'center',

@@ -16,19 +16,21 @@ const tree = [
   { _id: 'mop', name: 'Motorola Parts', navOrder: 8 },
   { _id: 'otp', name: 'Other Parts', navOrder: 9 },
   { _id: 'rt', name: 'Repair Tools', navOrder: 10 },
+  { _id: 'test', name: 'Test Category 1787652744659', navOrder: null },
+  { _id: 'store', name: 'Store', navOrder: null },
 ];
 
 const entries = buildShopEntries(tree);
 const labels = entries.map((e) => (e.kind === 'group' ? e.label : e.node.name));
 
 // The four *Cases and four *Parts collapse into one "Cases" and one "Parts".
-// navOrder nodes come first in DB order; Phones has no navOrder so it sorts
-// last — matching how the category-tree API orders roots.
-assert.deepStrictEqual(labels, ['Accessories', 'Cases', 'Parts', 'Repair Tools', 'Phones']);
+// Devices lead even when legacy navOrder gives them no position. Internal
+// buckets and test categories stay out of customer navigation.
+assert.deepStrictEqual(labels, ['Phones', 'Accessories', 'Cases', 'Parts', 'Repair Tools']);
 
 const cases = entries.find((e) => e.label === 'Cases');
 assert.strictEqual(cases.members.length, 4, 'Cases groups all four brand nodes');
-assert.strictEqual(cases.sort, 2, 'group sorts at its earliest member navOrder');
+assert.strictEqual(cases.sort, 102, 'group sorts at its earliest member navOrder');
 
 // "Repair Tools" ends in "Tools" but is the only such node → stays standalone.
 assert.ok(labels.includes('Repair Tools'));

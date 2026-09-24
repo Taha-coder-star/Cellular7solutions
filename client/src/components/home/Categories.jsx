@@ -1,179 +1,60 @@
-import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from '@/components/ui';
-import { useRevealOnView } from '@/hooks/useReveal';
 import { useTopCategories } from '@/hooks/useTopCategories';
 
-const CARD_COUNT = 4;
-
-// Category model has no icon field — map by name, fall back to a generic
-// device icon for anything unmapped rather than guessing a new category.
-const ICON_BY_NAME = {
-  laptops: 'laptop',
-  gaming: 'gamepad-2',
-  headphones: 'headphones',
-  airpods: 'headphones',
-  bluetooth: 'headphones',
-  tablet: 'tablet-smartphone',
-  ipad: 'tablet-smartphone',
-  cases: 'shield-check',
-  'tempered glass': 'shield-check',
-  chargers: 'plug',
-  'phone accessories': 'smartphone',
-  speakers: 'speaker',
-};
-
-// Same verified Unsplash photos already used for the product catalog —
-// reused here (not re-sourced) so the two surfaces stay visually consistent.
 const PHOTO_BY_NAME = {
-  smartphones: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9',
-  'samsung cases': 'https://images.unsplash.com/photo-1535157412991-2ef801c1748b',
-  'apple parts': 'https://images.unsplash.com/photo-1550041473-d296a3a8a18a',
-  accessories: 'https://images.unsplash.com/photo-1573739022854-abceaeb585dc',
-  laptops: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1',
-  gaming: 'https://images.unsplash.com/photo-1612036781124-847f8939b154',
-  headphones: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb',
-  airpods: 'https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7',
-  bluetooth: 'https://images.unsplash.com/photo-1573706519066-6c0611466bb7',
-  tablet: 'https://images.unsplash.com/photo-1654852360714-3899af1f5be7',
-  ipad: 'https://images.unsplash.com/photo-1557825835-a526494be845',
-  cases: 'https://images.unsplash.com/photo-1583291023438-41cef6453b1f',
-  'tempered glass': 'https://images.unsplash.com/photo-1726900303636-fb7447fce40d',
-  chargers: 'https://images.unsplash.com/photo-1731616103600-3fe7ccdc5a59',
-  'phone accessories': 'https://images.unsplash.com/photo-1701856270353-403069731ce5',
-  speakers: 'https://images.unsplash.com/photo-1582978571763-2d039e56f0c3',
+  'samsung cases': '/assets/category-samsung-cases-reference.webp',
+  'apple parts': '/assets/category-apple-parts-reference.webp',
+  smartphones: '/assets/category-smartphones-reference.webp',
+  accessories: '/assets/category-accessories-reference.webp',
 };
-
-function CategoryCard({ photo, icon, label, count, to }) {
-  const [hover, setHover] = useState(false);
-
-  return (
-    <Link
-      to={to}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      style={{
-        position: 'relative',
-        display: 'block',
-        aspectRatio: '4 / 5',
-        borderRadius: 'var(--radius-card)',
-        overflow: 'hidden',
-        background: 'var(--graphite-100)',
-        textDecoration: 'none',
-        boxShadow: hover ? 'var(--shadow-md)' : 'var(--shadow-sm)',
-        transform: hover ? 'translateY(-4px)' : 'none',
-        transition: 'var(--transition-base)',
-      }}
-    >
-      {photo ? (
-        <img
-          src={`${photo}?auto=format&fit=crop&w=800&q=80`}
-          alt=""
-          loading="lazy"
-          style={{
-            position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
-            transform: hover ? 'scale(1.08)' : 'scale(1)',
-            transition: 'transform 0.5s cubic-bezier(0.19, 1, 0.22, 1)',
-          }}
-        />
-      ) : (
-        <span aria-hidden="true" style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--graphite-300)' }}>
-          <Icon name={icon} size={48} strokeWidth={1.25} />
-        </span>
-      )}
-
-      {/* Legibility gradient — same recipe as the site's photographic heroes */}
-      <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(24,24,27,0) 40%, rgba(24,24,27,.82) 100%)' }} />
-
-      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: 'var(--space-5)', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '8px' }}>
-        <div>
-          <div style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-lg)', fontWeight: 'var(--fw-bold)', color: 'var(--white)' }}>
-            {label}
-          </div>
-          <div style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', color: 'rgba(255,255,255,.75)', marginTop: '2px' }}>
-            {count} {count === 1 ? 'item' : 'items'}
-          </div>
-        </div>
-        <span
-          aria-hidden="true"
-          style={{
-            display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '36px', height: '36px',
-            borderRadius: '50%', background: 'var(--white)', color: 'var(--graphite-900)', flexShrink: 0,
-            opacity: hover ? 1 : 0,
-            transform: hover ? 'scale(1) translateX(0)' : 'scale(0.8) translateX(-4px)',
-            transition: 'var(--transition-base)',
-          }}
-        >
-          <Icon name="arrow-right" size={16} />
-        </span>
-      </div>
-    </Link>
-  );
-}
-
-function CategoryCardSkeleton() {
-  return (
-    <div
-      className="animate-pulse"
-      style={{ aspectRatio: '4 / 5', borderRadius: 'var(--radius-card)', background: 'var(--graphite-100)' }}
-    />
-  );
-}
 
 export default function Categories() {
-  const { categories, error } = useTopCategories(CARD_COUNT);
-  const gridRef = useRef(null);
-  useRevealOnView(gridRef, { stagger: 70, deps: [categories] });
-
-  if (error) return null;
+  const { categories, error } = useTopCategories(4);
+  const preferredOrder = ['smartphones', 'samsung cases', 'apple parts', 'accessories'];
+  const rank = (name) => {
+    const index = preferredOrder.indexOf(name.toLowerCase());
+    return index < 0 ? preferredOrder.length : index;
+  };
+  const orderedCategories = categories?.slice().sort((a, b) => rank(a.name) - rank(b.name));
 
   return (
-    <section style={{ padding: '80px var(--space-6) 64px', maxWidth: '1280px', margin: '0 auto', boxSizing: 'border-box' }}>
-      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '36px', gap: '20px', flexWrap: 'wrap' }}>
-        <h2
-          style={{
-            margin: 0,
-            fontFamily: 'var(--font-sans)',
-            fontSize: 'var(--fs-h2)',
-            fontWeight: 'var(--fw-extrabold)',
-            letterSpacing: 'var(--ls-tight)',
-            color: 'var(--text-strong)',
-          }}
-        >
-          Shop by category
-        </h2>
-        <Link
-          to="/shop"
-          style={{
-            fontFamily: 'var(--font-sans)',
-            fontSize: 'var(--fs-sm)',
-            fontWeight: 'var(--fw-semibold)',
-            color: 'var(--text-strong)',
-            textDecoration: 'none',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-          }}
-        >
-          View all products <Icon name="arrow-right" size={16} aria-hidden="true" />
-        </Link>
+    <section className="home-categories storefront-section" aria-labelledby="categories-heading">
+      <div className="storefront-section-heading">
+        <div>
+          <p className="storefront-eyebrow">Shop by category</p>
+          <h2 id="categories-heading">Find what moves you</h2>
+        </div>
+        <Link className="storefront-text-link" to="/shop">Shop all products <Icon name="arrow-right" size={17} /></Link>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" style={{ gap: '24px' }}>
-        {categories === null && Array.from({ length: CARD_COUNT }).map((_, i) => <CategoryCardSkeleton key={i} />)}
-        {categories?.map((c) => {
-          const key = c.name.toLowerCase();
-          return (
-            <CategoryCard
-              key={c._id}
-              photo={PHOTO_BY_NAME[key]}
-              icon={ICON_BY_NAME[key] ?? 'smartphone'}
-              label={c.name}
-              count={c.count}
-              to={`/shop?category=${c._id}`}
-            />
-          );
-        })}
-      </div>
+
+      {error && <p className="storefront-muted">Categories are unavailable right now. <Link to="/shop">Browse the shop</Link>.</p>}
+      {!error && (
+        <div className="home-category-grid grid-flow-dense">
+          {Array.from({ length: 4 }).map((_, index) => {
+            const category = orderedCategories?.[index];
+            const image = category ? PHOTO_BY_NAME[category.name.toLowerCase()] : null;
+            return category ? (
+              <Link className={`home-category-card home-category-card-${index + 1}`} to={`/shop?category=${category._id}`} key={category._id}>
+                {image ? <img src={image} alt="" loading="lazy" /> : <span className="home-category-fallback" aria-hidden="true"><Icon name="smartphone" size={72} strokeWidth={1} /></span>}
+                <span className="home-category-shade" />
+                <span className="home-category-content"><strong>{category.name}</strong><small>{category.count} {category.count === 1 ? 'product' : 'products'}</small></span>
+                <span className="home-category-arrow"><Icon name="arrow-right" size={20} /></span>
+              </Link>
+            ) : <div className={`home-category-card home-category-card-${index + 1} home-category-placeholder`} key={index} aria-hidden="true" />;
+          })}
+          <Link className="home-category-card home-category-card-service" to="/buysell">
+            <span className="home-category-service-glow" aria-hidden="true" />
+            <img className="home-category-trade-image" src="/assets/category-smartphones-reference.webp" alt="" loading="lazy" />
+            <span className="home-category-service-copy">
+              <Icon name="recycle" size={28} strokeWidth={2.4} />
+              <strong>Give great tech<br />a second life.</strong>
+              <small>Trade in your device</small>
+              <span className="home-category-service-button">Trade in now <Icon name="arrow-right" size={15} /></span>
+            </span>
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

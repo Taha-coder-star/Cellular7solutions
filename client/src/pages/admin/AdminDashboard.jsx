@@ -5,7 +5,6 @@ import api from '@/services/api';
 const STATS = [
   { key: 'products', label: 'Products', url: '/products?limit=1' },
   { key: 'orders', label: 'Orders', url: '/orders' },
-  { key: 'repairs', label: 'Repair Requests', url: '/repairs' },
   { key: 'buysell', label: 'Buy & Sell Requests', url: '/buysell' },
 ];
 

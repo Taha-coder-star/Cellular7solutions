@@ -16,6 +16,8 @@ const contactRoutes = require('./routes/contactRoutes');
 const Category = require('./models/Category');
 const Brand = require('./models/Brand');
 const Review = require('./models/Review');
+const httpConfig = require('./config/httpConfig');
+const { hosted, clientOrigin } = httpConfig(process.env);
 
 dns.setDefaultResultOrder('ipv4first');
 dns.setServers(['1.1.1.1', '8.8.8.8']);
@@ -25,7 +27,7 @@ const app = express();
 // Render/Vercel terminate TLS at their edge and forward over HTTP with
 // X-Forwarded-* headers — trust the first hop so req.secure and express-rate-limit
 // see the real client IP/protocol instead of the proxy's.
-if (process.env.NODE_ENV === 'production') {
+if (hosted) {
   app.set('trust proxy', 1);
   app.use((req, res, next) => {
     if (!req.secure) {
@@ -36,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.use(cors({ origin: process.env.CLIENT_URL || true }));
+app.use(cors({ origin: clientOrigin }));
 app.use(express.json());
 
 app.get('/api/health', (req, res) => {
@@ -65,10 +67,10 @@ const PORT = process.env.PORT || 5000;
 
 connectDB().then(async () => {
   try {
-    await Promise.all([Category.syncIndexes(), Brand.syncIndexes(), Review.syncIndexes()]);
-    console.log('Indexes synced');
+    await Promise.all([Category.createIndexes(), Brand.createIndexes(), Review.createIndexes()]);
+    console.log('Indexes ensured');
   } catch (err) {
-    console.error('Index sync failed:', err);
+    console.error('Index ensure failed:', err);
   }
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });

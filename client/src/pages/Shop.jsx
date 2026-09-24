@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import api from '@/services/api';
 import { Button, Select, Icon, ProductCard } from '@/components/ui';
+import MobileProductListing from '@/components/catalog/MobileProductListing';
 import { normalizeBrandName } from '@/utils/format';
 
 const PAGE_SIZE = 12;
@@ -15,6 +16,7 @@ function normalizeProduct(p) {
     image: Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : null,
     condition: p.condition,
     stock: p.stock,
+    slug: p.slug,
   };
 }
 
@@ -178,7 +180,29 @@ export default function Shop({ forcedCategoryId, breadcrumbOverride } = {}) {
   );
 
   return (
-    <div style={{ fontFamily: 'var(--font-sans)' }}>
+    <div className="storefront-catalog" style={{ fontFamily: 'var(--font-sans)' }}>
+      {/* Mobile-only redesign (below md) — reuses this page's real state/filters */}
+      <div className="md:hidden">
+        <MobileProductListing
+          products={products}
+          loading={loading}
+          error={error}
+          total={total}
+          page={page}
+          pages={pages}
+          loadMore={loadMore}
+          loadingMore={loadingMore}
+          categoryName={pageTitle}
+          activeCategoryId={filters.category || ''}
+          filters={filters}
+          brands={brands}
+          onFilter={updateFilters}
+          onSearch={(v) => updateFilters({ search: v })}
+        />
+      </div>
+
+      {/* Desktop / tablet (md and up) — unchanged */}
+      <div className="hidden md:block">
       {/* Header */}
       <div style={{ borderBottom: '1px solid var(--border-subtle)', padding: '24px var(--space-6) 20px' }}>
         <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
@@ -308,6 +332,7 @@ export default function Shop({ forcedCategoryId, breadcrumbOverride } = {}) {
             </>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

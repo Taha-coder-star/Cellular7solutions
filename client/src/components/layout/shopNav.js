@@ -10,9 +10,19 @@ export const stripGroupWord = (name, word) =>
 // "Samsung Cases"… → a virtual "Cases") into one drill-down entry. Everything
 // else stays standalone. Ordered by navOrder, then name. Derived entirely from
 // the tree — no hardcoded category names.
+export const isBrowseableCategory = (node) => !/^(test\b|store$)/i.test(node.name.trim());
+
+const DEVICE_ORDER = new Map([
+  ['phones', 0], ['smartphones', 0], ['laptops', 1], ['gaming', 2], ['tablet', 3], ['ipad', 4],
+]);
+
+const sortOrder = (node) => DEVICE_ORDER.get(node.name.toLowerCase()) ??
+  (node.navOrder == null ? 1000 : 100 + node.navOrder);
+
 export function buildShopEntries(tree) {
+  const browseable = tree.filter(isBrowseableCategory);
   const wordCounts = {};
-  tree.forEach((n) => {
+  browseable.forEach((n) => {
     if (n.name.trim().split(/\s+/).length >= 2) {
       const w = lastWord(n.name);
       wordCounts[w] = (wordCounts[w] || 0) + 1;
@@ -21,7 +31,7 @@ export function buildShopEntries(tree) {
 
   const groups = new Map();
   const entries = [];
-  tree.forEach((node) => {
+  browseable.forEach((node) => {
     const w = lastWord(node.name);
     if (wordCounts[w] >= 2) {
       let g = groups.get(w);
@@ -31,9 +41,9 @@ export function buildShopEntries(tree) {
         entries.push(g);
       }
       g.members.push(node);
-      g.sort = Math.min(g.sort, node.navOrder ?? Infinity);
+      g.sort = Math.min(g.sort, sortOrder(node));
     } else {
-      entries.push({ kind: 'node', node, sort: node.navOrder ?? Infinity });
+      entries.push({ kind: 'node', node, sort: sortOrder(node) });
     }
   });
 

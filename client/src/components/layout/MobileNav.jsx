@@ -9,6 +9,10 @@ const prefersReduced =
   typeof window !== 'undefined' &&
   window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
+const PRIMARY_SHOP_NAMES = new Set([
+  'Smartphones', 'Phones', 'Laptops', 'Gaming', 'Tablet', 'iPad', 'Accessories', 'Cases', 'Parts',
+]);
+
 /**
  * A "view" pushed onto the drill stack:
  *   { title, children: [node], basePath: [slug], groupLabel?: string }
@@ -32,8 +36,22 @@ export default function MobileNav({ open, onClose, onOpenSearch, isAdmin }) {
   const [stack, setStack] = useState([]); // drilled views (levels 1..n)
   const [level, setLevel] = useState(0); // active panel index; 0 = root
   const [shopOpen, setShopOpen] = useState(true);
+  const [moreCategoriesOpen, setMoreCategoriesOpen] = useState(false);
 
   const shopEntries = tree ? buildShopEntries(tree) : [];
+  const entryName = (entry) => entry.kind === 'group' ? entry.label : entry.node.name;
+  const primaryShopEntries = shopEntries.filter((entry) => PRIMARY_SHOP_NAMES.has(entryName(entry)));
+  const extraShopEntries = shopEntries.filter((entry) => !PRIMARY_SHOP_NAMES.has(entryName(entry)));
+
+  function renderShopEntry(entry) {
+    return entry.kind === 'group' ? (
+      <RowButton key={`g-${entry.label}`} label={entry.label} onClick={() => drill(viewForGroup(entry))} />
+    ) : entry.node.children?.length ? (
+      <RowButton key={entry.node._id} label={entry.node.name} onClick={() => drill(viewForNode(entry.node, []))} />
+    ) : (
+      <RowLink key={entry.node._id} to={`/categories/${entry.node.slug}`} onClick={onClose} label={entry.node.name} muted />
+    );
+  }
 
   function drill(view) {
     const base = stack.slice(0, level); // drop any deeper branch from a prior path
@@ -53,6 +71,7 @@ export default function MobileNav({ open, onClose, onOpenSearch, isAdmin }) {
     if (!open) {
       setLevel(0);
       setStack([]);
+      setMoreCategoriesOpen(false);
     }
   }, [open]);
 
@@ -205,15 +224,14 @@ export default function MobileNav({ open, onClose, onOpenSearch, isAdmin }) {
 
             {shopOpen && (
               <div style={{ paddingLeft: 'var(--space-3)' }}>
-                {shopEntries.map((entry) =>
-                  entry.kind === 'group' ? (
-                    <RowButton key={`g-${entry.label}`} label={entry.label} onClick={() => drill(viewForGroup(entry))} />
-                  ) : entry.node.children?.length ? (
-                    <RowButton key={entry.node._id} label={entry.node.name} onClick={() => drill(viewForNode(entry.node, []))} />
-                  ) : (
-                    <RowLink key={entry.node._id} to={`/categories/${entry.node.slug}`} onClick={onClose} label={entry.node.name} muted />
-                  )
+                {primaryShopEntries.map(renderShopEntry)}
+                {extraShopEntries.length > 0 && (
+                  <button type="button" onClick={() => setMoreCategoriesOpen((open) => !open)} aria-expanded={moreCategoriesOpen} style={rowStyle}>
+                    <span>More categories</span>
+                    <Icon name="chevron-down" size={18} style={{ transform: moreCategoriesOpen ? 'rotate(180deg)' : 'none', color: 'var(--text-muted)' }} />
+                  </button>
                 )}
+                {moreCategoriesOpen && extraShopEntries.map(renderShopEntry)}
               </div>
             )}
 

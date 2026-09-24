@@ -14,7 +14,7 @@
   --graphite-600: #52525B;
   --graphite-700: #3F3F46;
   --graphite-800: #27272A;
-  --graphite-900: #18181B;
+  --graphite-900: #11131A;
 
   /* ---- Brand Cobalt Blue (service accent) ---- */
   --cobalt-50:  #EFF6FF;
@@ -52,7 +52,7 @@
 
   /* Surfaces */
   --surface-page:    var(--white);
-  --surface-subtle:  var(--graphite-50);
+  --surface-subtle:  #F6F7F9;
   --surface-card:    var(--white);
   --surface-dark:    var(--graphite-900);
   --surface-dark-2:  var(--graphite-800);

@@ -1,6 +1,6 @@
 # Cellular Solutions — E-Commerce Platform
 
-A full-stack MERN application for a mobile phone accessories and electronics retailer: product catalog, guest checkout, repair booking, buy/sell trade-in requests, product reviews, and an admin dashboard. There are no customer accounts — the storefront is fully guest, and there is exactly one admin account.
+A full-stack MERN application for a mobile phone accessories and electronics retailer: product catalog, guest checkout, WhatsApp repair enquiries, buy/sell trade-in requests, product reviews, and an admin dashboard. There are no customer accounts — the storefront is fully guest, and there is exactly one admin account.
 
 ---
 
@@ -32,7 +32,7 @@ A full-stack MERN application for a mobile phone accessories and electronics ret
 - Product detail pages with multiple images, reviews
 - Checkout with name/email/phone/address per order — no signup
 - Submit buy/sell (trade-in) requests
-- Book a repair
+- Open a prefilled WhatsApp repair enquiry; the customer sends it in WhatsApp
 - Leave a product review
 
 ### Admin (single account)
@@ -40,7 +40,7 @@ A full-stack MERN application for a mobile phone accessories and electronics ret
 - Product management (CRUD + image upload)
 - Category and brand management
 - Order management with status updates
-- Repair and buy/sell request management
+- Buy/sell request management; legacy repair records remain accessible through the protected API
 - Review moderation (delete)
 
 ---
@@ -110,7 +110,7 @@ npm run dev
 You should see:
 ```
 MongoDB connected: <host>
-Indexes synced
+Indexes ensured
 Server running on port 5000
 ```
 
@@ -145,7 +145,7 @@ Frontend runs at `http://localhost:5173`. Admin panel is at `/admin/login`.
 | `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name |
 | `CLOUDINARY_API_KEY` | Cloudinary API key |
 | `CLOUDINARY_API_SECRET` | Cloudinary API secret |
-| `CLIENT_URL` | Frontend origin, restricts CORS in production (optional — allows all origins if unset) |
+| `CLIENT_URL` | Frontend origin for CORS. On Render, defaults to `https://cellular7solutions.vercel.app` if unset. |
 
 ### Frontend (`client/.env`) — see `client/.env.example`
 
@@ -189,8 +189,9 @@ Standard public GET, admin-only POST/PUT/DELETE under `/api/categories` and `/ap
 ### Repairs / Buy & Sell (guest submissions)
 | Method | Endpoint | Access | Description |
 |---|---|---|---|
-| POST | `/api/repairs`, `/api/buysell` | Public (rate-limited + honeypot) | Submit a request |
-| GET | `/api/repairs`, `/api/buysell` | Admin | List requests |
+| POST | `/api/repairs` | Public | Returns 410; new repair enquiries go through WhatsApp |
+| POST | `/api/buysell` | Public (rate-limited + honeypot) | Submit a buy/sell request |
+| GET | `/api/repairs`, `/api/buysell` | Admin | List historical repair or buy/sell requests |
 | PUT | `/api/repairs/:id`, `/api/buysell/:id/status` | Admin | Update status |
 | DELETE | `/api/repairs/:id`, `/api/buysell/:id` | Admin | Delete request |
 
@@ -217,10 +218,12 @@ Standard public GET, admin-only POST/PUT/DELETE under `/api/categories` and `/ap
 2. Add `VITE_API_URL` pointing at your Render backend, e.g. `https://your-app.onrender.com/api`
 3. Deploy
 
+The repository's `client/.env.production` points production builds at `https://cellular7solutions.onrender.com/api`. A Vercel `VITE_API_URL` setting can override it; production builds reject a missing, non-HTTPS, localhost, or non-`/api` value.
+
 ### Before going live
 - [ ] Run `node seed-admin.js` with real, strong credentials — do not ship default/test creds
-- [ ] Set `NODE_ENV=production` on Render (enables HTTPS redirect + HSTS)
-- [ ] Set `CLIENT_URL` on Render once the frontend domain is known
+- [ ] Verify HTTPS redirect and HSTS on Render (the `RENDER` flag enables them)
+- [ ] Verify Render CORS allows only the production frontend origin
 - [ ] Confirm the production domain with the client
 - [ ] Restrict MongoDB Atlas Network Access as appropriate for your hosting setup
 
@@ -229,7 +232,7 @@ Standard public GET, admin-only POST/PUT/DELETE under `/api/categories` and `/ap
 ## Notes
 
 - **DNS resolution**: `server.js` pins DNS to `1.1.1.1`/`8.8.8.8` and forces IPv4-first resolution before connecting to MongoDB Atlas. This is required on the original dev network to resolve `mongodb+srv://` SRV records reliably — do not remove it without testing on your own network first.
-- **No test runner configured.** `npm test` in `server/` is a stub.
+- **Tests:** `npm test` in `server/` runs the repair API route check. The client has focused Node tests in `src/utils/whatsapp.test.mjs` and `src/components/layout/shopNav.test.mjs`.
 
 ---
 

@@ -9,11 +9,11 @@ export default function Terms() {
       </h1>
       <p style={{ ...p, color: 'var(--text-muted)' }}>Last updated {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
 
-      <h2 style={h2}>Orders</h2>
-      <p style={p}>Placing an order is an offer to purchase at the listed price. We reserve the right to cancel or refuse any order, including for stock or pricing errors. Prices and availability are subject to change without notice.</p>
+      <h2 style={h2}>Product inquiries</h2>
+      <p style={p}>Product listings are for browsing and inquiry. This website does not display product prices or accept checkout orders. Contact us on WhatsApp about a specific product to confirm its price and availability before making a decision.</p>
 
       <h2 style={h2}>Repairs</h2>
-      <p style={p}>Diagnostics are free. Any repair cost is quoted and must be approved by you before work begins. We are not responsible for pre-existing damage or data loss — back up your device before service.</p>
+      <p style={p}>Repair enquiries open a prefilled WhatsApp chat. You must tap Send in WhatsApp for your message to reach us. Our team can then reply about next steps and an estimate. We are not responsible for pre-existing damage or data loss — back up your device before service.</p>
 
       <h2 style={h2}>Buy &amp; sell</h2>
       <p style={p}>Quotes for devices submitted through our buy/sell form are estimates and may change after in-person inspection. We are not obligated to purchase any device we determine to be misrepresented, stolen, or non-functional beyond the stated condition.</p>

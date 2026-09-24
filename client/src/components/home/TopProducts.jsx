@@ -29,6 +29,7 @@ function ProductCard({ product }) {
 
   return (
     <Link
+      className="featured-product-card"
       to={`/product/${product._id}`}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -86,13 +87,14 @@ export default function TopProducts() {
 
   return (
     <section
+      className="home-featured"
       style={{
         background: 'var(--white)',
         backgroundImage: 'radial-gradient(circle, var(--graphite-200) 1px, transparent 1px)',
         backgroundSize: '52px 52px',
       }}
     >
-      <div style={{ padding: '80px var(--space-6) 88px', maxWidth: '1360px', margin: '0 auto', boxSizing: 'border-box' }}>
+      <div style={{ padding: 'clamp(88px, 10vw, 160px) var(--space-6)', maxWidth: '1360px', margin: '0 auto', boxSizing: 'border-box' }}>
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '48px', gap: '20px', flexWrap: 'wrap' }}>
           <div>
             <h2
@@ -105,7 +107,7 @@ export default function TopProducts() {
                 color: 'var(--text-strong)',
               }}
             >
-              Featured this Week
+              Worth a closer look.
             </h2>
           </div>
           <Link

@@ -2,12 +2,10 @@ import { useState } from 'react';
 import { Button, Card, Input, Textarea, Icon } from '@/components/ui';
 import api from '@/services/api';
 
-// ⚑ Hours are still a placeholder — confirm real hours with client before launch
 const INFO = [
   { icon: 'truck',  label: 'Address', lines: ['520 West Main St.', 'Glencoe, AL 35905'] },
   { icon: 'smartphone', label: 'Phone', lines: ['(256) 515-9620'] },
   { icon: 'mail',   label: 'Email',   lines: ['Rambocityalabama@gmail.com'] },
-  { icon: 'clock',  label: 'Hours',   lines: ['Mon–Sat: 10:00 AM – 8:00 PM', 'Sun: 12:00 PM – 6:00 PM'] },
 ];
 
 export default function Contact() {
@@ -44,7 +42,7 @@ export default function Contact() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto" style={{ padding: 'var(--space-10) var(--space-6) var(--pad-section)', fontFamily: 'var(--font-sans)' }}>
+    <div className="max-w-7xl mx-auto storefront-service-page" style={{ padding: 'var(--space-10) var(--space-6) var(--pad-section)', fontFamily: 'var(--font-sans)' }}>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', marginBottom: 'var(--space-10)' }}>
         <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 'var(--fw-semibold)', letterSpacing: 'var(--ls-wider)', textTransform: 'uppercase', color: 'var(--text-muted)' }}>

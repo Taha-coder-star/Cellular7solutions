@@ -51,7 +51,6 @@ function NavTextLink({ to, label }) {
  *  the Shop page's existing ?search= filter rather than a separate search flow. */
 function NavSearch({ open, setOpen }) {
   const [query, setQuery] = useState('');
-  const [hovered, setHovered] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const inputRef = useRef(null);
   const navigate = useNavigate();
@@ -92,16 +91,9 @@ function NavSearch({ open, setOpen }) {
     return (
       <button
         type="button"
+        className="hdr-btn"
         aria-label="Search"
         onClick={() => setOpen(true)}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{
-          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-          width: '44px', height: '44px', borderRadius: 'var(--radius-sm)', border: 'none', cursor: 'pointer',
-          color: 'var(--text-muted)', background: hovered ? 'var(--graphite-100)' : 'transparent',
-          transition: 'var(--transition-base)',
-        }}
       >
         <Icon name="search" size={20} />
       </button>
@@ -180,33 +172,13 @@ function NavSearch({ open, setOpen }) {
 }
 
 function MenuToggle({ open, onClick }) {
-  const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
-
   return (
     <button
       type="button"
+      className="hdr-btn"
       onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
       aria-label={open ? 'Close menu' : 'Open menu'}
       aria-expanded={open}
-      style={{
-        background: hovered ? 'var(--graphite-100)' : 'none',
-        border: 'none',
-        cursor: 'pointer',
-        color: 'var(--text-strong)',
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '44px',
-        height: '44px',
-        borderRadius: 'var(--radius-sm)',
-        transition: 'var(--transition-base)',
-        ...(focused ? FOCUS_RING : NO_RING),
-      }}
     >
       <Icon name={open ? 'x' : 'menu'} size={24} />
     </button>
@@ -216,11 +188,22 @@ function MenuToggle({ open, onClick }) {
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { user } = useAuth();
   const isAdmin = user?.role === 'admin';
 
+  // Compact header on scroll — collapses the tagline bar and shortens the
+  // logo row so the header doesn't eat a fixed 108px+ on every page.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <header
+      className="storefront-navbar"
       style={{
         position: 'sticky',
         top: 0,
@@ -229,12 +212,15 @@ export default function Navbar() {
         borderBottom: '1px solid var(--border-subtle)',
       }}
     >
-      {/* Tagline bar */}
+      {/* Tagline bar — collapses when scrolled */}
       <div
         style={{
           background: 'var(--graphite-900)',
-          padding: '11px 24px',
+          padding: scrolled ? '0 24px' : '11px 24px',
+          maxHeight: scrolled ? '0px' : '40px',
+          overflow: 'hidden',
           textAlign: 'center',
+          transition: 'max-height 0.25s ease, padding 0.25s ease',
         }}
       >
         <span
@@ -256,8 +242,9 @@ export default function Navbar() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          height: '72px',
+          height: scrolled ? '52px' : '72px',
           padding: '0 var(--space-6)',
+          transition: 'height 0.25s ease',
         }}
       >
         {/* Logo */}
@@ -266,20 +253,20 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav links */}
-        <nav className="hidden md:flex" style={{ gap: 'var(--space-8)', alignItems: 'center' }}>
+        <nav className="hidden lg:flex" style={{ gap: 'var(--space-8)', alignItems: 'center' }}>
           {NAV_LINKS.map(({ to, label }) => (
             <NavTextLink key={label} to={to} label={label} />
           ))}
         </nav>
 
         {/* Desktop actions */}
-        <div className="hidden md:flex" style={{ alignItems: 'center', gap: 'var(--space-2)' }}>
+        <div className="hidden lg:flex" style={{ alignItems: 'center', gap: 'var(--space-2)' }}>
           <NavSearch open={searchOpen} setOpen={setSearchOpen} />
           {isAdmin && <NavTextLink to="/admin" label="Admin" />}
         </div>
 
         {/* Mobile: search + hamburger */}
-        <div className="flex md:hidden" style={{ alignItems: 'center', gap: 'var(--space-2)' }}>
+        <div className="flex lg:hidden" style={{ alignItems: 'center', gap: 'var(--space-2)' }}>
           <NavSearch open={searchOpen} setOpen={setSearchOpen} />
           <MenuToggle open={mobileOpen} onClick={() => setMobileOpen((o) => !o)} />
         </div>

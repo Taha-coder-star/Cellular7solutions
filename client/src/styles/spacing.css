@@ -17,13 +17,13 @@
   /* Semantic spacing */
   --pad-card:    var(--space-6);
   --gap-grid:    var(--space-6);
-  --pad-section: var(--space-20);
+  --pad-section: clamp(80px, 9vw, 144px);
 
   /* ---- Border radius ---- */
   --radius-sm:    8px;
   --radius-btn:   12px;
   --radius-input: 12px;
-  --radius-card:  16px;
+  --radius-card:  8px;
   --radius-modal: 20px;
   --radius-pill:  999px;
 

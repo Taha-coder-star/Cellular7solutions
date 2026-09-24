@@ -1,17 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const { requireAdmin } = require('../middleware/requireAdmin');
-const { honeypot } = require('../middleware/honeypot');
-const { formLimiter } = require('../middleware/rateLimit');
 const {
-  createRepairRequest,
   getRepairRequests,
   getRepairRequestById,
   updateRepair,
   deleteRepairRequest,
 } = require('../controllers/repairController');
 
-router.post('/', formLimiter, honeypot, createRepairRequest);
+// The public enquiry flow now opens WhatsApp. Preserve legacy records and admin
+// read/update endpoints, but do not create new repair records through this API.
+router.post('/', (_req, res) => res.status(410).json({ message: 'Repair enquiries now go through WhatsApp.' }));
 router.get('/', requireAdmin, getRepairRequests);
 router.get('/:id', requireAdmin, getRepairRequestById);
 router.put('/:id', requireAdmin, updateRepair);

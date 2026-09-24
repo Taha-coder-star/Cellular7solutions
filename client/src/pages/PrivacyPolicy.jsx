@@ -10,13 +10,13 @@ export default function PrivacyPolicy() {
       <p style={{ ...p, color: 'var(--text-muted)' }}>Last updated {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
 
       <h2 style={h2}>What we collect</h2>
-      <p style={p}>When you book a repair, submit a buy/sell request, place an order, or leave a review, we collect the information you provide directly: name, email, phone number, and (for repairs and orders) your address. We do not require an account and do not collect data beyond what a given form asks for.</p>
+      <p style={p}>When you submit a website form, we collect the information it asks for. Repair enquiries are drafted on this page and opened in WhatsApp; they are not submitted to our website or admin panel. If you tap Send in WhatsApp, the conversation is handled there.</p>
 
       <h2 style={h2}>How we use it</h2>
-      <p style={p}>We use this information solely to fulfil your request — confirming a repair booking, following up on a buy/sell offer, processing an order, or displaying your review. We do not sell or rent your information to third parties.</p>
+      <p style={p}>We use information from website forms to fulfil the relevant request, such as following up on a buy/sell offer, processing an order, or displaying a review. Repair enquiries are handled through the WhatsApp conversation. We do not sell or rent your information to third parties.</p>
 
       <h2 style={h2}>Where it's stored</h2>
-      <p style={p}>Data is stored in a MongoDB Atlas database. Product and request images are hosted by Cloudinary. Both providers process data on our behalf under their own security and compliance standards.</p>
+      <p style={p}>Data submitted through website forms is stored in a MongoDB Atlas database. Product and request images are hosted by Cloudinary. Repair messages sent through WhatsApp are handled by WhatsApp, not stored as new repair requests in our website database.</p>
 
       <h2 style={h2}>Cookies</h2>
       <p style={p}>We do not use tracking or advertising cookies. The admin panel uses browser local storage to keep an administrator signed in — this is functional only and not used to track visitors.</p>

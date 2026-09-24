@@ -20,8 +20,12 @@ export default function AdminProductForm() {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    api.get('/categories').then((res) => setCategories(res.data));
-    api.get('/brands').then((res) => setBrands(res.data));
+    Promise.all([api.get('/categories'), api.get('/brands')])
+      .then(([categoryResponse, brandResponse]) => {
+        setCategories(categoryResponse.data);
+        setBrands(brandResponse.data);
+      })
+      .catch(() => setError('Could not load categories or brands. Please try again.'));
   }, []);
 
   useEffect(() => {
@@ -39,8 +43,8 @@ export default function AdminProductForm() {
         isFeatured: p.isFeatured,
       });
       setExistingImages(p.images || []);
-    });
-  }, [id]);
+    }).catch(() => setError('Could not load this product. Please try again.'));
+  }, [id, isEdit]);
 
   function update(key, value) {
     setForm((f) => ({ ...f, [key]: value }));

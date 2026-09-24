@@ -1,226 +1,123 @@
 import { useState } from 'react';
-import { Button, Card, Input, Textarea, Select, Checkbox, Icon } from '@/components/ui';
-import api from '@/services/api';
+import { Button, Card, Input, Textarea, Select, Icon } from '@/components/ui';
+import { repairWhatsappLink } from '@/utils/whatsapp';
+import '@/styles/repairJourney.css';
 
-const DEVICE_TYPES = ['Phone', 'Tablet', 'Laptop', 'Desktop', 'Game Console', 'Other'];
-
-// ⚑ Time slots are placeholders — confirm real booking windows with client
-const TIME_SLOTS = ['Morning (10 AM – 1 PM)', 'Afternoon (1 PM – 5 PM)', 'Evening (5 PM – 8 PM)'];
-
-const POINTS = [
-  { icon: 'wrench',       title: 'Free diagnostics', text: "We find the problem for free — you only pay if we fix it." },
-  { icon: 'clock',        title: 'Same-day service', text: 'Most screen and battery repairs are done the same day.' },
-  { icon: 'shield-check', title: '90-day warranty',  text: 'Parts and labour covered on every repair we complete.' },
+const DEVICE_TYPES = [
+  { value: 'Phone', label: 'Phone' },
+  { value: 'Laptop', label: 'Laptop' },
+  { value: 'Game Console', label: 'Gaming console' },
+  { value: 'Other', label: 'Other electronics' },
+];
+const SERVICES = [
+  { title: 'Phones', image: 'phone-repair-720.webp', alt: 'Illustration of a phone being serviced', text: 'Tell us about a damaged screen, battery, charging issue, or another phone fault.' },
+  { title: 'Laptops', image: 'laptop-repair-720.webp', alt: 'Illustration of a laptop being serviced', text: 'Describe power, display, performance, or other laptop concerns.' },
+  { title: 'Gaming consoles', image: 'gaming-console-repair-720.webp', alt: 'Illustration of a gaming console being serviced', text: 'PlayStation and other consoles: share the model and what is going wrong.' },
+];
+const STEPS = [
+  { number: '01', title: 'Describe the problem', text: 'Choose a device type and tell us what is happening.' },
+  { number: '02', title: 'Send the WhatsApp message', text: 'Open the prefilled chat, review the details, and tap Send in WhatsApp.' },
+  { number: '03', title: 'The team replies', text: 'We discuss next steps and an estimate in the conversation.' },
 ];
 
 export default function Repair() {
   const [form, setForm] = useState({
-    name: '',
-    phone: '',
-    address: '',
-    deviceType: DEVICE_TYPES[0],
-    issue: '',
-    availableDate: '',
-    availableTime: TIME_SLOTS[0],
-    agreedToTerms: false,
-    website: '', // honeypot — left empty by real users, autofilled by bots
+    deviceType: DEVICE_TYPES[0].value, brandModel: '', issue: '', name: '',
   });
   const [errors, setErrors] = useState({});
-  const [serverError, setServerError] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
 
   function validate() {
     const next = {};
-    if (!form.name.trim()) next.name = 'Name is required';
-    if (!form.phone.trim()) next.phone = 'Phone number is required';
-    if (!form.address.trim()) next.address = 'Address is required';
-    if (!form.issue.trim()) next.issue = 'Please describe the issue';
-    if (!form.availableDate) next.availableDate = 'Pick a date that works for you';
-    if (!form.agreedToTerms) next.agreedToTerms = 'You must agree to the terms to book a repair';
+    if (!DEVICE_TYPES.some(({ value }) => value === form.deviceType)) next.deviceType = 'Choose a device type';
+    if (!form.issue.trim()) next.issue = 'Please describe the problem';
     setErrors(next);
     return Object.keys(next).length === 0;
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    setServerError('');
     if (!validate()) return;
-    setSubmitting(true);
-    try {
-      // Field names match RepairRequest model exactly.
-      // images: [] until an upload endpoint exists for this route (no multer on POST /repairs).
-      await api.post('/repairs', {
-        name: form.name.trim(),
-        phone: form.phone.trim(),
-        address: form.address.trim(),
-        deviceType: form.deviceType,
-        issue: form.issue.trim(),
-        availableDate: form.availableDate,
-        availableTime: form.availableTime,
-        images: [],
-        agreedToTerms: form.agreedToTerms,
-        website: form.website,
-      });
-      setDone(true);
-    } catch (err) {
-      setServerError(err.response?.data?.message || 'Could not book your repair. Please try again.');
-    } finally {
-      setSubmitting(false);
-    }
+    const url = repairWhatsappLink(form);
+    const chat = window.open(url, '_blank');
+    if (chat) chat.opener = null;
+    else window.location.assign(url);
   }
 
   return (
-    <div className="max-w-7xl mx-auto" style={{ padding: 'var(--space-10) var(--space-6) var(--pad-section)', fontFamily: 'var(--font-sans)' }}>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', marginBottom: 'var(--space-10)' }}>
-        <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 'var(--fw-semibold)', letterSpacing: 'var(--ls-wider)', textTransform: 'uppercase', color: 'var(--cobalt-700)' }}>
-          You Break It · We Fix It
-        </span>
-        <h1 style={{ margin: 0, fontSize: 'var(--fs-h1)', fontWeight: 'var(--fw-bold)', letterSpacing: 'var(--ls-tight)', color: 'var(--text-strong)' }}>
-          Book a Repair
-        </h1>
-        <p style={{ margin: 0, fontSize: 'var(--fs-body)', color: 'var(--text-muted)', maxWidth: '560px' }}>
-          Tell us what's broken and when you're available — we'll confirm your booking and get it fixed.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-
-        {/* Form */}
-        <Card className="lg:col-span-2">
-          {done ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-4)', padding: 'var(--space-10) var(--space-6)', textAlign: 'center' }}>
-              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '56px', height: '56px', borderRadius: '50%', background: 'var(--success-50)' }}>
-                <Icon name="calendar-check" size={28} color="var(--success-500)" strokeWidth={2.5} />
-              </span>
-              <p style={{ margin: 0, fontSize: 'var(--fs-h4)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
-                Repair booked
-              </p>
-              <p style={{ margin: 0, fontSize: 'var(--fs-sm)', color: 'var(--text-muted)', maxWidth: '360px' }}>
-                Your request is pending confirmation. We'll call you to confirm your slot and give you an estimate.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
-              <input
-                type="text"
-                name="website"
-                value={form.website}
-                onChange={(e) => setForm({ ...form, website: e.target.value })}
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-                style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
-              />
-              {serverError && (
-                <div style={{ padding: 'var(--space-3) var(--space-4)', background: 'var(--danger-50)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--fs-sm)', color: 'var(--danger-700)' }}>
-                  {serverError}
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <Input
-                  label="Your Name"
-                  autoComplete="name"
-                  value={form.name}
-                  error={errors.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                />
-                <Input
-                  label="Phone Number"
-                  type="tel"
-                  autoComplete="tel"
-                  value={form.phone}
-                  error={errors.phone}
-                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                />
-              </div>
-
-              <Input
-                label="Address"
-                autoComplete="street-address"
-                value={form.address}
-                error={errors.address}
-                onChange={(e) => setForm({ ...form, address: e.target.value })}
-              />
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <Select
-                  label="Device Type"
-                  options={DEVICE_TYPES}
-                  value={form.deviceType}
-                  onChange={(e) => setForm({ ...form, deviceType: e.target.value })}
-                />
-                <div className="grid grid-cols-2 gap-5">
-                  <Input
-                    label="Available Date"
-                    type="date"
-                    min={new Date().toISOString().split('T')[0]}
-                    value={form.availableDate}
-                    error={errors.availableDate}
-                    onChange={(e) => setForm({ ...form, availableDate: e.target.value })}
-                  />
-                  <Select
-                    label="Time"
-                    options={TIME_SLOTS}
-                    value={form.availableTime}
-                    onChange={(e) => setForm({ ...form, availableTime: e.target.value })}
-                  />
-                </div>
-              </div>
-
-              <Textarea
-                label="What's the issue?"
-                placeholder="e.g. Cracked screen on iPhone 13, touch still works"
-                rows={4}
-                value={form.issue}
-                error={errors.issue}
-                onChange={(e) => setForm({ ...form, issue: e.target.value })}
-              />
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-                <Checkbox
-                  label="I agree to the repair terms: diagnostics are free, and I'll approve any quoted cost before work begins."
-                  checked={form.agreedToTerms}
-                  onChange={(e) => setForm({ ...form, agreedToTerms: e.target.checked })}
-                />
-                {errors.agreedToTerms && (
-                  <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--danger-500)' }}>{errors.agreedToTerms}</span>
-                )}
-              </div>
-
-              <div>
-                <Button
-                  type="submit"
-                  variant="service"
-                  disabled={submitting || !form.agreedToTerms}
-                  iconLeft={<Icon name="calendar-check" size={18} />}
-                >
-                  {submitting ? 'Booking…' : 'Book Repair'}
-                </Button>
-              </div>
-            </form>
-          )}
-        </Card>
-
-        {/* Why us */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-          {POINTS.map(({ icon, title, text }) => (
-            <Card key={title} padding="var(--space-5)">
-              <div style={{ display: 'flex', gap: 'var(--space-4)', alignItems: 'flex-start' }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', flexShrink: 0, borderRadius: 'var(--radius-sm)', background: 'var(--cobalt-50)', color: 'var(--cobalt-600)' }}>
-                  <Icon name={icon} size={20} color="var(--cobalt-600)" />
-                </span>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                  <span style={{ fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', color: 'var(--text-strong)' }}>{title}</span>
-                  <span style={{ fontSize: 'var(--fs-sm)', color: 'var(--text-muted)', lineHeight: 'var(--lh-relaxed)' }}>{text}</span>
-                </div>
-              </div>
-            </Card>
-          ))}
+    <main className="repair-page storefront-service-page">
+      <section className="repair-page-hero" aria-labelledby="repair-title">
+        <div className="repair-page-hero-copy">
+          <p className="storefront-eyebrow">Repair enquiries</p>
+          <h1 id="repair-title">Tell us what needs fixing.</h1>
+          <p>Ask us about phones, laptops, gaming consoles, and other electronics. Describe the problem, send your enquiry on WhatsApp, and our team will reply to discuss next steps and an estimate.</p>
+          <a className="storefront-button repair-page-primary-cta" href="#repair-request">Request a repair <Icon name="arrow-right" size={18} /></a>
         </div>
-      </div>
-    </div>
+        <div className="repair-page-hero-image">
+          <img src="/assets/repair/repair-workbench-hero-720.webp" srcSet="/assets/repair/repair-workbench-hero-720.webp 720w, /assets/repair/repair-workbench-hero-1440.webp 1440w" sizes="(max-width: 767px) 100vw, 55vw" alt="Illustration of a phone, laptop, and gaming console on a repair workbench" width="1440" height="810" fetchPriority="high" />
+        </div>
+      </section>
+
+      <section className="repair-page-section repair-page-services" aria-labelledby="repair-services-title">
+        <div className="repair-page-section-heading">
+          <p className="storefront-eyebrow">What can I enquire about?</p>
+          <h2 id="repair-services-title">Start with your device.</h2>
+          <p>Share the model and symptoms, even if you are unsure what caused the problem.</p>
+        </div>
+        <div className="repair-service-grid">
+          {SERVICES.map(({ title, image, alt, text }) => (
+            <article className="repair-device-card" key={title}>
+              <img src={`/assets/repair/${image}`} alt={alt} width="720" height="720" loading="lazy" />
+              <div><h3>{title}</h3><p>{text}</p></div>
+            </article>
+          ))}
+          <article className="repair-device-card repair-device-card-other">
+            <img src="/assets/repair/electronics-diagnostics-720.webp" alt="Illustration of electronics diagnostics" width="720" height="540" loading="lazy" />
+            <div><h3>Other electronics</h3><p>Have another device? Describe it in your request so our team can assess whether we can help.</p></div>
+          </article>
+        </div>
+      </section>
+
+      <section className="repair-page-section repair-process" aria-labelledby="repair-process-title">
+        <div className="repair-page-section-heading">
+          <p className="storefront-eyebrow">How it works</p>
+          <h2 id="repair-process-title">A clear next step.</h2>
+        </div>
+        <ol className="repair-process-grid">
+          {STEPS.map(({ number, title, text }) => <li key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></li>)}
+        </ol>
+      </section>
+
+      <section className="repair-page-section repair-faq" aria-labelledby="repair-faq-title">
+        <div className="repair-page-section-heading">
+          <p className="storefront-eyebrow">Good to know</p>
+          <h2 id="repair-faq-title">Before you send a request.</h2>
+        </div>
+        <div className="repair-faq-list">
+          <details><summary>Does opening WhatsApp send my request?</summary><p>No. WhatsApp opens with a draft. Review it and tap Send there to contact our team.</p></details>
+          <details><summary>Will I see a repair price here?</summary><p>No. Send the device details and issue first; our team will reply to discuss next steps and an estimate.</p></details>
+          <details><summary>What if my device is not listed?</summary><p>Select “Other electronics” and describe the device in the problem field. The team can then assess your enquiry.</p></details>
+        </div>
+      </section>
+
+      <section className="repair-page-section repair-request-section" id="repair-request" aria-labelledby="repair-request-title">
+        <div className="repair-page-section-heading">
+          <p className="storefront-eyebrow">Send your enquiry</p>
+          <h2 id="repair-request-title">Request a repair.</h2>
+          <p>Tell us about the device and issue. We will open a prefilled WhatsApp chat; review it and tap Send there to deliver your enquiry.</p>
+        </div>
+        <Card className="repair-request-card">
+          <form onSubmit={handleSubmit} noValidate className="repair-request-form">
+            <div className="repair-form-row">
+              <Select label="Device type" options={DEVICE_TYPES} value={form.deviceType} error={errors.deviceType} onChange={(e) => setForm({ ...form, deviceType: e.target.value })} />
+              <Input label="Brand and model (if known)" placeholder="e.g. Samsung Galaxy S23 or PlayStation 5" value={form.brandModel} onChange={(e) => setForm({ ...form, brandModel: e.target.value })} />
+            </div>
+            <Textarea label="Describe the problem" placeholder="What is happening? For other electronics, please describe the device too." rows={5} value={form.issue} error={errors.issue} onChange={(e) => setForm({ ...form, issue: e.target.value })} />
+            <Input label="Your name (optional)" autoComplete="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+            <p className="repair-whatsapp-note">WhatsApp will open with a draft. Your request reaches us only after you tap Send there.</p>
+            <Button type="submit" variant="service" iconRight={<Icon name="arrow-up-right" size={18} />}>Open WhatsApp draft</Button>
+          </form>
+        </Card>
+      </section>
+    </main>
   );
 }

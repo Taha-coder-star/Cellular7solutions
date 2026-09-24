@@ -28,14 +28,14 @@ const SERVICES = [
   {
     icon: 'wrench',
     title: 'Device Repair',
-    text: 'Screens, batteries, charging ports, cameras, water damage — diagnosed free, fixed fast.',
+    text: 'Tell us about a phone, laptop, console, or other electronic device in a WhatsApp repair enquiry.',
     to: '/repair',
-    cta: 'Book Repair',
+    cta: 'Request a repair',
   },
   {
     icon: 'truck',
     title: 'Buy & Sell Used Phones',
-    text: 'Trade in your old device for cash, or pick up a certified used phone at a fair price.',
+    text: 'Trade in your old device, or ask us on WhatsApp about a used phone.',
     to: '/buysell',
     cta: 'Get a Quote',
   },
@@ -61,7 +61,7 @@ const eyebrow = {
 
 export default function About() {
   return (
-    <div style={{ fontFamily: 'var(--font-sans)' }}>
+    <div className="storefront-about" style={{ fontFamily: 'var(--font-sans)' }}>
 
       {/* Intro */}
       <section style={{ background: 'var(--surface-dark)', padding: 'var(--pad-section) var(--space-6)' }}>
@@ -71,7 +71,7 @@ export default function About() {
             About Cellular Solutions
           </h1>
           <p style={{ margin: 0, fontSize: 'var(--fs-lg)', lineHeight: 'var(--lh-relaxed)', color: 'var(--graphite-400)' }}>
-            We're a local electronics store and repair shop with one simple promise: sell great devices at fair prices, and fix broken ones fast. Whether you're upgrading, trading in, or rescuing a cracked screen — we've got you.
+            We're a local electronics store and repair shop. Whether you're upgrading, trading in, or asking about a device repair, our team can help you find the next step.
           </p>
         </div>
       </section>
@@ -83,7 +83,7 @@ export default function About() {
             <span style={eyebrow}>Our Mission</span>
             <h2 style={sectionHeading}>Technology should work for you — not against you.</h2>
             <p style={{ margin: 0, fontSize: 'var(--fs-body)', color: 'var(--text-body)', lineHeight: 'var(--lh-relaxed)' }}>
-              A broken phone shouldn't mean an expensive replacement, and buying a device shouldn't feel like a gamble. That's why every product we sell is checked and backed, every repair starts with a free diagnosis, and every price is upfront — no surprises at the counter.
+              Choosing a device shouldn't feel like a gamble. Each listing shows condition and availability, and you can ask us about pricing and details on WhatsApp before deciding. For repairs, describe your device and issue in a WhatsApp enquiry.
             </p>
             <p style={{ margin: 0, fontSize: 'var(--fs-body)', color: 'var(--text-body)', lineHeight: 'var(--lh-relaxed)' }}>
               We treat every customer like a neighbor, because most of them are. That's how a repair shop earns repeat visits — and why so much of our business comes from word of mouth.
@@ -136,10 +136,10 @@ export default function About() {
       {/* CTA */}
       <section style={{ padding: 'var(--pad-section) var(--space-6)' }}>
         <div className="max-w-3xl mx-auto" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 'var(--space-6)' }}>
-          <h2 style={sectionHeading}>Come see us — or start shopping now.</h2>
+          <h2 style={sectionHeading}>Come see us — or browse what's available.</h2>
           <div style={{ display: 'flex', gap: 'var(--space-4)', flexWrap: 'wrap', justifyContent: 'center' }}>
             <Button as={Link} to="/shop" variant="product" size="lg" iconRight={<Icon name="arrow-right" size={18} />} style={{ textDecoration: 'none' }}>
-              Shop Now
+              Browse Products
             </Button>
             <Button as={Link} to="/contact" variant="secondary" size="lg" style={{ textDecoration: 'none' }}>
               Contact Us

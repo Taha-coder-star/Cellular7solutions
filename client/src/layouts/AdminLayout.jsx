@@ -6,7 +6,6 @@ const NAV = [
   { to: '/admin', label: 'Dashboard', icon: 'monitor', end: true },
   { to: '/admin/products', label: 'Products', icon: 'smartphone' },
   { to: '/admin/orders', label: 'Orders', icon: 'shopping-cart' },
-  { to: '/admin/repairs', label: 'Repairs', icon: 'wrench', service: true },
   { to: '/admin/buysell', label: 'Buy & Sell', icon: 'dollar-sign', service: true },
   { to: '/admin/categories', label: 'Categories', icon: 'menu' },
   { to: '/admin/brands', label: 'Brands', icon: 'shield-check' },
