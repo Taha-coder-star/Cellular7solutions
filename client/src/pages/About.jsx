@@ -71,7 +71,7 @@ export default function About() {
             About Cellular Solutions
           </h1>
           <p style={{ margin: 0, fontSize: 'var(--fs-lg)', lineHeight: 'var(--lh-relaxed)', color: 'var(--graphite-400)' }}>
-            We're a local electronics store and repair shop. Whether you're upgrading, trading in, or asking about a device repair, our team can help you find the next step.
+            Cellular Solutions, also known as Cellular Seven Solutions, is a local electronics store and repair shop. Whether you're upgrading, trading in, or asking about a device repair, our team can help you find the next step.
           </p>
         </div>
       </section>
