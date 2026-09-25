@@ -31,8 +31,7 @@ A full-stack MERN application for a mobile phone accessories and electronics ret
 - Search with in-nav suggestions
 - Product detail pages with multiple images, reviews
 - Checkout with name/email/phone/address per order — no signup
-- Submit buy/sell (trade-in) requests
-- Open a prefilled WhatsApp repair enquiry; the customer sends it in WhatsApp
+- Open prefilled WhatsApp buy/sell (trade-in) and repair enquiries; the customer sends them in WhatsApp
 - Leave a product review
 
 ### Admin (single account)
@@ -40,7 +39,7 @@ A full-stack MERN application for a mobile phone accessories and electronics ret
 - Product management (CRUD + image upload)
 - Category and brand management
 - Order management with status updates
-- Buy/sell request management; legacy repair records remain accessible through the protected API
+- Historical buy/sell and repair request management through the protected API
 - Review moderation (delete)
 
 ---
@@ -190,7 +189,7 @@ Standard public GET, admin-only POST/PUT/DELETE under `/api/categories` and `/ap
 | Method | Endpoint | Access | Description |
 |---|---|---|---|
 | POST | `/api/repairs` | Public | Returns 410; new repair enquiries go through WhatsApp |
-| POST | `/api/buysell` | Public (rate-limited + honeypot) | Submit a buy/sell request |
+| POST | `/api/buysell` | Public (rate-limited + honeypot) | Legacy buy/sell submission endpoint; the storefront now opens a WhatsApp draft |
 | GET | `/api/repairs`, `/api/buysell` | Admin | List historical repair or buy/sell requests |
 | PUT | `/api/repairs/:id`, `/api/buysell/:id/status` | Admin | Update status |
 | DELETE | `/api/repairs/:id`, `/api/buysell/:id` | Admin | Delete request |

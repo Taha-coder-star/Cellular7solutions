@@ -10,13 +10,13 @@ export default function PrivacyPolicy() {
       <p style={{ ...p, color: 'var(--text-muted)' }}>Last updated {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
 
       <h2 style={h2}>What we collect</h2>
-      <p style={p}>When you submit a website form, we collect the information it asks for. Repair enquiries are drafted on this page and opened in WhatsApp; they are not submitted to our website or admin panel. If you tap Send in WhatsApp, the conversation is handled there.</p>
+      <p style={p}>When you submit a website form, we collect the information it asks for. Repair and buy/sell enquiries open as WhatsApp drafts; they are not submitted to our website or admin panel. If you tap Send in WhatsApp, the conversation is handled there.</p>
 
       <h2 style={h2}>How we use it</h2>
-      <p style={p}>We use information from website forms to fulfil the relevant request, such as following up on a buy/sell offer, processing an order, or displaying a review. Repair enquiries are handled through the WhatsApp conversation. We do not sell or rent your information to third parties.</p>
+      <p style={p}>We use information from website forms to fulfil the relevant request, such as processing an order or displaying a review. Repair and buy/sell enquiries are handled through the WhatsApp conversation. We do not sell or rent your information to third parties.</p>
 
       <h2 style={h2}>Where it's stored</h2>
-      <p style={p}>Data submitted through website forms is stored in a MongoDB Atlas database. Product and request images are hosted by Cloudinary. Repair messages sent through WhatsApp are handled by WhatsApp, not stored as new repair requests in our website database.</p>
+      <p style={p}>Data submitted through website forms is stored in a MongoDB Atlas database. Product and request images are hosted by Cloudinary. Repair and buy/sell messages sent through WhatsApp are handled by WhatsApp, not stored as new requests in our website database.</p>
 
       <h2 style={h2}>Cookies</h2>
       <p style={p}>We do not use tracking or advertising cookies. The admin panel uses browser local storage to keep an administrator signed in — this is functional only and not used to track visitors.</p>

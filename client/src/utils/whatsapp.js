@@ -30,3 +30,15 @@ export function repairWhatsappLink({ deviceType, brandModel, issue, name }) {
   if (name?.trim()) lines.push('', `Name: ${name.trim()}`);
   return whatsappMessageLink(lines.join('\n'));
 }
+
+export function buySellWhatsappLink({ name, phone, device, condition, description }) {
+  const lines = [
+    'Hi Cellular Solutions, I would like a quote for my device.',
+    '',
+    `Device: ${device.trim()}`,
+    `Condition: ${condition}`,
+  ];
+  if (description?.trim()) lines.push(`Details: ${description.trim()}`);
+  lines.push('', `Name: ${name.trim()}`, `Phone: ${phone.trim()}`);
+  return whatsappMessageLink(lines.join('\n'));
+}

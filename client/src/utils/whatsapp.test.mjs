@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { repairWhatsappLink, whatsappLink, WHATSAPP_NUMBER } from './whatsapp.js';
+import { buySellWhatsappLink, repairWhatsappLink, whatsappLink, WHATSAPP_NUMBER } from './whatsapp.js';
 
 const productUrl = new URL(whatsappLink({ name: 'Test phone' }));
 assert.equal(productUrl.pathname, `/${WHATSAPP_NUMBER}`);
@@ -34,4 +34,16 @@ const optional = new URL(repairWhatsappLink({
 })).searchParams.get('text');
 assert.doesNotMatch(optional, /Brand and model:|Name:/);
 
-console.log('Product and repair WhatsApp links use the same number; all device labels and special characters passed.');
+const buySellUrl = new URL(buySellWhatsappLink({
+  name: 'Test Customer', phone: '+1 555 123 4567', device: 'iPhone 13 & case',
+  condition: 'Good', description: 'Screen has a scratch\nBattery at 80%',
+}));
+assert.equal(buySellUrl.pathname, productUrl.pathname);
+assert.match(buySellUrl.searchParams.get('text'), /quote for my device/);
+assert.match(buySellUrl.searchParams.get('text'), /Device: iPhone 13 & case/);
+assert.match(buySellUrl.searchParams.get('text'), /Condition: Good/);
+assert.match(buySellUrl.searchParams.get('text'), /Details: Screen has a scratch\nBattery at 80%/);
+assert.match(buySellUrl.searchParams.get('text'), /Name: Test Customer\nPhone: \+1 555 123 4567/);
+assert.match(buySellUrl.search, /%26/);
+
+console.log('Product, repair, and buy/sell WhatsApp links use the same number and preserve message details.');

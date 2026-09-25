@@ -1,22 +1,18 @@
 import { useState } from 'react';
 import { Button, Card, Input, Textarea, Select, Icon } from '@/components/ui';
-import api from '@/services/api';
+import { buySellWhatsappLink } from '@/utils/whatsapp';
 
-// ⚑ Condition options are placeholders (backend stores a free string) — confirm wording with client
 const CONDITIONS = ['Like New', 'Good', 'Fair', 'Broken / For Parts'];
 
 const STEPS = [
   { icon: 'smartphone', title: 'Tell us about your device', text: 'Model, condition, and anything we should know.' },
-  { icon: 'search',     title: 'We review your request',    text: 'Our team checks the details and prepares an offer.' },
-  { icon: 'dollar-sign', title: 'Get your quote',           text: 'We contact you with a fair cash offer — no obligation.' },
+  { icon: 'search',     title: 'Send the WhatsApp message', text: 'Review the prefilled details and tap Send in WhatsApp.' },
+  { icon: 'dollar-sign', title: 'Get your quote',           text: 'Our team replies with an offer — no obligation.' },
 ];
 
 export default function BuySell() {
-  const [form, setForm] = useState({ name: '', phone: '', device: '', condition: CONDITIONS[0], description: '', website: '' });
+  const [form, setForm] = useState({ name: '', phone: '', device: '', condition: CONDITIONS[0], description: '' });
   const [errors, setErrors] = useState({});
-  const [serverError, setServerError] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
 
   function validate() {
     const next = {};
@@ -27,29 +23,13 @@ export default function BuySell() {
     return Object.keys(next).length === 0;
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    setServerError('');
     if (!validate()) return;
-    setSubmitting(true);
-    try {
-      // Field names match BuySellRequest model exactly.
-      // images: [] until an upload endpoint exists for this route (no multer on POST /buysell).
-      await api.post('/buysell', {
-        name: form.name.trim(),
-        phone: form.phone.trim(),
-        device: form.device.trim(),
-        condition: form.condition,
-        description: form.description.trim(),
-        images: [],
-        website: form.website,
-      });
-      setDone(true);
-    } catch (err) {
-      setServerError(err.response?.data?.message || 'Could not submit your request. Please try again.');
-    } finally {
-      setSubmitting(false);
-    }
+    const url = buySellWhatsappLink(form);
+    const chat = window.open(url, '_blank');
+    if (chat) chat.opener = null;
+    else window.location.assign(url);
   }
 
   return (
@@ -63,7 +43,7 @@ export default function BuySell() {
           Buy &amp; Sell Used Phones
         </h1>
         <p style={{ margin: 0, fontSize: 'var(--fs-body)', color: 'var(--text-muted)', maxWidth: '560px' }}>
-          Selling your device? Tell us what you've got and we'll get back to you with a fair offer.
+          Selling your device? Tell us what you've got, then send the details on WhatsApp for an offer.
         </p>
       </div>
 
@@ -71,35 +51,7 @@ export default function BuySell() {
 
         {/* Form */}
         <Card className="lg:col-span-2">
-          {done ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-4)', padding: 'var(--space-10) var(--space-6)', textAlign: 'center' }}>
-              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '56px', height: '56px', borderRadius: '50%', background: 'var(--success-50)' }}>
-                <Icon name="check" size={28} color="var(--success-500)" strokeWidth={2.5} />
-              </span>
-              <p style={{ margin: 0, fontSize: 'var(--fs-h4)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
-                Request received
-              </p>
-              <p style={{ margin: 0, fontSize: 'var(--fs-sm)', color: 'var(--text-muted)', maxWidth: '360px' }}>
-                We'll review your device details and call you with a quote — usually within one business day.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
-              <input
-                type="text"
-                name="website"
-                value={form.website}
-                onChange={(e) => setForm({ ...form, website: e.target.value })}
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-                style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
-              />
-              {serverError && (
-                <div style={{ padding: 'var(--space-3) var(--space-4)', background: 'var(--danger-50)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--fs-sm)', color: 'var(--danger-700)' }}>
-                  {serverError}
-                </div>
-              )}
+          <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <Input
@@ -144,12 +96,14 @@ export default function BuySell() {
               />
 
               <div>
-                <Button type="submit" variant="service" disabled={submitting} iconLeft={<Icon name="dollar-sign" size={18} />}>
-                  {submitting ? 'Submitting…' : 'Get Free Quote'}
+                <p style={{ margin: '0 0 var(--space-4)', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)' }}>
+                  WhatsApp will open with a draft. Your request reaches us after you tap Send there.
+                </p>
+                <Button type="submit" variant="service" iconRight={<Icon name="arrow-up-right" size={18} />}>
+                  Open WhatsApp draft
                 </Button>
               </div>
-            </form>
-          )}
+          </form>
         </Card>
 
         {/* How it works */}
