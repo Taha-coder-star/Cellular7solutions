@@ -1,0 +1,80 @@
+.storefront-home { --home-radius: 12px; }
+.storefront-home ::selection { background: #dbeafe; color: #18181b; }
+.storefront-home a:focus-visible { outline: 3px solid var(--cobalt-500); outline-offset: 5px; }
+.storefront-home .storefront-button { border-radius: var(--home-radius); }
+.home-hero h1 { letter-spacing: -.03em; }
+.home-hero-copy > .home-hero-description { margin-bottom: 20px; }
+.home-hero-copy > .home-hero-availability { margin: 0 0 18px; color: #f2d5bd; font-size: .95rem; font-weight: 600; line-height: 1.5; }
+.home-hero-actions .storefront-button { font-size: .95rem; }
+.home-hero-actions .storefront-button-outline { border-color: #a4a5ac; }
+.home-proof-inner { gap: 24px; padding-block: 32px; }
+.home-proof-item strong { font-size: .88rem; }
+.home-proof-item span { font-size: .82rem; color: #52525b; }
+.home-proof-link { min-height: 44px; display: inline-flex; align-items: center; font-size: .85rem; }
+.home-categories { padding-block: 64px; background: #fff; }
+.home-categories .storefront-section-heading { margin-bottom: 28px; }
+.home-categories .storefront-section-heading h2 { letter-spacing: -.03em; }
+.home-categories .storefront-text-link { min-height: 44px; font-size: .9rem; }
+.home-category-grid { gap: 12px; }
+.home-category-card { border-radius: var(--home-radius); }
+.home-category-content strong, .home-category-card-1 .home-category-content strong, .home-category-service-copy > strong { letter-spacing: -.025em; }
+.home-category-content small { font-size: .85rem; }
+.home-category-arrow { width: 44px; height: 44px; }
+.home-category-shade { background: linear-gradient(180deg, transparent 30%, rgba(12,18,29,.88) 100%); }
+.home-category-service-glow { display: none; }
+.home-category-card-service { background: var(--cobalt-600); }
+.home-category-service-copy > small { font-size: .8rem; }
+.home-category-service-button { min-height: 36px; padding-inline: 12px; font-size: .75rem; }
+.home-repair-intro-inner { padding-block: 56px; }
+.home-repair-intro-image, .repair-showcase-media { border-radius: var(--home-radius); }
+.home-repair-intro h2, .repair-showcase h2 { letter-spacing: -.025em; }
+.home-statement { padding-block: clamp(88px, 9vw, 136px); }
+.home-statement p { max-width: 1020px; font-size: clamp(2.25rem, 4.5vw, 4.5rem); letter-spacing: -.03em; line-height: 1.17; }
+.home-statement a { min-height: 44px; color: #fff; }
+.repair-showcase { padding-block: 96px; }
+.repair-service-panel { padding: 18px 0; border: 0; border-top: 1px solid #c6cfdd; border-radius: 0; }
+.repair-service-panel strong { font-size: .9rem; }
+.repair-service-panel span { font-size: .85rem; line-height: 1.5; color: #52525b; }
+@media (max-width: 1023px) {
+  .home-proof-inner { gap: 18px 32px; }
+  .home-proof-link { justify-self: start; }
+}
+@media (max-width: 767px) {
+  .home-hero-inner { padding-top: 40px; }
+  .home-hero-copy > .home-hero-description { max-width: 36ch; line-height: 1.65; margin: 20px auto 16px; }
+  .home-hero-copy > .home-hero-availability { margin-bottom: 20px; font-size: .9rem; }
+  .home-hero-actions { display: grid; grid-template-columns: 1fr; width: min(100%, 300px); margin: auto; }
+  .home-hero-actions .storefront-button { min-height: 50px; font-size: .95rem; }
+  .home-hero-art { height: clamp(260px, 74vw, 480px); margin-top: 20px; }
+  .home-repair-intro-inner { padding-block: 40px; gap: 24px; }
+  .home-repair-intro h2 { font-size: clamp(1.9rem, 7vw, 2.4rem); }
+  .home-repair-intro-cta { min-height: 50px; }
+  .home-proof-inner { padding: 28px 20px; }
+  .home-proof-item { grid-template-columns: 1fr; gap: 4px; padding-block: 14px; }
+  .home-proof-item strong { font-size: .95rem; }
+  .home-proof-item span { font-size: .9rem; }
+  .home-categories { padding: 44px 20px; }
+  .home-category-grid { gap: 12px; }
+  .home-category-card-2, .home-category-card-3, .home-category-card-4, .home-category-card-service { min-height: 230px; }
+  .home-category-content { left: 14px; right: 14px; bottom: 65px; gap: 6px; }
+  .home-category-card-1 .home-category-content { left: 18px; right: 68px; bottom: 20px; }
+  .home-category-content strong { font-size: 1.1rem; }
+  .home-category-content small { font-size: .8rem; }
+  .home-category-arrow { right: 12px; bottom: 12px; width: 44px; height: 44px; }
+  .home-category-arrow svg { width: 20px; height: 20px; }
+  .home-category-service-copy { inset: 16px 14px; width: auto; }
+  .home-category-service-copy > strong { font-size: 1.15rem; }
+  .home-category-service-copy > small { font-size: .8rem; }
+  .home-category-service-button { min-height: 40px; margin-top: 12px; font-size: .75rem; }
+  .home-statement { padding: 80px 24px; }
+  .home-statement p { font-size: clamp(2rem, 7.8vw, 2.75rem); }
+  .repair-showcase { padding-block: 56px; }
+  .repair-showcase-media { margin-bottom: 32px; }
+  .repair-showcase h2 { font-size: clamp(2.1rem, 8vw, 3rem); }
+  .repair-service-accordion { gap: 0; }
+  .repair-service-panel { padding-block: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .storefront-home a, .storefront-home img, .home-category-arrow { transition: none; }
+  .storefront-home .storefront-button:hover { transform: none; }
+}

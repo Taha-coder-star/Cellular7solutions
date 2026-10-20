@@ -1,0 +1,29 @@
+.home-hero { min-height: 0; background: #0d0e12; }
+.home-hero-inner { display: flex; align-items: center; max-width: 1774px; min-height: clamp(540px, 45vw, 760px); padding: 72px clamp(24px, 6vw, 96px); isolation: isolate; }
+.home-hero-copy { width: 44%; max-width: 640px; }
+.home-hero h1 { color: #fff; font-size: clamp(2.8rem, 4.6vw, 5.2rem); line-height: 1.04; letter-spacing: -.045em; text-wrap: initial; text-shadow: 0 2px 24px rgba(0,0,0,.35); }
+.home-hero-copy > .home-hero-eyebrow { margin: 0 0 22px; color: #f2d5bd; font-size: .75rem; line-height: 1.4; letter-spacing: .14em; font-weight: 650; text-transform: uppercase; }
+.home-hero-copy > .home-hero-description { max-width: 440px; margin: 26px 0 30px; color: #e1e2e7; font-size: clamp(.95rem, 1.15vw, 1.15rem); line-height: 1.7; }
+.home-hero-actions { display: flex; gap: 12px; }
+.home-hero-actions .storefront-button { gap: 12px; padding-inline: 20px; font-size: .9rem; }
+.home-hero-art { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 1; transform: none; z-index: -1; pointer-events: none; }
+.home-hero-art img { inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 0; transform: none; box-shadow: none; filter: none; }
+.home-hero-art::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8,9,12,.92) 0%, rgba(8,9,12,.75) 30%, rgba(8,9,12,.18) 46%, transparent 58%); }
+@media (max-width: 1023px) and (min-width: 768px) {
+  .home-hero-inner { min-height: 520px; padding-inline: 32px; }
+  .home-hero-copy { width: 43%; }
+  .home-hero h1 { font-size: clamp(2.4rem, 4.5vw, 3rem); }
+  .home-hero-art img { object-position: 58% center; }
+}
+@media (max-width: 767px) {
+  .home-hero-inner { display: flex; flex-direction: column; min-height: 0; padding: 44px 20px 0; }
+  .home-hero-copy { width: 100%; max-width: 520px; text-align: center; }
+  .home-hero h1 { font-size: clamp(2.5rem, 8.8vw, 3.8rem); }
+  .home-hero-copy > .home-hero-eyebrow { margin-bottom: 16px; font-size: .68rem; }
+  .home-hero-copy > .home-hero-description { margin: 20px auto 24px; font-size: .95rem; }
+  .home-hero-actions { display: flex; justify-content: center; gap: 10px; }
+  .home-hero-actions .storefront-button { min-height: 48px; padding-inline: 14px; gap: 8px; font-size: .8rem; }
+  .home-hero-art { position: relative; inset: auto; width: calc(100% + 40px); height: clamp(260px, 76vw, 480px); flex: none; margin-top: 24px; z-index: 0; }
+  .home-hero-art img { object-position: right center; }
+  .home-hero-art::after { background: linear-gradient(180deg, #0d0e12, transparent 18%); }
+}

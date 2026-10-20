@@ -17,7 +17,6 @@ export default function RepairIntro() {
           />
         </div>
         <div className="home-repair-intro-copy">
-          <p className="storefront-eyebrow">Repair enquiries</p>
           <h2 id="home-repair-intro-title">Help for the tech you already own.</h2>
           <p>Phones, laptops, gaming consoles, and other electronics: describe the issue and send a WhatsApp enquiry. Our team can then reply about next steps and an estimate.</p>
           <Link className="storefront-button home-repair-intro-cta" to="/repair">Request a repair <Icon name="arrow-right" size={18} /></Link>

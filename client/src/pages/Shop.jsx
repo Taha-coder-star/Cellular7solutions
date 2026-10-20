@@ -83,20 +83,29 @@ const CONDITIONS = [
 
 export default function Shop({ forcedCategoryId, breadcrumbOverride } = {}) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [brands, setBrands] = useState([]);
+  const [brandsLoaded, setBrandsLoaded] = useState(false);
+  const requestedBrand = searchParams.get('brand');
+  const brandNeedsResolution = Boolean(requestedBrand && !/^[a-f0-9]{24}$/i.test(requestedBrand));
+  const resolvedBrand = brandNeedsResolution
+    ? brands.find((brand) => brand.slug === requestedBrand || brand.name.toLowerCase() === requestedBrand.toLowerCase())?._id
+    : requestedBrand;
 
   // Keyed off the query string, not `searchParams` itself — react-router
   // hands back a new URLSearchParams instance most renders, which would
   // otherwise bust this memo (and the products effect below) every render.
   const searchString = searchParams.toString();
-  const filters = useMemo(() => ({
-    category: forcedCategoryId || searchParams.get('category') || undefined,
-    brand: searchParams.get('brand') || undefined,
-    condition: searchParams.get('condition') || undefined,
-    search: searchParams.get('search') || undefined,
-  }), [searchString, forcedCategoryId]);
+  const filters = useMemo(() => {
+    const params = new URLSearchParams(searchString);
+    return {
+      category: forcedCategoryId || params.get('category') || undefined,
+      brand: resolvedBrand || undefined,
+      condition: params.get('condition') || undefined,
+      search: params.get('search') || undefined,
+    };
+  }, [searchString, forcedCategoryId, resolvedBrand]);
 
   const [categories, setCategories] = useState([]);
-  const [brands, setBrands] = useState([]);
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
@@ -109,7 +118,7 @@ export default function Shop({ forcedCategoryId, breadcrumbOverride } = {}) {
   // active-filter chips when a category/brand arrives via the URL.
   useEffect(() => {
     api.get('/categories').then(({ data }) => setCategories(data ?? [])).catch(() => {});
-    api.get('/brands').then(({ data }) => setBrands(data ?? [])).catch(() => {});
+    api.get('/brands').then(({ data }) => setBrands(data ?? [])).catch(() => {}).finally(() => setBrandsLoaded(true));
   }, []);
 
   // Products — refetch from page 1 whenever a filter changes.
@@ -117,6 +126,18 @@ export default function Shop({ forcedCategoryId, breadcrumbOverride } = {}) {
     let alive = true;
     setLoading(true);
     setError(false);
+
+    // A named brand must resolve before fetching, so a failed lookup never
+    // falls back to showing every brand in the category.
+    if (brandNeedsResolution && !resolvedBrand) {
+      if (brandsLoaded) {
+        setProducts([]);
+        setTotal(0);
+        setError(true);
+        setLoading(false);
+      }
+      return () => { alive = false; };
+    }
 
     api
       .get('/products', { params: { ...filters, page: 1, limit: PAGE_SIZE } })
@@ -131,7 +152,7 @@ export default function Shop({ forcedCategoryId, breadcrumbOverride } = {}) {
       .finally(() => { if (alive) setLoading(false); });
 
     return () => { alive = false; };
-  }, [filters]);
+  }, [filters, brandNeedsResolution, resolvedBrand, brandsLoaded]);
 
   function loadMore() {
     const nextPage = page + 1;
@@ -165,7 +186,9 @@ export default function Shop({ forcedCategoryId, breadcrumbOverride } = {}) {
 
   const pageTitle = filters.search
     ? `Results for "${filters.search}"`
-    : breadcrumbOverride?.length
+    : activeBrand && activeCategory
+      ? `${normalizeBrandName(activeBrand.name)} ${activeCategory.name}`
+      : breadcrumbOverride?.length
       ? breadcrumbOverride[breadcrumbOverride.length - 1].name
       : activeCategory?.name ?? 'All Products';
 

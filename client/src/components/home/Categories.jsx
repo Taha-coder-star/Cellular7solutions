@@ -10,7 +10,7 @@ const PHOTO_BY_NAME = {
 };
 
 export default function Categories() {
-  const { categories, error } = useTopCategories(4);
+  const { categories, loading, error } = useTopCategories(4);
   const preferredOrder = ['smartphones', 'samsung cases', 'apple parts', 'accessories'];
   const rank = (name) => {
     const index = preferredOrder.indexOf(name.toLowerCase());
@@ -22,16 +22,17 @@ export default function Categories() {
     <section className="home-categories storefront-section" aria-labelledby="categories-heading">
       <div className="storefront-section-heading">
         <div>
-          <p className="storefront-eyebrow">Shop by category</p>
           <h2 id="categories-heading">Find what moves you</h2>
         </div>
         <Link className="storefront-text-link" to="/shop">Shop all products <Icon name="arrow-right" size={17} /></Link>
       </div>
 
-      {error && <p className="storefront-muted">Categories are unavailable right now. <Link to="/shop">Browse the shop</Link>.</p>}
-      {!error && (
+      {loading && <p className="sr-only" role="status">Loading categories.</p>}
+      {error && <p className="storefront-muted" role="status">Categories are unavailable right now. <Link to="/shop">Browse the shop</Link>.</p>}
+      {!error && categories?.length === 0 && <p className="storefront-muted">No categories to browse yet. <Link to="/shop">Browse the shop</Link>.</p>}
+      {!error && (!categories || categories.length > 0) && (
         <div className="home-category-grid grid-flow-dense">
-          {Array.from({ length: 4 }).map((_, index) => {
+          {Array.from({ length: orderedCategories ? Math.min(4, orderedCategories.length) : 4 }).map((_, index) => {
             const category = orderedCategories?.[index];
             const image = category ? PHOTO_BY_NAME[category.name.toLowerCase()] : null;
             return category ? (

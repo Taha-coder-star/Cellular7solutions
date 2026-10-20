@@ -143,6 +143,8 @@ A near-monochrome graphite system with a single reserved accent; the restraint i
 ### Named Rules
 **The Reserved Accent Rule.** Cobalt blue only ever means "repair or service." If a button, badge, or link isn't part of the repair/unlock/buy-sell flow, it does not get cobalt — it gets graphite. Breaking this rule dilutes the one signal the palette is built to send.
 
+**Product inquiry rule.** Product pages and cards lead to WhatsApp inquiries about a specific item. Do not display product prices or suggest that the website offers a cart or checkout.
+
 ## 3. Typography
 
 **Display Font:** Inter (with -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial fallbacks)

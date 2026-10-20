@@ -10,11 +10,11 @@ web
 
 ## Users
 
-Primary audience is new customers discovering Cellular Solutions online who have never visited the physical store — they're comparing phones, accessories, and used devices, and deciding whether this business is trustworthy enough to buy from sight-unseen. The business already has an established in-store customer base; the website's job is to extend that trust to people outside that existing circle. A secondary audience is existing/local customers who want to check stock, prices, or book a repair before visiting in person.
+Primary audience is new customers discovering Cellular Solutions online who have never visited the physical store — they're comparing phones, accessories, and used devices, and deciding whether this business is trustworthy enough to contact about a product. The business already has an established in-store customer base; the website's job is to extend that trust to people outside that existing circle. A secondary audience is existing/local customers who want to check stock or book a repair before visiting in person.
 
 ## Product Purpose
 
-A full online sales channel for Cellular Solutions — new and used phones, tablets, laptops, and accessories — that converts online visitors into completed purchases (via Stripe checkout) at the same priority as it drives store visits and service bookings. It also handles repair, unlock, and buy/sell-used requests as parallel conversion paths. Success looks like online orders and service bookings from people who found the business through the website, not just through the physical storefront.
+A product discovery and inquiry channel for Cellular Solutions — new and used phones, tablets, laptops, and accessories. Visitors browse products, then contact the business directly on WhatsApp to ask about availability and price and arrange a purchase. Product prices are not displayed on the website, and there is no cart or checkout. Repair, unlock, and buy/sell-used requests remain parallel service paths. Success means qualified WhatsApp product inquiries and service bookings from people who found the business through the website.
 
 ## Positioning
 
@@ -22,9 +22,9 @@ The one-stop shop for new devices, used devices, and repair — where a generic 
 
 ## Conversion & proof
 
-- Primary and secondary CTA: Buy now (Shop / Add to cart) is primary; for visitors not ready to buy, redirect to Book a repair / Get a quote as the fallback conversion path.
-- The line a visitor remembers after 10 seconds: This is a real shop that sells new and used devices and can also fix what you already own.
-- Belief ladder: (1) This looks like a legitimate, professional business, not a fly-by-night reseller → (2) Their prices and stock are trustworthy and current → (3) Buying used or getting a repair here is safe and low-risk → (4) I can complete this purchase (or booking) online with confidence.
+- Primary and secondary CTA: Browse products, then inquire about a specific item on WhatsApp; Book a repair / Get a quote are parallel service paths.
+- The line a visitor remembers after 10 seconds: This is a real shop where I can find a new or used device, ask about it on WhatsApp, and get my current device repaired.
+- Belief ladder: (1) This looks like a legitimate, professional business → (2) Product condition and availability are clear → (3) I can ask a real person about price and details before deciding → (4) Contacting the business on WhatsApp is straightforward.
 - Proof on hand: none currently available. Revisit this section once testimonials, review scores, years-in-business, or brand/partner logos are collected.
 
 ## Brand Personality
@@ -37,10 +37,10 @@ Cluttered, dated phone-shop sites: crowded layouts, banner spam, discount sticke
 
 ## Design Principles
 
-- Trust before transaction — every page should read as legitimate and professional first, since the primary job is convincing strangers to buy sight-unseen.
+- Trust before inquiry — every page should read as legitimate and professional first, since the primary job is convincing strangers to contact the business about a product.
 - One-stop breadth, single clean story — new, used, and repair all live here, but the site should never feel crowded; breadth is communicated through clear structure, not visual density.
 - Premium restraint, not cold minimalism — Apple-like polish (whitespace, smooth motion, rounded cards) without feeling sterile or unapproachable to a local customer base.
-- Buy-now is the default path — every surface should make purchasing the path of least resistance, with repair/quote booking as the natural fallback for anyone not ready to buy.
+- WhatsApp inquiry is the product conversion path — product surfaces should lead visitors to a specific WhatsApp conversation without showing prices or suggesting an online checkout. Repair and trade-in forms remain separate service paths.
 
 ## Accessibility & Inclusion
 

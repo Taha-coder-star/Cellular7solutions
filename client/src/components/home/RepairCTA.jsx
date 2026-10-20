@@ -14,7 +14,6 @@ export default function RepairCTA() {
         <img src="/assets/repair/electronics-diagnostics-720.webp" alt="Illustration of electronics undergoing diagnostics" loading="lazy" width="720" height="540" data-scroll-image />
       </div>
       <div className="repair-showcase-copy">
-        <p className="storefront-eyebrow">Made to last longer</p>
         <h2 id="repair-heading">A little care goes a long way.</h2>
         <p>From a phone that will not charge to a laptop or console with an unfamiliar fault, describe the issue and send our team a WhatsApp enquiry.</p>
         <ul className="repair-service-accordion" aria-label="Repair services">
@@ -25,7 +24,7 @@ export default function RepairCTA() {
             </li>
           ))}
         </ul>
-        <Link className="storefront-button storefront-button-dark" to="/repair">Request a repair <Icon name="arrow-up-right" size={18} /></Link>
+        <Link className="storefront-button home-repair-intro-cta" to="/repair">Request a repair <Icon name="arrow-up-right" size={18} /></Link>
       </div>
     </section>
   );
