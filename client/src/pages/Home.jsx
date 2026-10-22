@@ -38,7 +38,7 @@ export default function Home() {
             </div>
           </div>
           <div className="home-hero-art" aria-hidden="true">
-            <img src="/assets/iphone-lineup-hero.png" alt="" width="1774" height="887" fetchPriority="high" />
+            <img src="/assets/iphone-lineup-hero.webp" alt="" width="1774" height="887" fetchPriority="high" />
           </div>
         </div>
       </section>
