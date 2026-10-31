@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Button, Badge, Rating, Icon, Card } from '@/components/ui';
+import { Button, Badge, Rating, Icon } from '@/components/ui';
 import api from '@/services/api';
 import { normalizeBrandName } from '@/utils/format';
 import { productImageSrc, productImageSrcSet } from '@/utils/image';
@@ -184,69 +184,6 @@ function ImageLightbox({ dialogRef, open, onDialogClose, onDismiss, src, srcSet,
         </button>
       </div>
     </dialog>
-  );
-}
-
-function ReviewsSection({ productId }) {
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    api
-      .get(`/reviews/product/${productId}`)
-      .then(({ data }) => setReviews(Array.isArray(data) ? data : []))
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
-  }, [productId]);
-
-  return (
-    <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
-      <h2 style={{ margin: 0, fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-h3)', fontWeight: 'var(--fw-bold)', letterSpacing: 'var(--ls-tight)', color: 'var(--text-strong)' }}>
-        Reviews{!loading && !error ? ` (${reviews.length})` : ''}
-      </h2>
-
-      {loading && (
-        <div className="animate-pulse" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-          {[1, 2].map((n) => (
-            <div key={n} style={{ height: '90px', background: 'var(--graphite-100)', borderRadius: 'var(--radius-card)' }} />
-          ))}
-        </div>
-      )}
-
-      {!loading && error && (
-        <p style={{ margin: 0, fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)' }}>
-          Could not load reviews right now.
-        </p>
-      )}
-
-      {!loading && !error && reviews.length === 0 && (
-        <Card>
-          <p style={{ margin: 0, fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)' }}>
-            No reviews yet. Be the first to share your thoughts.
-          </p>
-        </Card>
-      )}
-
-      {!loading && !error && reviews.map((r) => (
-        <Card key={r._id}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
-              <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
-                {r.name || 'Customer'}
-              </span>
-              <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>
-                {new Date(r.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-              </span>
-            </div>
-            <Rating value={r.rating} size={14} />
-            <p style={{ margin: 0, fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', color: 'var(--text-body)', lineHeight: 'var(--lh-relaxed)' }}>
-              {r.comment}
-            </p>
-          </div>
-        </Card>
-      ))}
-    </section>
   );
 }
 
@@ -459,8 +396,6 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
-
-      <ReviewsSection productId={id} />
 
       <SimilarRail products={similar} />
 

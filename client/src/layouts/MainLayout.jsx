@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import ServiceActionBar from '@/components/layout/ServiceActionBar';
+import WhatsAppFab from '@/components/layout/WhatsAppFab';
 
 export default function MainLayout() {
   return (
@@ -39,6 +40,7 @@ export default function MainLayout() {
       </main>
       <Footer />
       <ServiceActionBar variant="fixed" />
+      <WhatsAppFab />
     </div>
   );
 }

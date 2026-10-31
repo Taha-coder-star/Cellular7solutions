@@ -156,10 +156,6 @@ function route(catalog, path, q) {
   if (path === '/categories/tree') return getTree(catalog);
   if (path === '/categories/resolve') return resolvePath(catalog, q.path);
   if (path === '/brands') return [...catalog.brands].sort(byName);
-  if (path.startsWith('/reviews/product/')) {
-    const id = path.slice('/reviews/product/'.length);
-    return (catalog.reviews || []).filter((r) => String(r.product) === id);
-  }
   throw notFound(`No static route for ${path}`);
 }
 

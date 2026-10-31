@@ -305,3 +305,27 @@ button:focus-visible,
   .featured-product-card { gap: 10px !important; }
   .storefront-product-detail { padding-inline: 20px !important; }
 }
+
+/* Floating WhatsApp button — WhatsApp's own green so it reads instantly as chat. */
+.whatsapp-fab {
+  position: fixed;
+  right: 20px;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  transition: transform 0.15s ease;
+}
+.whatsapp-fab:hover { transform: scale(1.06); }
+.whatsapp-fab:focus-visible { outline: 3px solid var(--graphite-900); outline-offset: 3px; }
+/* Mobile: clear the fixed Repair/Buy/Sell bar. */
+@media (max-width: 767px) {
+  .whatsapp-fab { bottom: calc(92px + 16px); right: 16px; }
+}

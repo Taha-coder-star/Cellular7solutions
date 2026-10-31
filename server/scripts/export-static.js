@@ -8,21 +8,19 @@ const mongoose = require('mongoose');
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 const Brand = require('../models/Brand');
-const Review = require('../models/Review');
 
 dns.setDefaultResultOrder('ipv4first');
 dns.setServers(['1.1.1.1', '8.8.8.8']);
 
 (async () => {
   await mongoose.connect(process.env.MONGO_URI);
-  const [categories, brands, products, reviews] = await Promise.all([
+  const [categories, brands, products] = await Promise.all([
     Category.find().lean(),
     Brand.find().lean(),
     Product.find().populate('brand', 'name slug').populate('category', 'name slug').lean(),
-    Review.find({}, '-email').sort({ createdAt: -1 }).lean(), // emails stay private
   ]);
   const out = path.join(__dirname, '..', '..', 'client', 'public', 'catalog.json');
-  fs.writeFileSync(out, JSON.stringify({ categories, brands, products, reviews }));
-  console.log(`Wrote ${products.length} products, ${categories.length} categories, ${brands.length} brands, ${reviews.length} reviews to ${out}`);
+  fs.writeFileSync(out, JSON.stringify({ categories, brands, products }));
+  console.log(`Wrote ${products.length} products, ${categories.length} categories, ${brands.length} brands to ${out}`);
   await mongoose.disconnect();
 })().catch((err) => { console.error(err); process.exit(1); });
