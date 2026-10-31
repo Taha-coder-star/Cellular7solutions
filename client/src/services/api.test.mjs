@@ -26,3 +26,9 @@ test('static API answers the routes the pages use', async () => {
   assert.equal(one.name, catalog.products[0].name);
   await assert.rejects(api.get('/products/nope'), (e) => e.response.status === 404);
 });
+
+test('search lists phones before cases and parts', async () => {
+  const { data } = await api.get('/products', { params: { search: 'iphone 16', limit: 8 } });
+  assert.equal(data.products[0].category.name, 'Smartphones');
+  assert.ok(data.products.slice(0, 5).every((p) => p.category.name === 'Smartphones'));
+});

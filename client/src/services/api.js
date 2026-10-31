@@ -51,8 +51,27 @@ function descendantIds(categories, id) {
 // Customers search by product line, not the Brand record ("galaxy" → Samsung).
 const BRAND_SYNONYMS = { galaxy: ['samsung'], pixel: ['google'], airpods: ['apple'], ipad: ['apple'], iphone: ['apple'] };
 
+// Search shows departments in buying order: phones, then cases/accessories, then parts, then tools.
+function departmentRank(rootSlug) {
+  if (rootSlug === 'smartphones') return 0;
+  if (rootSlug === 'parts' || rootSlug?.endsWith('-parts')) return 2;
+  if (rootSlug === 'repair-tools') return 3;
+  return 1;
+}
+
+const rootSlugCache = new WeakMap();
+function rootSlugs(categories) {
+  if (!rootSlugCache.has(categories)) {
+    const byId = new Map(categories.map((c) => [c._id, c]));
+    const root = (c) => (c.parent && byId.has(String(c.parent)) ? root(byId.get(String(c.parent))) : c);
+    rootSlugCache.set(categories, new Map(categories.map((c) => [c._id, root(c).slug])));
+  }
+  return rootSlugCache.get(categories);
+}
+
 // Every token must hit the name, description, brand or category; name hits rank higher.
-export function searchProducts(products, rawText) {
+export function searchProducts(products, rawText, categories = []) {
+  const roots = rootSlugs(categories);
   const tokens = rawText.toLowerCase().split(/\s+/).filter(Boolean).slice(0, 8);
   const scored = [];
   for (const p of products) {
@@ -66,9 +85,9 @@ export function searchProducts(products, rawText) {
       const terms = [t, ...(BRAND_SYNONYMS[t] || [])];
       return related.some((r) => terms.some((term) => r.includes(term)));
     });
-    if (matchesAll) scored.push({ p, score });
+    if (matchesAll) scored.push({ p, score, dept: departmentRank(roots.get(p.category?._id)) });
   }
-  return scored.sort((a, b) => b.score - a.score).map((s) => s.p);
+  return scored.sort((a, b) => a.dept - b.dept || b.score - a.score).map((s) => s.p);
 }
 
 function getProducts(catalog, q) {
@@ -84,7 +103,7 @@ function getProducts(catalog, q) {
   if (q.maxPrice !== undefined) list = list.filter((p) => p.price <= Number(q.maxPrice));
 
   const search = q.search?.trim();
-  list = search ? searchProducts(list, search) : [...list].sort((a, b) => (b.createdAt > a.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0));
+  list = search ? searchProducts(list, search, catalog.categories) : [...list].sort((a, b) => (b.createdAt > a.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0));
 
   const page = Math.max(1, parseInt(q.page, 10) || 1);
   const limit = Math.min(100, Math.max(1, parseInt(q.limit, 10) || 12));
