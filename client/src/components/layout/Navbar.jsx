@@ -3,7 +3,6 @@ import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Logo, Icon } from '@/components/ui';
 import CategoryNavBar from '@/components/layout/CategoryNavBar';
 import MobileNav from '@/components/layout/MobileNav';
-import { useAuth } from '@/context/AuthContext';
 import api from '@/services/api';
 
 const NAV_LINKS = [
@@ -189,8 +188,6 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { user } = useAuth();
-  const isAdmin = user?.role === 'admin';
 
   // Compact header on scroll — collapses the tagline bar and shortens the
   // logo row so the header doesn't eat a fixed 108px+ on every page.
@@ -262,7 +259,6 @@ export default function Navbar() {
         {/* Desktop actions */}
         <div className="hidden lg:flex" style={{ alignItems: 'center', gap: 'var(--space-2)' }}>
           <NavSearch open={searchOpen} setOpen={setSearchOpen} />
-          {isAdmin && <NavTextLink to="/admin" label="Admin" />}
         </div>
 
         {/* Mobile: search + hamburger */}
@@ -278,7 +274,6 @@ export default function Navbar() {
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
         onOpenSearch={() => { setMobileOpen(false); setSearchOpen(true); }}
-        isAdmin={isAdmin}
       />
     </header>
   );

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Cellular Solutions — a full-stack e-commerce/management system for a phone/accessories business. Currently backend-only; frontend not yet scaffolded.
+Cellular Solutions — storefront for a phone/accessories business. The deployed site (`client/`) is fully static: the catalog ships as `client/public/catalog.json` and `client/src/services/api.js` answers the old GET routes in the browser. Enquiries (contact, repair, buy/sell) open WhatsApp drafts. `server/` + Mongo is now only the catalog source of truth: edit there, run `npm run export-static` in `server/`, commit the JSON, redeploy.
 
 ## Commands
 

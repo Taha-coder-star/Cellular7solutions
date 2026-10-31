@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Card, Input, Textarea, Icon } from '@/components/ui';
-import api from '@/services/api';
+import { whatsappMessageLink } from '@/utils/whatsapp';
 
 const INFO = [
   { icon: 'truck',  label: 'Address', lines: ['520 West Main St.', 'Glencoe, AL 35905'] },
@@ -11,9 +11,6 @@ const INFO = [
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
-  const [sent, setSent] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState('');
 
   function validate() {
     const next = {};
@@ -25,20 +22,18 @@ export default function Contact() {
     return Object.keys(next).length === 0;
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    setSubmitError('');
     if (!validate()) return;
-    setSubmitting(true);
-    try {
-      await api.post('/contact', form);
-      setSent(true);
-      setForm({ name: '', email: '', message: '' });
-    } catch (err) {
-      setSubmitError(err.response?.data?.message || 'Something went wrong. Please try again.');
-    } finally {
-      setSubmitting(false);
-    }
+    const url = whatsappMessageLink(`Hi Cellular Solutions,
+
+${form.message.trim()}
+
+Name: ${form.name.trim()}
+Email: ${form.email.trim()}`);
+    const chat = window.open(url, '_blank');
+    if (chat) chat.opener = null;
+    else window.location.assign(url);
   }
 
   return (
@@ -57,19 +52,6 @@ export default function Contact() {
 
         {/* Form */}
         <Card className="lg:col-span-2">
-          {sent ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-4)', padding: 'var(--space-10) var(--space-6)', textAlign: 'center' }}>
-              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '56px', height: '56px', borderRadius: '50%', background: 'var(--success-50)' }}>
-                <Icon name="check" size={28} color="var(--success-500)" strokeWidth={2.5} />
-              </span>
-              <p style={{ margin: 0, fontSize: 'var(--fs-h4)', fontWeight: 'var(--fw-semibold)', color: 'var(--text-strong)' }}>
-                Message sent
-              </p>
-              <p style={{ margin: 0, fontSize: 'var(--fs-sm)', color: 'var(--text-muted)' }}>
-                Thanks for reaching out — we'll get back to you shortly.
-              </p>
-            </div>
-          ) : (
             <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <Input
@@ -95,16 +77,11 @@ export default function Contact() {
                 error={errors.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
               />
-              {submitError && (
-                <p style={{ margin: 0, fontSize: 'var(--fs-sm)', color: 'var(--danger-700)' }}>{submitError}</p>
-              )}
               <div>
-                <Button type="submit" variant="product" disabled={submitting}>
-                  {submitting ? 'Sending…' : 'Send Message'}
-                </Button>
+                <Button type="submit" variant="product">Message us on WhatsApp</Button>
               </div>
+              <p style={{ margin: 0, fontSize: 'var(--fs-sm)', color: 'var(--text-muted)' }}>WhatsApp will open with a draft. Your message reaches us only after you tap Send there.</p>
             </form>
-          )}
         </Card>
 
         {/* Static info */}

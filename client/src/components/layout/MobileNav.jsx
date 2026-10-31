@@ -27,7 +27,7 @@ function viewForNode(node, basePath) {
   return { title: node.name, children: node.children, basePath: [...basePath, node.slug] };
 }
 
-export default function MobileNav({ open, onClose, onOpenSearch, isAdmin }) {
+export default function MobileNav({ open, onClose, onOpenSearch }) {
   const { tree } = useCategoryTree();
   const overlayRef = useRef(null);
   const firstFocusRef = useRef(null);
@@ -239,7 +239,6 @@ export default function MobileNav({ open, onClose, onOpenSearch, isAdmin }) {
             <div style={{ borderTop: '1px solid var(--border-subtle)' }} />
             <RowLink to="/about" onClick={onClose} label="About" small />
             <RowLink to="/contact" onClick={onClose} label="Contact" small />
-            {isAdmin && <RowLink to="/admin" onClick={onClose} label="Admin" small />}
           </Panel>
 
           {/* One panel per drilled view */}
