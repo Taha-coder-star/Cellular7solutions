@@ -51,9 +51,10 @@ function descendantIds(categories, id) {
 // Customers search by product line, not the Brand record ("galaxy" → Samsung).
 const BRAND_SYNONYMS = { galaxy: ['samsung'], pixel: ['google'], airpods: ['apple'], ipad: ['apple'], iphone: ['apple'] };
 
-// Search shows departments in buying order: phones, then cases/accessories, then parts, then tools.
+// Search shows departments in buying order: devices, then cases/accessories, then parts, then tools.
+const DEVICE_DEPARTMENTS = new Set(['smartphones', 'gaming', 'laptops', 'ipad', 'tablet']);
 function departmentRank(rootSlug) {
-  if (rootSlug === 'smartphones') return 0;
+  if (DEVICE_DEPARTMENTS.has(rootSlug)) return 0;
   if (rootSlug === 'parts' || rootSlug?.endsWith('-parts')) return 2;
   if (rootSlug === 'repair-tools') return 3;
   return 1;
@@ -69,25 +70,89 @@ function rootSlugs(categories) {
   return rootSlugCache.get(categories);
 }
 
-// Every token must hit the name, description, brand or category; name hits rank higher.
+// Shorthand customers type → how the catalog spells it. Add rows as new nicknames come up.
+const QUERY_ALIASES = [
+  [/\bps\s?([1-5])\b/g, 'playstation $1'],
+  [/\bps\s?vr\b/g, 'playstation vr'],
+  [/\bxbox\s?(x|s)\b/g, 'xbox series $1'],
+  [/\bxs([xs])\b/g, 'xbox series $1'],
+  [/\biwatch\b/g, 'apple watch'],
+  [/\bmac\s+book\b/g, 'macbook'],
+  [/\bair\s?pods?\b/g, 'airpods'],
+  [/\b(iphone|pixel|note|ipad|galaxy)(\d)/g, '$1 $2'], // "iphone16" → "iphone 16"
+  [/\bpro\s?max\b/g, 'pro max'],
+  [/\bz\s?(flip|fold)/g, 'z $1'],
+  [/\bscreen\s?(protector|guard)s?\b/g, 'glass'],
+  [/\b(type|usb)[\s-]?c\b/g, 'usbc'],
+  [/\bpower\s?banks?\b/g, 'powerbank'],
+  [/\bjoy\s?-?cons?\b/g, 'joy-con'],
+];
+export function expandAliases(text) {
+  return QUERY_ALIASES.reduce((t, [re, to]) => t.replace(re, to), text.toLowerCase());
+}
+
+// A typed word also matches these catalog wordings (one-way: "screen" finds "LCD", not the reverse).
+const TERM_SYNONYMS = {
+  screen: ['lcd', 'oled', 'display', 'digitizer'],
+  display: ['lcd', 'oled', 'screen'],
+  glass: ['tempered', 'protector'],
+  cover: ['case'],
+  case: ['cover'],
+  charger: ['adapter', 'charging'],
+  adapter: ['charger'],
+  usbc: ['type-c', 'type c', 'usb-c', 'usb c'],
+  powerbank: ['power bank', 'powerbank'],
+  earbuds: ['earbud', 'earphone', 'airpods', 'buds'],
+  earphones: ['earbud', 'earphone', 'headphone'],
+  headphones: ['headphone', 'headset', 'earphone'],
+  cord: ['cable'],
+  wire: ['cable'],
+  band: ['strap', 'watchband'],
+  strap: ['band'],
+  mount: ['holder', 'stand'],
+  holder: ['mount', 'stand'],
+  stand: ['holder', 'mount', 'kickstand'],
+  pen: ['stylus', 'pencil'],
+  pencil: ['stylus'],
+  gamepad: ['controller'],
+  console: ['playstation', 'xbox', 'nintendo'],
+  used: ['pre-owned', 'refurbished'],
+  refurbished: ['pre-owned', 'used'],
+  laptop: ['macbook', 'notebook', 'chromebook'],
+  tablet: ['ipad', 'galaxy tab'],
+};
+
+// The word itself, its synonyms, and its singular ("batteries" → "battery", "cases" → "case").
+function wordForms(t) {
+  const forms = [t, ...(TERM_SYNONYMS[t] || [])];
+  if (t.length > 3 && t.endsWith('ies')) forms.push(t.slice(0, -3) + 'y');
+  else if (t.length > 3 && t.endsWith('es')) forms.push(t.slice(0, -2), t.slice(0, -1));
+  else if (t.length > 3 && t.endsWith('s') && !t.endsWith('ss')) forms.push(t.slice(0, -1));
+  return forms;
+}
+
+// Every token must hit the name, description, brand or category. Products whose name holds
+// every token come first, then by department, then by how many tokens hit the name.
 export function searchProducts(products, rawText, categories = []) {
   const roots = rootSlugs(categories);
-  const tokens = rawText.toLowerCase().split(/\s+/).filter(Boolean).slice(0, 8);
+  const tokens = expandAliases(rawText).split(/\s+/).filter(Boolean).slice(0, 8);
+  const forms = tokens.map((t) => ({ t, forms: wordForms(t) }));
   const scored = [];
   for (const p of products) {
     const name = p.name.toLowerCase();
     const description = (p.description || '').toLowerCase();
     const related = [p.brand?.name, p.category?.name].filter(Boolean).map((s) => s.toLowerCase());
     let score = 0;
-    const matchesAll = tokens.every((t) => {
-      if (name.includes(t)) { score += 3; return true; }
-      if (description.includes(t)) { score += 1; return true; }
-      const terms = [t, ...(BRAND_SYNONYMS[t] || [])];
+    let nameHits = 0;
+    const matchesAll = forms.every(({ t, forms: f }) => {
+      if (f.some((w) => name.includes(w))) { score += name.includes(t) ? 3 : 2; nameHits += 1; return true; }
+      if (f.some((w) => description.includes(w))) { score += 1; return true; }
+      const terms = [...f, ...(BRAND_SYNONYMS[t] || [])];
       return related.some((r) => terms.some((term) => r.includes(term)));
     });
-    if (matchesAll) scored.push({ p, score, dept: departmentRank(roots.get(p.category?._id)) });
+    if (matchesAll) scored.push({ p, score, full: nameHits === tokens.length, dept: departmentRank(roots.get(p.category?._id)) });
   }
-  return scored.sort((a, b) => a.dept - b.dept || b.score - a.score).map((s) => s.p);
+  return scored.sort((a, b) => b.full - a.full || a.dept - b.dept || b.score - a.score).map((s) => s.p);
 }
 
 function getProducts(catalog, q) {
