@@ -14,6 +14,8 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import BuySell from './pages/BuySell';
 import Repair from './pages/Repair';
+import RepairCategory from './pages/RepairCategory';
+import RepairDetail from './pages/RepairDetail';
 import Shop from './pages/Shop';
 import CategoryPage from './pages/CategoryPage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
@@ -33,6 +35,8 @@ createRoot(document.getElementById('root')).render(
             <Route path="/contact"     element={<Contact />} />
             <Route path="/buysell"     element={<BuySell />} />
             <Route path="/repair"      element={<Repair />} />
+            <Route path="/repair/:category" element={<RepairCategory />} />
+            <Route path="/repair/:category/:repair" element={<RepairDetail />} />
             <Route path="/privacy"     element={<PrivacyPolicy />} />
             <Route path="/terms"       element={<Terms />} />
           </Route>

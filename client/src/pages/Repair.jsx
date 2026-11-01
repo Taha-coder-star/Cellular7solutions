@@ -1,35 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Button, Card, Input, Textarea, Select, Icon } from '@/components/ui';
 import { repairWhatsappLink } from '@/utils/whatsapp';
+import { DEVICE_TYPES, REPAIR_CATEGORIES, repairImage } from '@/data/repairServices';
+import { RepairPromises } from '@/components/repair/RepairBlocks';
 import '@/styles/repairJourney.css';
 
-const DEVICE_TYPES = [
-  { value: 'Phone', label: 'Phone' },
-  { value: 'Laptop', label: 'Laptop' },
-  { value: 'Game Console', label: 'Gaming console' },
-  { value: 'Other', label: 'Other electronics' },
-];
-const SERVICES = [
-  { title: 'Phones', image: 'phone-repair-720.webp', alt: 'Illustration of a phone being serviced', text: 'Tell us about a damaged screen, battery, charging issue, or another phone fault.' },
-  { title: 'Laptops', image: 'laptop-repair-720.webp', alt: 'Illustration of a laptop being serviced', text: 'Describe power, display, performance, or other laptop concerns.' },
-  { title: 'Gaming consoles', image: 'gaming-console-repair-720.webp', alt: 'Illustration of a gaming console being serviced', text: 'PlayStation and other consoles: share the model and what is going wrong.' },
-];
 const STEPS = [
-  { number: '01', title: 'Describe the problem', text: 'Choose a device type and tell us what is happening.' },
-  { number: '02', title: 'Send the WhatsApp message', text: 'Open the prefilled chat, review the details, and tap Send in WhatsApp.' },
-  { number: '03', title: 'The team replies', text: 'We discuss next steps and an estimate in the conversation.' },
+  { title: 'Describe the problem', text: 'Choose a device type and tell us what is happening.' },
+  { title: 'Send the WhatsApp message', text: 'Open the prefilled chat, review the details, and tap Send in WhatsApp.' },
+  { title: 'The team replies', text: 'We discuss next steps and an estimate in the conversation.' },
 ];
 
 export default function Repair() {
+  const [params] = useSearchParams();
+  const device = params.get('device');
+  const service = params.get('service');
+  const prefix = service ? `${service}: ` : '';
   const [form, setForm] = useState({
     deviceType: DEVICE_TYPES[0].value, brandModel: '', issue: '', name: '',
   });
   const [errors, setErrors] = useState({});
 
+  // Picking a repair (here or from a repair page) prefills the form and jumps to it.
+  useEffect(() => {
+    if (!service) return;
+    setForm((f) => ({
+      ...f,
+      deviceType: DEVICE_TYPES.some(({ value }) => value === device) ? device : f.deviceType,
+      issue: `${service}: `,
+    }));
+    requestAnimationFrame(() => document.getElementById('repair-request')?.scrollIntoView({ behavior: 'smooth' }));
+  }, [device, service]);
+
   function validate() {
     const next = {};
     if (!DEVICE_TYPES.some(({ value }) => value === form.deviceType)) next.deviceType = 'Choose a device type';
-    if (!form.issue.trim()) next.issue = 'Please describe the problem';
+    // The prefilled "Service: " label alone is not a description.
+    const issue = form.issue.trim();
+    if (!issue || issue === prefix.trim()) next.issue = 'Tell us what is happening with the device';
     setErrors(next);
     return Object.keys(next).length === 0;
   }
@@ -44,68 +53,71 @@ export default function Repair() {
   }
 
   return (
-    <main className="repair-page storefront-service-page">
-      <section className="repair-page-hero" aria-labelledby="repair-title">
-        <div className="repair-page-hero-copy">
-          <p className="storefront-eyebrow">Repair enquiries</p>
+    <main className="repair-page">
+      <section className="rp-hero" aria-labelledby="repair-title">
+        <img src="/assets/repair/repair-workbench-hero-1440.webp" srcSet="/assets/repair/repair-workbench-hero-720.webp 720w, /assets/repair/repair-workbench-hero-1440.webp 1440w" sizes="100vw" alt="" width="1440" height="810" fetchPriority="high" />
+        <div className="rp-hero-copy">
           <h1 id="repair-title">Tell us what needs fixing.</h1>
-          <p>Ask us about phones, laptops, gaming consoles, and other electronics. Describe the problem, send your enquiry on WhatsApp, and our team will reply to discuss next steps and an estimate.</p>
-          <a className="storefront-button repair-page-primary-cta" href="#repair-request">Request a repair <Icon name="arrow-right" size={18} /></a>
-        </div>
-        <div className="repair-page-hero-image">
-          <img src="/assets/repair/repair-workbench-hero-720.webp" srcSet="/assets/repair/repair-workbench-hero-720.webp 720w, /assets/repair/repair-workbench-hero-1440.webp 1440w" sizes="(max-width: 767px) 100vw, 55vw" alt="Illustration of a phone, laptop, and gaming console on a repair workbench" width="1440" height="810" fetchPriority="high" />
+          <p>Phones, tablets, laptops and gaming consoles. Describe the problem, send it on WhatsApp, and we reply with next steps and an estimate.</p>
+          <div className="rp-hero-actions">
+            <a className="rp-button" href="#repair-request">Request a repair <Icon name="arrow-right" size={18} /></a>
+            <a className="rp-hero-link" href="#repair-devices">Browse repairs</a>
+          </div>
         </div>
       </section>
 
-      <section className="repair-page-section repair-page-services" aria-labelledby="repair-services-title">
-        <div className="repair-page-section-heading">
-          <p className="storefront-eyebrow">What can I enquire about?</p>
-          <h2 id="repair-services-title">Start with your device.</h2>
+      <section className="rp-section" id="repair-devices" aria-labelledby="repair-devices-title">
+        <div className="rp-section-head">
+          <h2 id="repair-devices-title">Start with your device.</h2>
           <p>Share the model and symptoms, even if you are unsure what caused the problem.</p>
         </div>
-        <div className="repair-service-grid">
-          {SERVICES.map(({ title, image, alt, text }) => (
-            <article className="repair-device-card" key={title}>
-              <img src={`/assets/repair/${image}`} alt={alt} width="720" height="720" loading="lazy" />
-              <div><h3>{title}</h3><p>{text}</p></div>
-            </article>
+        <ul className="rp-devices rp-swipe">
+          {REPAIR_CATEGORIES.map(({ slug, title, image, repairs }) => (
+            <li key={slug}>
+              <Link to={`/repair/${slug}`}>
+                <img src={repairImage(image)} alt="" width="900" height="675" loading="lazy" />
+                <span className="rp-device-copy">
+                  <strong>{title}</strong>
+                  <span>{repairs.slice(0, 3).map((r) => r.name).join(', ')} and more</span>
+                </span>
+              </Link>
+            </li>
           ))}
-          <article className="repair-device-card repair-device-card-other">
-            <img src="/assets/repair/electronics-diagnostics-720.webp" alt="Illustration of electronics diagnostics" width="720" height="540" loading="lazy" />
-            <div><h3>Other electronics</h3><p>Have another device? Describe it in your request so our team can assess whether we can help.</p></div>
-          </article>
-        </div>
+        </ul>
       </section>
 
-      <section className="repair-page-section repair-process" aria-labelledby="repair-process-title">
-        <div className="repair-page-section-heading">
-          <p className="storefront-eyebrow">How it works</p>
-          <h2 id="repair-process-title">A clear next step.</h2>
+      <RepairPromises image="laptop-screen-bench" title="Why bring it to us" />
+
+      <section className="rp-section rp-video" aria-labelledby="repair-video-title">
+        <div className="rp-section-head">
+          <h2 id="repair-video-title">See us at work.</h2>
+          <p>Careful hands, the right tools, a clean bench.</p>
         </div>
-        <ol className="repair-process-grid">
-          {STEPS.map(({ number, title, text }) => <li key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></li>)}
+        <video src="/assets/repair/repair-at-work.mp4" poster="/assets/repair/repair-workbench-hero-720.webp" controls muted playsInline loop preload="none" width="1280" height="720" />
+      </section>
+
+      <section className="rp-section rp-steps" aria-labelledby="repair-steps-title">
+        <div className="rp-section-head">
+          <h2 id="repair-steps-title">How it works</h2>
+        </div>
+        <ol>
+          {STEPS.map(({ title, text }, i) => (
+            <li key={title}><span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{text}</p></li>
+          ))}
         </ol>
       </section>
 
-      <section className="repair-page-section repair-faq" aria-labelledby="repair-faq-title">
-        <div className="repair-page-section-heading">
-          <p className="storefront-eyebrow">Good to know</p>
-          <h2 id="repair-faq-title">Before you send a request.</h2>
-        </div>
-        <div className="repair-faq-list">
-          <details><summary>Does opening WhatsApp send my request?</summary><p>No. WhatsApp opens with a draft. Review it and tap Send there to contact our team.</p></details>
-          <details><summary>Will I see a repair price here?</summary><p>No. Send the device details and issue first; our team will reply to discuss next steps and an estimate.</p></details>
-          <details><summary>What if my device is not listed?</summary><p>Select “Other electronics” and describe the device in the problem field. The team can then assess your enquiry.</p></details>
-        </div>
-      </section>
-
-      <section className="repair-page-section repair-request-section" id="repair-request" aria-labelledby="repair-request-title">
-        <div className="repair-page-section-heading">
-          <p className="storefront-eyebrow">Send your enquiry</p>
+      <section className="rp-section rp-request" id="repair-request" aria-labelledby="repair-request-title">
+        <div className="rp-request-intro">
           <h2 id="repair-request-title">Request a repair.</h2>
-          <p>Tell us about the device and issue. We will open a prefilled WhatsApp chat; review it and tap Send there to deliver your enquiry.</p>
+          <p>We open a prefilled WhatsApp chat. Review it and tap Send there to deliver your enquiry.</p>
+          <div className="rp-faq">
+            <details><summary>Does opening WhatsApp send my request?</summary><p>No. WhatsApp opens with a draft. Review it and tap Send there to contact our team.</p></details>
+            <details><summary>Will I see a repair price here?</summary><p>No. Send the device details and issue first; our team will reply to discuss next steps and an estimate.</p></details>
+            <details><summary>What if my device is not listed?</summary><p>Select “Other electronics” and describe the device in the problem field. The team can then assess your enquiry.</p></details>
+          </div>
         </div>
-        <Card className="repair-request-card">
+        <Card className="rp-request-card">
           <form onSubmit={handleSubmit} noValidate className="repair-request-form">
             <div className="repair-form-row">
               <Select label="Device type" options={DEVICE_TYPES} value={form.deviceType} error={errors.deviceType} onChange={(e) => setForm({ ...form, deviceType: e.target.value })} />

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Logo, Icon } from '@/components/ui';
 import { useCategoryTree } from '@/hooks/useCategoryTree';
 import { buildShopEntries, stripGroupWord } from '@/components/layout/shopNav';
+import { REPAIR_CATEGORIES } from '@/data/repairServices';
 
 const prefersReduced =
   typeof window !== 'undefined' &&
@@ -36,6 +37,8 @@ export default function MobileNav({ open, onClose, onOpenSearch }) {
   const [level, setLevel] = useState(0); // active panel index; 0 = root
   const [shopOpen, setShopOpen] = useState(true);
   const [moreCategoriesOpen, setMoreCategoriesOpen] = useState(false);
+  const [repairsOpen, setRepairsOpen] = useState(false);
+  const [repairCategoryOpen, setRepairCategoryOpen] = useState(null);
 
   const shopEntries = tree ? buildShopEntries(tree) : [];
   const entryName = (entry) => entry.kind === 'group' ? entry.label : entry.node.name;
@@ -231,6 +234,30 @@ export default function MobileNav({ open, onClose, onOpenSearch }) {
                   </button>
                 )}
                 {moreCategoriesOpen && extraShopEntries.map(renderShopEntry)}
+              </div>
+            )}
+
+            <button type="button" onClick={() => setRepairsOpen((o) => !o)} aria-expanded={repairsOpen} style={rowStyle}>
+              <span style={{ fontWeight: 'var(--fw-semibold)' }}>Repairs</span>
+              <Icon name="chevron-down" size={18} style={{ transform: repairsOpen ? 'rotate(180deg)' : 'none', color: 'var(--text-muted)' }} />
+            </button>
+            {repairsOpen && (
+              <div style={{ paddingLeft: 'var(--space-3)' }}>
+                <RowLink to="/repair" onClick={onClose} label="All repairs" muted />
+                {REPAIR_CATEGORIES.map(({ slug, title, repairs }) => (
+                  <div key={slug}>
+                    <button type="button" onClick={() => setRepairCategoryOpen((c) => (c === slug ? null : slug))} aria-expanded={repairCategoryOpen === slug} style={rowStyle}>
+                      <span>{title}</span>
+                      <Icon name="chevron-down" size={18} style={{ transform: repairCategoryOpen === slug ? 'rotate(180deg)' : 'none', color: 'var(--text-muted)' }} />
+                    </button>
+                    {repairCategoryOpen === slug && (
+                      <div style={{ paddingLeft: 'var(--space-3)' }}>
+                        <RowLink to={`/repair/${slug}`} onClick={onClose} label={`All ${title.toLowerCase()}`} muted />
+                        {repairs.map((r) => <RowLink key={r.slug} to={`/repair/${slug}/${r.slug}`} onClick={onClose} label={r.name} muted />)}
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             )}
 

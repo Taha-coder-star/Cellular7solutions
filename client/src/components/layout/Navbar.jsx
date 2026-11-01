@@ -4,13 +4,15 @@ import { Logo, Icon } from '@/components/ui';
 import CategoryNavBar from '@/components/layout/CategoryNavBar';
 import MobileNav from '@/components/layout/MobileNav';
 import api from '@/services/api';
+import { REPAIR_CATEGORIES } from '@/data/repairServices';
+import '@/styles/repairJourney.css';
 
 const NAV_LINKS = [
   { to: '/categories/smartphones', label: 'Smartphones' },
   { to: '/categories/laptops', label: 'Laptops' },
   { to: '/categories/gaming', label: 'Gaming' },
   { to: '/buysell', label: 'Buy & Sell' },
-  { to: '/repair',  label: 'Repairs' },
+  { to: '/repair',  label: 'Repairs', mega: true },
   { to: '/about',   label: 'About' },
   { to: '/contact', label: 'Contact' },
 ];
@@ -43,6 +45,69 @@ function NavTextLink({ to, label }) {
     >
       {label}
     </NavLink>
+  );
+}
+
+/** Repairs mega menu (disclosure pattern). The "Repairs" link still navigates; the chevron button next to it
+ *  toggles the panel for keyboard and touch. A mouse also opens it on hover. Escape, clicking outside, tabbing
+ *  away or following a link closes it, and the closed panel stays out of the tab order. */
+function RepairsMegaMenu({ to, label }) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onPointerDown(e) { if (!rootRef.current?.contains(e.target)) setOpen(false); }
+    function onKeyDown(e) {
+      if (e.key !== 'Escape') return;
+      setOpen(false);
+      buttonRef.current?.focus();
+    }
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
+
+  const hover = (next) => (e) => { if (e.pointerType === 'mouse') setOpen(next); };
+
+  return (
+    <div
+      ref={rootRef}
+      className={`nav-mega${open ? ' is-open' : ''}`}
+      onPointerEnter={hover(true)}
+      onPointerLeave={hover(false)}
+      onBlur={(e) => { if (!rootRef.current?.contains(e.relatedTarget)) setOpen(false); }}
+    >
+      <NavTextLink to={to} label={label} />
+      <button
+        ref={buttonRef}
+        type="button"
+        className="nav-mega-toggle"
+        aria-expanded={open}
+        aria-controls="nav-mega-repairs"
+        aria-label={`${open ? 'Hide' : 'Show'} repair services`}
+        onClick={() => setOpen((o) => !o)}
+      >
+        <Icon name="chevron-down" size={16} />
+      </button>
+      <div id="nav-mega-repairs" className="nav-mega-panel" onClick={(e) => e.target.closest('a') && setOpen(false)}>
+        <div className="nav-mega-grid">
+          {REPAIR_CATEGORIES.map(({ slug, title, repairs }) => (
+            <div key={slug}>
+              <Link className="nav-mega-heading" to={`/repair/${slug}`}>{title}</Link>
+              <ul>
+                {repairs.map((r) => <li key={r.slug}><Link to={`/repair/${slug}/${r.slug}`}>{r.name}</Link></li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <Link className="nav-mega-all" to="/repair">All repairs and request form <Icon name="arrow-right" size={16} /></Link>
+      </div>
+    </div>
   );
 }
 
@@ -239,6 +304,7 @@ export default function Navbar() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          position: 'relative',
           height: scrolled ? '52px' : '72px',
           padding: '0 var(--space-6)',
           transition: 'height 0.25s ease',
@@ -250,8 +316,10 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav links */}
-        <nav className="hidden lg:flex" style={{ gap: 'var(--space-8)', alignItems: 'center' }}>
-          {NAV_LINKS.map(({ to, label }) => (
+        <nav className="hidden lg:flex" style={{ gap: 'var(--space-8)', alignItems: 'center', alignSelf: 'stretch' }}>
+          {NAV_LINKS.map(({ to, label, mega }) => mega ? (
+            <RepairsMegaMenu key={label} to={to} label={label} />
+          ) : (
             <NavTextLink key={label} to={to} label={label} />
           ))}
         </nav>

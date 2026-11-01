@@ -1,3 +1,5 @@
+import { DEVICE_TYPES } from '../data/repairServices.js';
+
 export const WHATSAPP_NUMBER = '12565159620';
 
 export function whatsappMessageLink(message) {
@@ -14,16 +16,11 @@ export function whatsappLink(product) {
 }
 
 export function repairWhatsappLink({ deviceType, brandModel, issue, name }) {
-  const deviceLabels = {
-    Phone: 'Phone',
-    Laptop: 'Laptop',
-    'Game Console': 'Gaming console',
-    Other: 'Other electronics',
-  };
+  const deviceLabel = DEVICE_TYPES.find(({ value }) => value === deviceType)?.label || deviceType;
   const lines = [
     'Hi Cellular Solutions, I would like to request a repair.',
     '',
-    `Device type: ${deviceLabels[deviceType] || deviceType}`,
+    `Device type: ${deviceLabel}`,
   ];
   if (brandModel?.trim()) lines.push(`Brand and model: ${brandModel.trim()}`);
   lines.push('Problem:', issue.trim());

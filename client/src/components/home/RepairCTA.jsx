@@ -1,11 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Icon } from '@/components/ui';
+import { REPAIR_CATEGORIES } from '@/data/repairServices';
 
-const SERVICES = [
-  { title: 'Phones', detail: 'Screens, batteries, and charging issues.', icon: 'smartphone' },
-  { title: 'Laptops', detail: 'Power, performance, and hardware concerns.', icon: 'wrench' },
-  { title: 'Gaming consoles', detail: 'Describe the fault for assessment.', icon: 'search' },
-];
+const ICONS = { phone: 'smartphone', computer: 'laptop', 'game-console': 'gamepad-2' };
 
 export default function RepairCTA() {
   return (
@@ -15,16 +12,23 @@ export default function RepairCTA() {
       </div>
       <div className="repair-showcase-copy">
         <h2 id="repair-heading">A little care goes a long way.</h2>
-        <p>From a phone that will not charge to a laptop or console with an unfamiliar fault, describe the issue and send our team a WhatsApp enquiry.</p>
-        <ul className="repair-service-accordion" aria-label="Repair services">
-          {SERVICES.map(({ title, detail, icon }) => (
-            <li className="repair-service-panel" key={title}>
-              <Icon name={icon} size={24} />
-              <div><strong>{title}</strong><span>{detail}</span></div>
+        <p>Cracked screen, tired battery, a console that will not boot. Pick a common repair to see what is involved and request it on WhatsApp.</p>
+        <ul className="repair-service-accordion" aria-label="Popular repairs">
+          {REPAIR_CATEGORIES.filter(({ slug }) => ICONS[slug]).map(({ slug, title, repairs }) => (
+            <li className="repair-service-panel" key={slug}>
+              <Icon name={ICONS[slug]} size={24} />
+              <div>
+                <strong><Link to={`/repair/${slug}`}>{title}</Link></strong>
+                <ul className="repair-service-links">
+                  {repairs.slice(0, 3).map((r) => (
+                    <li key={r.slug}><Link to={`/repair/${slug}/${r.slug}`}>{r.name} <Icon name="arrow-right" size={14} /></Link></li>
+                  ))}
+                </ul>
+              </div>
             </li>
           ))}
         </ul>
-        <Link className="storefront-button home-repair-intro-cta" to="/repair">Request a repair <Icon name="arrow-up-right" size={18} /></Link>
+        <Link className="storefront-button home-repair-intro-cta" to="/repair">See all repairs <Icon name="arrow-up-right" size={18} /></Link>
       </div>
     </section>
   );
