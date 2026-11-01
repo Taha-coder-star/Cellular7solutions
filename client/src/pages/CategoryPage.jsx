@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '@/services/api';
+import { categoryMeta } from '@/utils/seo';
 import Shop from './Shop';
 
 /** Resolves a nested /categories/a/b/c slug path against the DB tree, then
@@ -22,6 +23,10 @@ export default function CategoryPage() {
       .catch(() => { if (alive) setState({ loading: false, error: true, category: null, ancestors: [] }); });
     return () => { alive = false; };
   }, [path]);
+
+  useEffect(() => {
+    if (state.category) document.title = categoryMeta(state.ancestors).title;
+  }, [state]);
 
   if (state.loading) {
     return <div style={{ padding: '96px 24px', textAlign: 'center', color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}>Loading…</div>;

@@ -5,6 +5,7 @@ import api from '@/services/api';
 import { normalizeBrandName } from '@/utils/format';
 import { productImageSrc, productImageSrcSet } from '@/utils/image';
 import { whatsappLink } from '@/utils/whatsapp';
+import { productMeta } from '@/utils/seo';
 
 // Shared with MobileProductListing's grid so favourites persist across pages.
 const WISHLIST_KEY = 'cs_wishlist';
@@ -247,6 +248,10 @@ export default function ProductDetail() {
     setLightboxOpen(false);
     lightboxTimeoutRef.current = setTimeout(() => lightboxRef.current?.close(), LIGHTBOX_EXIT_MS);
   }
+
+  useEffect(() => {
+    if (product) document.title = productMeta(product).title;
+  }, [product]);
 
   useEffect(() => {
     setLoading(true);

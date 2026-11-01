@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://cellular7solutions.vercel.app/sitemap.xml

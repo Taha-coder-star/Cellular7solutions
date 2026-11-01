@@ -1,10 +1,20 @@
-import { Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import ServiceActionBar from '@/components/layout/ServiceActionBar';
 import WhatsAppFab from '@/components/layout/WhatsAppFab';
+import { pageMeta } from '@/utils/seo';
 
 export default function MainLayout() {
+  const { pathname } = useLocation();
+
+  // Catalog pages set their own title once their data loads.
+  useEffect(() => {
+    const meta = pageMeta(pathname);
+    if (meta) document.title = meta.title;
+  }, [pathname]);
+
   return (
     <div className="has-mobile-actionbar" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <a

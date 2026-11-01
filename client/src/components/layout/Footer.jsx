@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Logo } from '@/components/ui';
 import { useCategoryTree } from '@/hooks/useCategoryTree';
+import { BUSINESS } from '@/utils/seo';
 
 // Real top-level category names as they exist in the DB (verified against
 // /categories/tree) — resolved to ids at render time so the links can't drift
@@ -102,6 +103,11 @@ export default function Footer() {
             >
               Your local shop for phones, consoles, laptops and accessories — with repair enquiries for the tech you own.
             </p>
+            <address style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-sm)', fontStyle: 'normal', color: 'var(--graphite-400)', lineHeight: 'var(--lh-relaxed)' }}>
+              {BUSINESS.street}<br />
+              {BUSINESS.city}, {BUSINESS.region} {BUSINESS.zip}<br />
+              <a href={`tel:${BUSINESS.phoneE164}`} style={{ color: 'inherit' }}>{BUSINESS.phone}</a>
+            </address>
           </div>
 
           {/* Link columns */}
