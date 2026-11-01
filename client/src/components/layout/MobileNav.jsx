@@ -2,7 +2,6 @@ import { forwardRef, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Logo, Icon } from '@/components/ui';
 import { useCategoryTree } from '@/hooks/useCategoryTree';
-import ServiceActionBar from '@/components/layout/ServiceActionBar';
 import { buildShopEntries, stripGroupWord } from '@/components/layout/shopNav';
 
 const prefersReduced =
@@ -235,8 +234,7 @@ export default function MobileNav({ open, onClose, onOpenSearch }) {
               </div>
             )}
 
-            <div style={{ height: 'var(--space-4)' }} />
-            <div style={{ borderTop: '1px solid var(--border-subtle)' }} />
+            <RowLink to="/buysell" onClick={onClose} label="Sell your device" />
             <RowLink to="/about" onClick={onClose} label="About" small />
             <RowLink to="/contact" onClick={onClose} label="Contact" small />
           </Panel>
@@ -266,9 +264,6 @@ export default function MobileNav({ open, onClose, onOpenSearch }) {
           ))}
         </div>
       </div>
-
-      {/* Primary service actions — kept visible at the drawer bottom (Option A) */}
-      <ServiceActionBar variant="static" onNavigate={onClose} />
     </div>
   );
 }
@@ -302,7 +297,7 @@ function Panel({ children }) {
         overflowY: 'auto',
         WebkitOverflowScrolling: 'touch',
         overscrollBehavior: 'contain',
-        padding: '0 var(--space-5)',
+        padding: '0 var(--space-5) max(var(--space-6), env(safe-area-inset-bottom))',
       }}
     >
       {children}
