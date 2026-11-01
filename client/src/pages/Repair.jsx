@@ -88,14 +88,6 @@ export default function Repair() {
 
       <RepairPromises image="laptop-screen-bench" title="Why bring it to us" />
 
-      <section className="rp-section rp-video" aria-labelledby="repair-video-title">
-        <div className="rp-section-head">
-          <h2 id="repair-video-title">See us at work.</h2>
-          <p>Careful hands, the right tools, a clean bench.</p>
-        </div>
-        <video src="/assets/repair/repair-at-work.mp4" poster="/assets/repair/repair-workbench-hero-720.webp" controls muted playsInline loop preload="none" width="1280" height="720" />
-      </section>
-
       <section className="rp-section rp-steps" aria-labelledby="repair-steps-title">
         <div className="rp-section-head">
           <h2 id="repair-steps-title">How it works</h2>

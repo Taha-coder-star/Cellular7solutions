@@ -59,7 +59,6 @@
 .rp-device-copy strong { font-size: 1.35rem; letter-spacing: -.025em; }
 .rp-device-copy span { color: rgba(255,255,255,.82); font-size: .92rem; line-height: 1.45; }
 .rp-devices a:hover img { transform: scale(1.04); }
-.rp-video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-card); background: #111; }
 
 
 /* Promise split: bench photo + four promises */
